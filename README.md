@@ -17,3 +17,6 @@
 
 ## caldav (ownclowd, nextcloud)
 - some caldav client
+
+## related:
+- https://kloudless.com/
