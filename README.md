@@ -1,4 +1,4 @@
-# calendar
+# calendar API
 
 ## google
 - https://developers.google.com/calendar/quickstart/php
