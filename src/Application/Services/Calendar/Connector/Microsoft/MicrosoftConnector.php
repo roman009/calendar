@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Services\Connector\Microsoft;
+namespace App\Application\Services\Calendar\Connector\Microsoft;
 
 /**
  * Class MicrosoftConnector
