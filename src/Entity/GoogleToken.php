@@ -29,6 +29,24 @@ class GoogleToken
      */
     private $accessToken;
 
+    /**
+     * @var string
+     * @ORM\Column(name="refresh_token", nullable=false, type="string")
+     */
+    private $refreshToken;
+
+    /**
+     * @var string
+     * @ORM\Column(name="scope", nullable=false, type="text")
+     */
+    private $scope;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="expires_in", nullable=false, type="integer")
+     */
+    private $expiresIn;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +78,60 @@ class GoogleToken
     public function setAccessToken(string $accessToken): self
     {
         $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRefreshToken(): string
+    {
+        return $this->refreshToken;
+    }
+
+    /**
+     * @param string $refreshToken
+     */
+    public function setRefreshToken(string $refreshToken): self
+    {
+        $this->refreshToken = $refreshToken;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExpiresIn(): int
+    {
+        return $this->expiresIn;
+    }
+
+    /**
+     * @param int $expiresIn
+     */
+    public function setExpiresIn(int $expiresIn): self
+    {
+        $this->expiresIn = $expiresIn;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScope(): string
+    {
+        return $this->scope;
+    }
+
+    /**
+     * @param string $scope
+     */
+    public function setScope(string $scope): self
+    {
+        $this->scope = $scope;
 
         return $this;
     }

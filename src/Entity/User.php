@@ -22,7 +22,7 @@ class User
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User")
+     * @ORM\OneToOne(targetEntity="App\Entity\GoogleToken")
      */
     private $googleToken;
 

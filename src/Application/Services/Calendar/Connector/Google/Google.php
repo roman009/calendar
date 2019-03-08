@@ -39,7 +39,7 @@ class Google
         $this->client->setAccessType('offline');
         $this->client->setPrompt('select_account consent');
 
-        $googleToken = $this->googleTokenRepository->findOneBy(['userId' => $user->getId()]);
+        $googleToken = $this->googleTokenRepository->findOneBy(['user' => $user]);
 
         if (null !== $googleToken) {
             $this->client->setAccessToken($googleToken->getAccessToken());
@@ -49,17 +49,25 @@ class Google
             if ($this->client->getRefreshToken()) {
                 $this->client->fetchAccessTokenWithRefreshToken($this->client->getRefreshToken());
             } else {
+                $this->client->setRedirectUri('https://calendar.test.buzila.ro');
                 $authUrl = $this->client->createAuthUrl();
                 echo $authUrl . PHP_EOL;
 
                 $authCode = trim(fgets(STDIN));
 
-                $accessToken = $this->client->fetchAccessTokenWithAuthCode($authCode);
-                $this->client->setAccessToken($accessToken);
+                $token = $this->client->fetchAccessTokenWithAuthCode($authCode);
+                $this->client->setAccessToken($token);
 
-                var_dump($accessToken); die();
+                if (array_key_exists('error', $token)) {
+                    throw new \Exception(implode(', ', $token));
+                }
 
-                $googleToken = (new GoogleToken)->setAccessToken($accessToken)->setUser($user);
+                $googleToken = (new GoogleToken)
+                    ->setAccessToken($token['access_token'])
+                    ->setUser($user)
+                    ->setRefreshToken($token['refresh_token'])
+                    ->setScope($token['scope'])
+                    ->setExpiresIn($token['expires_in']);
                 $this->googleTokenRepository->persistAndFlush($googleToken);
             }
         }

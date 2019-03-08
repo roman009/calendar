@@ -36,10 +36,11 @@ class GoogleAuthTestCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $user = (new User)->setEmail('valeriu.buzila@gmail.com');
-        $this->userRepository->persistAndFlush($user);
+//        $user = (new User)->setEmail('valeriu.buzila@gmail.com');
+//        $this->userRepository->persistAndFlush($user);
 
+        $user = $this->userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);
 
-        $this->google->handle();
+        $this->google->handle($user);
     }
 }
