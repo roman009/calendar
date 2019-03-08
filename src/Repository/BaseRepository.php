@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 abstract class BaseRepository extends ServiceEntityRepository
 {
     /**
-     * @param object $object $object
+     * @param object $object
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

@@ -87,11 +87,13 @@ class Google
 
         /** @var Google_Service_Calendar_CalendarListEntry $calendar */
         foreach ($service->calendarList->listCalendarList() as $calendar) {
-            $googleCalendar = (new GoogleCalendar)
-                ->setUser($user)
-                ->setCalendarId($calendar->getId())
+            $googleCalendar = $this->googleCalendarRepository->findOneBy(['user' => $user, 'calendarId' => $calendar->getId()]);
+            if (null === $googleCalendar) {
+                $googleCalendar = new GoogleCalendar;
+            }
+            $googleCalendar
                 ->setDescription($calendar->getDescription())
-                ->setSummary($calendar->getSummary())
+                ->setSummary($calendar->getSummaryOverride() ?? $calendar->getSummary())
                 ->setTimezone($calendar->getTimeZone())
                 ->setPrimary($calendar->getPrimary() ?? false);
             $this->googleCalendarRepository->persistAndFlush($googleCalendar);

@@ -6,15 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GoogleCalendarRepository")
+ * @ORM\Table(indexes={@ORM\Index(columns={"user_id", "calendar_id"})})
+ * @ORM\HasLifecycleCallbacks
  */
 class GoogleCalendar
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use BaseEntityTrait;
 
     /**
      * @var User
