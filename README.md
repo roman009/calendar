@@ -16,7 +16,7 @@
 
 
 ## caldav (ownclowd, nextcloud)
-- some caldav client
+- some caldav client (https://github.com/sabre-io/davclient ?)
 
 ## related:
 - https://kloudless.com/
