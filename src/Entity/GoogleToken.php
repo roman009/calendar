@@ -18,7 +18,7 @@ class GoogleToken
 
     /**
      * @var User
-     * @ORM\OneToOne(targetEntity="App\Entity\User")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="googleToken")
      * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
      */
     private $user;
@@ -46,6 +46,12 @@ class GoogleToken
      * @ORM\Column(name="expires_in", nullable=false, type="integer")
      */
     private $expiresIn;
+
+    /**
+     * @var string
+     * @ORM\Column(name="json", nullable=false, type="text")
+     */
+    private $json;
 
     public function getId(): ?int
     {
@@ -132,6 +138,24 @@ class GoogleToken
     public function setScope(string $scope): self
     {
         $this->scope = $scope;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJson(): string
+    {
+        return $this->json;
+    }
+
+    /**
+     * @param string $json
+     */
+    public function setJson(string $json): self
+    {
+        $this->json = $json;
 
         return $this;
     }

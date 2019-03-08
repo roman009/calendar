@@ -41,8 +41,8 @@ class Google
 
         $googleToken = $this->googleTokenRepository->findOneBy(['user' => $user]);
 
-        if (null !== $googleToken) {
-            $this->client->setAccessToken($googleToken->getAccessToken());
+        if (null !== $googleToken && $googleToken->getJson()) {
+            $this->client->setAccessToken(json_decode($googleToken->getAccessToken()));
         }
 
         if ($this->client->isAccessTokenExpired()) {
@@ -62,15 +62,26 @@ class Google
                     throw new \Exception(implode(', ', $token));
                 }
 
+                if (null !== $googleToken) {
+                    $this->googleTokenRepository->delete($googleToken);
+                }
+
                 $googleToken = (new GoogleToken)
                     ->setAccessToken($token['access_token'])
                     ->setUser($user)
                     ->setRefreshToken($token['refresh_token'])
                     ->setScope($token['scope'])
-                    ->setExpiresIn($token['expires_in']);
+                    ->setExpiresIn($token['expires_in'])
+                    ->setJson(json_encode($token), true);
                 $this->googleTokenRepository->persistAndFlush($googleToken);
             }
         }
+
+        $service = new Google_Service_Calendar($this->client);
+
+        print_r($service->calendarList->listCalendarList());
+
+        // fetch calendars and save
 
     }
 }

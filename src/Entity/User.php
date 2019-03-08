@@ -22,9 +22,14 @@ class User
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\GoogleToken")
+     * @ORM\OneToOne(targetEntity="App\Entity\GoogleToken", mappedBy="user")
      */
     private $googleToken;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\GoogleCalendar", mappedBy="user")
+     */
+    private $googleCalendars;
 
     public function getId(): ?int
     {
@@ -54,6 +59,24 @@ class User
     public function setGoogleToken(GoogleToken $googleToken): self
     {
         $this->googleToken = $googleToken;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGoogleCalendars()
+    {
+        return $this->googleCalendars;
+    }
+
+    /**
+     * @param mixed $googleCalendars
+     */
+    public function setGoogleCalendars($googleCalendars): self
+    {
+        $this->googleCalendars = $googleCalendars;
 
         return $this;
     }
