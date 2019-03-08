@@ -2,12 +2,13 @@
 
 namespace App\Application\Services\Calendar\Connector\Google;
 
+use App\Entity\GoogleCalendar;
 use App\Entity\GoogleToken;
 use App\Entity\User;
+use App\Repository\GoogleCalendarRepository;
 use App\Repository\GoogleTokenRepository;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Google_Service_Calendar;
+use Google_Service_Calendar_CalendarListEntry;
 
 /**
  * Class Google
@@ -25,11 +26,16 @@ class Google
      * @var GoogleTokenRepository
      */
     private $googleTokenRepository;
+    /**
+     * @var GoogleCalendarRepository
+     */
+    private $googleCalendarRepository;
 
-    public function __construct(\Google_Client $client, GoogleTokenRepository $googleTokenRepository)
+    public function __construct(\Google_Client $client, GoogleTokenRepository $googleTokenRepository, GoogleCalendarRepository $googleCalendarRepository)
     {
         $this->client = $client;
         $this->googleTokenRepository = $googleTokenRepository;
+        $this->googleCalendarRepository = $googleCalendarRepository;
     }
 
     public function handle(User $user)
@@ -42,7 +48,7 @@ class Google
         $googleToken = $this->googleTokenRepository->findOneBy(['user' => $user]);
 
         if (null !== $googleToken && $googleToken->getJson()) {
-            $this->client->setAccessToken(json_decode($googleToken->getAccessToken()));
+            $this->client->setAccessToken($googleToken->getJson());
         }
 
         if ($this->client->isAccessTokenExpired()) {
@@ -72,16 +78,23 @@ class Google
                     ->setRefreshToken($token['refresh_token'])
                     ->setScope($token['scope'])
                     ->setExpiresIn($token['expires_in'])
-                    ->setJson(json_encode($token), true);
+                    ->setJson(json_encode($token));
                 $this->googleTokenRepository->persistAndFlush($googleToken);
             }
         }
 
         $service = new Google_Service_Calendar($this->client);
 
-        print_r($service->calendarList->listCalendarList());
-
-        // fetch calendars and save
-
+        /** @var Google_Service_Calendar_CalendarListEntry $calendar */
+        foreach ($service->calendarList->listCalendarList() as $calendar) {
+            $googleCalendar = (new GoogleCalendar)
+                ->setUser($user)
+                ->setCalendarId($calendar->getId())
+                ->setDescription($calendar->getDescription())
+                ->setSummary($calendar->getSummary())
+                ->setTimezone($calendar->getTimeZone())
+                ->setPrimary($calendar->getPrimary() ?? false);
+            $this->googleCalendarRepository->persistAndFlush($googleCalendar);
+        }
     }
 }
