@@ -16,14 +16,14 @@ trait BaseEntityTrait
     protected $id;
 
     /**
-     * @var \DateTime $created
+     * @var \DateTime
      *
      * @ORM\Column(type="datetime")
      */
     protected $created;
 
     /**
-     * @var \DateTime $updated
+     * @var \DateTime
      *
      * @ORM\Column(type="datetime")
      */
@@ -39,6 +39,7 @@ trait BaseEntityTrait
 
     /**
      * @param \DateTime $updated
+     *
      * @return self
      */
     public function setUpdated(\DateTime $updated): self
@@ -51,6 +52,7 @@ trait BaseEntityTrait
     /**
      * Gets triggered only on insert
 
+     *
      * @ORM\PrePersist()
      */
     public function onPrePersist()
@@ -62,6 +64,7 @@ trait BaseEntityTrait
     /**
      * Gets triggered every time on update
 
+     *
      * @ORM\PreUpdate()
      */
     public function onPreUpdate()
@@ -87,6 +90,7 @@ trait BaseEntityTrait
 
     /**
      * @param \DateTime $created
+     *
      * @return self
      */
     public function setCreated(\DateTime $created): self

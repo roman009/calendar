@@ -28,6 +28,7 @@ class GoogleHandler extends AbstractFetchHandler
 
     /**
      * @param AuthToken $token
+     *
      * @return array<GoogleCalendar>
      */
     protected function fetchCalendars(AuthToken $token): array

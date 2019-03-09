@@ -32,6 +32,7 @@ class GoogleAuthToken extends AuthToken
 
     /**
      * @param string $scope
+     *
      * @return GoogleAuthToken
      */
     public function setScope(string $scope): self
@@ -51,6 +52,7 @@ class GoogleAuthToken extends AuthToken
 
     /**
      * @param string $json
+     *
      * @return GoogleAuthToken
      */
     public function setJson(string $json): self

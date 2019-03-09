@@ -60,6 +60,7 @@ abstract class AuthToken
 
     /**
      * @param string $accessToken
+     *
      * @return AuthToken
      */
     public function setAccessToken(string $accessToken): self
@@ -79,6 +80,7 @@ abstract class AuthToken
 
     /**
      * @param string $refreshToken
+     *
      * @return AuthToken
      */
     public function setRefreshToken(string $refreshToken): self
@@ -98,6 +100,7 @@ abstract class AuthToken
 
     /**
      * @param int $expires
+     *
      * @return AuthToken
      */
     public function setExpires(int $expires): self

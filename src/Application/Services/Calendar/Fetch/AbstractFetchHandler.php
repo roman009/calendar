@@ -18,6 +18,7 @@ abstract class AbstractFetchHandler extends AbstractHandler
 
     /**
      * @param AuthToken $token
+     *
      * @return array<Calendar>
      */
     abstract protected function fetchCalendars(AuthToken $token): array;

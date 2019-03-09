@@ -8,6 +8,7 @@ abstract class BaseRepository extends ServiceEntityRepository
 {
     /**
      * @param object $object
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -19,6 +20,7 @@ abstract class BaseRepository extends ServiceEntityRepository
 
     /**
      * @param object $object
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

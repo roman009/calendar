@@ -4,11 +4,11 @@ namespace App\Application\Services\Calendar\Connector\Google;
 
 use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
 use App\Entity\AuthToken;
-use App\Entity\GoogleCalendar;
 use App\Entity\GoogleAuthToken;
+use App\Entity\GoogleCalendar;
 use App\Entity\User;
-use App\Repository\GoogleCalendarRepository;
 use App\Repository\GoogleAuthTokenRepository;
+use App\Repository\GoogleCalendarRepository;
 use Google_Service_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
 use League\OAuth2\Client\Grant\RefreshToken;
@@ -18,9 +18,6 @@ use League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Class Google
- * @package App\Application\Services\Connector
- *
- * https://developers.google.com/calendar/quickstart/php
  */
 class GoogleHandler extends AbstractConnectorHandler
 {
@@ -45,14 +42,6 @@ class GoogleHandler extends AbstractConnectorHandler
         $this->googleCalendarRepository = $googleCalendarRepository;
         parent::__construct($googleTokenRepository);
     }
-
-
-
-
-
-
-
-
 
     public function handle(User $user)
     {

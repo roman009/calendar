@@ -2,8 +2,6 @@
 
 namespace App\Application\Services\Calendar\Connector\Microsoft;
 
-use App\Entity\AuthToken;
-use App\Entity\User;
 use App\Repository\AuthTokenRepository;
 use App\Repository\OutlookAuthTokenRepository;
 

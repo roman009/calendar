@@ -2,7 +2,6 @@
 
 namespace App\Application\Services\Calendar\Fetch;
 
-use App\Application\Services\Calendar\Fetch\FetchRegistry;
 use App\Entity\AuthToken;
 use App\Entity\User;
 

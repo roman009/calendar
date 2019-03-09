@@ -3,11 +3,9 @@
 namespace App\Command;
 
 use App\Application\Services\Calendar\Connector\Connector;
-use App\Application\Services\Calendar\Connector\Google\GoogleHandler;
 use App\Application\Services\Calendar\Fetch\Fetch;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
