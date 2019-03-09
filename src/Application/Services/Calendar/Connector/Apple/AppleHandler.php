@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Repository\AppleAuthTokenRepository;
 use App\Repository\AuthTokenRepository;
 
-class AppleHandler/* extends AbstractConnectorHandler*/
+class AppleHandler /* extends AbstractConnectorHandler*/
 {
     public const ALIAS = 'apple';
 
@@ -21,5 +21,4 @@ class AppleHandler/* extends AbstractConnectorHandler*/
     {
         return self::ALIAS;
     }
-
 }

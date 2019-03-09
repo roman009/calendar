@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class CalendarFetchHandlerPass implements CompilerPassInterface
 {
-
     public function process(ContainerBuilder $container)
     {
         if (!$container->has(FetchRegistry::class)) {

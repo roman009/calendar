@@ -24,6 +24,4 @@ class Fetch
 
         return $handler->calendars($user, $token);
     }
-
-
 }

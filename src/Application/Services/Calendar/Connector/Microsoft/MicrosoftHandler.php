@@ -10,7 +10,6 @@ use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
  *
  * https://docs.microsoft.com/en-us/outlook/rest/php-tutorial#create-the-app
  */
-abstract class MicrosoftHandler/* extends AbstractConnectorHandler*/
+abstract class MicrosoftHandler /* extends AbstractConnectorHandler*/
 {
-
 }

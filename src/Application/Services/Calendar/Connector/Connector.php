@@ -29,7 +29,6 @@ class Connector
 
     public function connect(User $user, string $service)
     {
-
     }
 
     public function isRegistered(User $user, string $service): bool

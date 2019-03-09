@@ -98,6 +98,7 @@ abstract class Calendar
 
     /**
      * @param string $calendarId
+     * @return Calendar
      */
     public function setCalendarId(string $calendarId): self
     {
@@ -116,6 +117,7 @@ abstract class Calendar
 
     /**
      * @param string $description
+     * @return Calendar
      */
     public function setDescription(?string $description): self
     {
@@ -134,6 +136,7 @@ abstract class Calendar
 
     /**
      * @param string $summary
+     * @return Calendar
      */
     public function setSummary(?string $summary): self
     {
@@ -152,6 +155,7 @@ abstract class Calendar
 
     /**
      * @param string $timezone
+     * @return Calendar
      */
     public function setTimezone(string $timezone): self
     {
@@ -159,5 +163,4 @@ abstract class Calendar
 
         return $this;
     }
-
 }

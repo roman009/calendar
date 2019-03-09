@@ -59,5 +59,4 @@ class GoogleAuthToken extends AuthToken
 
         return $this;
     }
-
 }
