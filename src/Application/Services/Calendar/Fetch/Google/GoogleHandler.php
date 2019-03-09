@@ -6,6 +6,7 @@ use App\Application\Services\Calendar\Fetch\AbstractFetchHandler;
 use App\Entity\AuthToken;
 use App\Entity\GoogleCalendar;
 use Google_Service_Calendar;
+use Google_Service_Calendar_CalendarListEntry;
 
 class GoogleHandler extends AbstractFetchHandler
 {
@@ -25,6 +26,10 @@ class GoogleHandler extends AbstractFetchHandler
         return self::ALIAS;
     }
 
+    /**
+     * @param AuthToken $token
+     * @return array<GoogleCalendar>
+     */
     protected function fetchCalendars(AuthToken $token): array
     {
         $this->client->setAccessToken($token->getAccessToken());
@@ -32,13 +37,15 @@ class GoogleHandler extends AbstractFetchHandler
         $service = new Google_Service_Calendar($this->client);
         $calendars = [];
 
+        /** @var Google_Service_Calendar_CalendarListEntry $calendar */
         foreach ($service->calendarList->listCalendarList() as $calendar) {
             $googleCalendar = new GoogleCalendar;
             $googleCalendar
                 ->setDescription($calendar->getDescription())
                 ->setSummary($calendar->getSummaryOverride() ?? $calendar->getSummary())
                 ->setTimezone($calendar->getTimeZone())
-                ->setPrimary($calendar->getPrimary() ?? false);
+                ->setPrimary($calendar->getPrimary() ?? false)
+                ->setCalendarId($calendar->getId());
             $calendars[] = $googleCalendar;
         }
 

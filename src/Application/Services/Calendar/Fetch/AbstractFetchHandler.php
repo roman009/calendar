@@ -4,6 +4,7 @@ namespace App\Application\Services\Calendar\Fetch;
 
 use App\Application\Services\Calendar\AbstractHandler;
 use App\Entity\AuthToken;
+use App\Entity\Calendar;
 use App\Entity\User;
 
 abstract class AbstractFetchHandler extends AbstractHandler
@@ -15,5 +16,9 @@ abstract class AbstractFetchHandler extends AbstractHandler
         return $calendars;
     }
 
+    /**
+     * @param AuthToken $token
+     * @return array<Calendar>
+     */
     abstract protected function fetchCalendars(AuthToken $token): array;
 }
