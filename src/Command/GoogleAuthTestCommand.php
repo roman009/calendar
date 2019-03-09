@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Connector\Google\GoogleHandler;
+use App\Application\Services\Calendar\Fetch\Fetch;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -22,12 +23,17 @@ class GoogleAuthTestCommand extends Command
      * @var Connector
      */
     private $connector;
+    /**
+     * @var Fetch
+     */
+    private $fetch;
 
-    public function __construct(UserRepository $userRepository, Connector $connector, ?string $name = null)
+    public function __construct(UserRepository $userRepository, Connector $connector, Fetch $fetch, ?string $name = null)
     {
         parent::__construct($name);
         $this->userRepository = $userRepository;
         $this->connector = $connector;
+        $this->fetch = $fetch;
     }
 
     protected function configure()
@@ -52,6 +58,7 @@ class GoogleAuthTestCommand extends Command
 
         dump($token);
 
-//        $this->google->handle($user);
+        $calendars = $this->fetch->calendars($user, $service, $token);
+        dump($calendars);
     }
 }

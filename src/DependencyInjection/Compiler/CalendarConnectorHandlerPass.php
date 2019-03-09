@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class ConnectorPass implements CompilerPassInterface
+class CalendarConnectorHandlerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -19,9 +19,8 @@ class ConnectorPass implements CompilerPassInterface
 
         $definition = $container->findDefinition(ConnectorRegistry::class);
 
-        $taggedServices = $container->findTaggedServiceIds(Constants::TAG_CONNECTOR);
+        $taggedServices = $container->findTaggedServiceIds(Constants::TAG_CONNECTOR_HANDLER);
 
-        /** @var AbstractConnectorHandler $service */
         foreach ($taggedServices as $id => $service) {
             $definition->addMethodCall('addConnectorHandler', [new Reference($id), $id::alias()]);
         }

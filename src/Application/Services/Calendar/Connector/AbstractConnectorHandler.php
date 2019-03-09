@@ -2,12 +2,13 @@
 
 namespace App\Application\Services\Calendar\Connector;
 
+use App\Application\Services\Calendar\AbstractHandler;
 use App\Entity\AuthToken;
 use App\Entity\User;
 use App\Repository\AuthTokenRepository;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
-abstract class AbstractConnectorHandler
+abstract class AbstractConnectorHandler extends AbstractHandler
 {
     /**
      * @var AuthTokenRepository
@@ -18,8 +19,6 @@ abstract class AbstractConnectorHandler
     {
         $this->authTokenRepository = $authTokenRepository;
     }
-
-    abstract public static function alias(): string;
 
     public function isRegistered(User $user): bool
     {
