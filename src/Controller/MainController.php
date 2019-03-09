@@ -12,10 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="web-homepage")
      */
     public function homepage(): JsonResponse
     {
-        return $this->json(['this is the homepage']);
+        return $this->json(['message' => 'hello world']);
     }
 }
