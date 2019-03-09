@@ -1,0 +1,3 @@
+services:
+  Microsoft\Graph\Graph:
+    class: Microsoft\Graph\Graph

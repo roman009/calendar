@@ -24,6 +24,9 @@ abstract class MicrosoftHandler extends AbstractConnectorHandler
                 'clientId' => getenv('MICROSOFT_APPLICATION_ID'),
                 'clientSecret' => getenv('MICROSOFT_APPLICATION_PASSWORD'),
                 'redirectUri' => 'https://calendar.lan/ms-callback',
+                'urlAuthorize' => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                'urlAccessToken' => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                'urlResourceOwnerDetails' => 'https://outlook.office.com/api/v2.0/me'
             ]);
         }
 
@@ -34,7 +37,7 @@ abstract class MicrosoftHandler extends AbstractConnectorHandler
     {
         $options = [
             'state' => 'OPTIONAL_CUSTOM_CONFIGURED_STATE',
-            'scope' => ['wl.basic', 'wl.signin', 'wl.offline_access', 'wl.calendars', 'wl.calendars_update'] // array or string
+            'scope' => 'offline_access Calendars.Read Calendars.Read.Shared Calendars.ReadWrite Calendars.ReadWrite.Shared' // array or string
         ];
 
         return $this->getProvider()->getAuthorizationUrl($options);

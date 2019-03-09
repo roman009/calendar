@@ -9,13 +9,6 @@ abstract class AuthToken
     use BaseEntityTrait;
 
     /**
-     * @var User
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="googleToken")
-     * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
-     */
-    protected $user;
-
-    /**
      * @var string
      * @ORM\Column(name="access_token", nullable=false, type="text")
      */

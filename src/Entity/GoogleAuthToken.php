@@ -11,6 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
 class GoogleAuthToken extends AuthToken
 {
     /**
+     * @var User
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="googleToken")
+     * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
+     */
+    protected $user;
+
+    /**
      * @var string
      * @ORM\Column(name="scope", nullable=true, type="text")
      */

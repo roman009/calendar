@@ -11,4 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Office365AuthToken extends AuthToken
 {
+    /**
+     * @var User
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="office365Token")
+     * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
+     */
+    protected $user;
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1df2ac8ca01730f925d91918812290ca",
+    "content-hash": "edf1f809527ba3e51ed40dfe9415b6ff",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -2127,6 +2127,51 @@
                 "server"
             ],
             "time": "2018-11-21T21:42:43+00:00"
+        },
+        {
+            "name": "microsoft/microsoft-graph",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microsoftgraph/msgraph-sdk-php.git",
+                "reference": "d26d3b34d5586e2322c1c7fadd46ef09c1cb27d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microsoftgraph/msgraph-sdk-php/zipball/d26d3b34d5586e2322c1c7fadd46ef09c1cb27d3",
+                "reference": "d26d3b34d5586e2322c1c7fadd46ef09c1cb27d3",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.2",
+                "phpdocumentor/phpdocumentor": "^2.9",
+                "phpunit/phpunit": "^5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Microsoft\\Graph\\": "src/",
+                    "Microsoft\\Graph\\Test\\": "tests/Functional/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Mainer",
+                    "email": "mmainer@microsoft.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The Microsoft Graph SDK for PHP",
+            "homepage": "https://graph.microsoft.io/en-us/",
+            "time": "2018-12-17T22:56:47+00:00"
         },
         {
             "name": "monolog/monolog",

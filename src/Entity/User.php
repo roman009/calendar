@@ -21,6 +21,10 @@ class User
      */
     private $googleToken;
     /**
+     * @ORM\OneToOne(targetEntity="OutlookAuthToken", mappedBy="user")
+     */
+    private $outlookToken;
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\GoogleCalendar", mappedBy="user")
      */
     private $googleCalendars;
