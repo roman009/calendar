@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="GoogleAuthTokenRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GoogleAuthTokenRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class GoogleAuthToken extends AuthToken
