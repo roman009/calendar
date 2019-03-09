@@ -83,7 +83,6 @@ class GoogleHandler extends AbstractConnectorHandler
 
         $googleToken->setExpires($token->getExpires())
             ->setAccessToken($token->getToken())
-            ->setRefreshToken($token->getRefreshToken())
             ->setJson(json_encode($token));
 
         $this->authTokenRepository->persistAndFlush($googleToken);

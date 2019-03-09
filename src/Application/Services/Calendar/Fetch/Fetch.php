@@ -17,10 +17,17 @@ class Fetch
         $this->fetchRegistry = $fetchRegistry;
     }
 
-    public function calendars(User $user, string $service, AuthToken $token)
+    public function calendars(string $service, AuthToken $token): array
     {
         $handler = $this->fetchRegistry->getFetchHandler($service);
 
-        return $handler->calendars($user, $token);
+        return $handler->calendars($token);
+    }
+
+    public function freeBusy(string $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
+    {
+        $handler = $this->fetchRegistry->getFetchHandler($service);
+
+        return $handler->freeBusy($token, $startDate, $endDate, $calendars, $timezone);
     }
 }

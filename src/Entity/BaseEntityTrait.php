@@ -51,7 +51,6 @@ trait BaseEntityTrait
 
     /**
      * Gets triggered only on insert
-
      *
      * @ORM\PrePersist()
      */

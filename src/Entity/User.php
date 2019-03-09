@@ -16,16 +16,19 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $email;
-
     /**
      * @ORM\OneToOne(targetEntity="GoogleAuthToken", mappedBy="user")
      */
     private $googleToken;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\GoogleCalendar", mappedBy="user")
      */
     private $googleCalendars;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AccountUser", mappedBy="account")
+     */
+    private $accounts;
+
 
     public function getId(): ?int
     {

@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Fetch\Fetch;
+use App\Application\Services\Security\GenerateToken;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
@@ -56,7 +57,12 @@ class GoogleAuthTestCommand extends Command
 
         dump($token);
 
-        $calendars = $this->fetch->calendars($user, $service, $token);
+        $calendars = $this->fetch->calendars($service, $token);
         dump($calendars);
+
+        $freeBusy = $this->fetch->freeBusy($service, $token, new \DateTime(), (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')), $calendars);
+        dump($freeBusy);
+
+        dump((new GenerateToken)());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Application\Services\Security\GenerateToken;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class Calendar
@@ -38,6 +39,24 @@ abstract class Calendar
      * @ORM\Column(name="summary", nullable=true, type="text")
      */
     protected $summary;
+
+    /**
+     * @var string
+     * @ORM\Column(name="public_id", nullable=false, type="string", length=32)
+     */
+    protected $publicId;
+
+    /**
+     * Gets triggered only on insert
+     *
+     * @ORM\PrePersist()
+     */
+    public function onPrePersist()
+    {
+        $this->created = new \DateTime;
+        $this->updated = new \DateTime;
+        $this->publicId = (new GenerateToken)();
+    }
 
     /**
      * @var string
@@ -80,6 +99,7 @@ abstract class Calendar
 
     /**
      * @param bool $primary
+     * @return Calendar
      */
     public function setPrimary(bool $primary): self
     {
@@ -164,6 +184,25 @@ abstract class Calendar
     public function setTimezone(string $timezone): self
     {
         $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicId(): string
+    {
+        return $this->publicId;
+    }
+
+    /**
+     * @param string $publicId
+     * @return Calendar
+     */
+    public function setPublicId(string $publicId): self
+    {
+        $this->publicId = $publicId;
 
         return $this;
     }
