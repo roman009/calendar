@@ -30,4 +30,9 @@ class Office365Handler extends MicrosoftHandler
     {
         // TODO: Implement getToken() method.
     }
+
+    public function getAuthUrl(User $user): string
+    {
+        // TODO: Implement getAuthUrl() method.
+    }
 }

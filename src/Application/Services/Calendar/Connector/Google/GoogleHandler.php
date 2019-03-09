@@ -11,6 +11,8 @@ use App\Repository\GoogleCalendarRepository;
 use App\Repository\GoogleAuthTokenRepository;
 use Google_Service_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
+use League\OAuth2\Client\Provider\AbstractProvider;
+use League\OAuth2\Client\Provider\Google;
 
 /**
  * Class Google
@@ -110,5 +112,21 @@ class GoogleHandler extends AbstractConnectorHandler
     public static function alias(): string
     {
         return self::ALIAS;
+    }
+
+    public function getAuthUrl(User $user): string
+    {
+        return $this->getProvider()->getAuthorizationUrl();
+    }
+
+    private function getProvider(): AbstractProvider
+    {
+        $provider = new Google([
+            'clientId'     => '{google-client-id}',
+            'clientSecret' => '{google-client-secret}',
+            'redirectUri'  => 'https://calendar.test.buzila.ro/callback-url',
+        ]);
+
+        return $provider;
     }
 }

@@ -48,7 +48,7 @@ class GoogleAuthTestCommand extends Command
             $this->connector->register($user, $service);
         }
 
-        $token = $this->connector->getAuthToken($user, $service);
+        $token = $this->connector->getToken($user, $service);
 
         dump($token);
 

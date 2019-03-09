@@ -31,4 +31,9 @@ class AppleHandler extends AbstractConnectorHandler
     {
         // TODO: Implement getToken() method.
     }
+
+    public function getAuthUrl(User $user): string
+    {
+        // TODO: Implement getAuthUrl() method.
+    }
 }

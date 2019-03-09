@@ -30,4 +30,5 @@ abstract class AbstractConnectorHandler
         return $this->authTokenRepository->findOneBy(['user' => $user]);
     }
 
+    abstract public function getAuthUrl(User $user): string;
 }

@@ -40,13 +40,17 @@ class Connector
 
     public function register(User $user, string $service)
     {
+        $handler = $this->connectorRegistry->getConnectorHandler($service);
 
+        echo $handler->getAuthUrl($user); die();
+
+//        return $handler->isRegistered($user);
     }
 
-    public function getAuthToken(User $user, string $service): string
+    public function getToken(User $user, string $service): string
     {
         $handler = $this->connectorRegistry->getConnectorHandler($service);
 
-        return $handler->getAuthToken($user);
+        return $handler->getToken($user);
     }
 }
