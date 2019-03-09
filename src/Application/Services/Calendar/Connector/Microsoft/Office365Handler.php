@@ -13,26 +13,11 @@ class Office365Handler extends MicrosoftHandler
 
     public function __construct(Office365AuthTokenRepository $authTokenRepository)
     {
-        parent::__construct($authTokenRepository);
+//        parent::__construct($authTokenRepository);
     }
 
     public static function alias(): string
     {
         return self::ALIAS;
-    }
-
-    public function isRegistered(User $user): bool
-    {
-        // TODO: Implement isRegistered() method.
-    }
-
-    public function getToken(User $user): AuthToken
-    {
-        // TODO: Implement getToken() method.
-    }
-
-    public function getAuthUrl(User $user): string
-    {
-        // TODO: Implement getAuthUrl() method.
     }
 }

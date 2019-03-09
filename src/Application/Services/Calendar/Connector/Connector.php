@@ -42,9 +42,13 @@ class Connector
     {
         $handler = $this->connectorRegistry->getConnectorHandler($service);
 
-        echo $handler->getAuthUrl($user); die();
+        echo $handler->getAuthUrl($user) . PHP_EOL;
 
-//        return $handler->isRegistered($user);
+        $authCode = trim(fgets(STDIN));
+
+        $token = $handler->fetchAccessToken($authCode);
+
+        $handler->persist($token, $user);
     }
 
     public function getToken(User $user, string $service): string

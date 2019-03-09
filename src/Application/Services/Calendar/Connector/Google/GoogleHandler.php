@@ -13,6 +13,7 @@ use Google_Service_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Google;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Class Google
@@ -122,11 +123,33 @@ class GoogleHandler extends AbstractConnectorHandler
     private function getProvider(): AbstractProvider
     {
         $provider = new Google([
-            'clientId'     => '{google-client-id}',
-            'clientSecret' => '{google-client-secret}',
-            'redirectUri'  => 'https://calendar.test.buzila.ro/callback-url',
+            'clientId' => getenv('GOOGLE_CLIENT_ID'),
+            'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
+            'redirectUri' => 'https://calendar.test.buzila.ro',
+            'accessType' => 'offline',
+            'scopes' => ['https://www.googleapis.com/auth/calendar'],
         ]);
 
         return $provider;
+    }
+
+    public function fetchAccessToken(string $authCode): AccessTokenInterface
+    {
+        $token = $this->getProvider()->getAccessToken('authorization_code', ['code' => $authCode]);
+
+        return $token;
+    }
+
+    public function persist(AccessTokenInterface $token, User $user): AuthToken
+    {
+        $googleToken = (new GoogleAuthToken)
+            ->setUser($user)
+            ->setExpiresIn($token->getExpires())
+            ->setAccessToken($token->getToken())
+            ->setRefreshToken($token->getRefreshToken());
+
+        $this->authTokenRepository->persistAndFlush($googleToken);
+
+        return $googleToken;
     }
 }

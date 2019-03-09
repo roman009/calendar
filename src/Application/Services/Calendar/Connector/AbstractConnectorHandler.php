@@ -5,6 +5,7 @@ namespace App\Application\Services\Calendar\Connector;
 use App\Entity\AuthToken;
 use App\Entity\User;
 use App\Repository\AuthTokenRepository;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 
 abstract class AbstractConnectorHandler
 {
@@ -31,4 +32,8 @@ abstract class AbstractConnectorHandler
     }
 
     abstract public function getAuthUrl(User $user): string;
+
+    abstract public function fetchAccessToken(string $authCode): AccessTokenInterface;
+
+    abstract public function persist(AccessTokenInterface $token, User $user): AuthToken;
 }
