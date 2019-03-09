@@ -24,3 +24,7 @@
 
 ## automation
 - automated workflows?
+
+## message bus
+- https://symfony.com/doc/current/components/messenger.html
+- rabbitmq
