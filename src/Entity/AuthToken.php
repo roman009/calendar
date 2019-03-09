@@ -29,9 +29,9 @@ abstract class AuthToken
 
     /**
      * @var integer
-     * @ORM\Column(name="expires_in", nullable=false, type="integer")
+     * @ORM\Column(name="expires", nullable=false, type="integer")
      */
-    protected $expiresIn;
+    protected $expires;
 
     public function getId(): ?int
     {
@@ -91,20 +91,30 @@ abstract class AuthToken
     /**
      * @return int
      */
-    public function getExpiresIn(): int
+    public function getExpires(): int
     {
-        return $this->expiresIn;
+        return $this->expires;
     }
 
     /**
-     * @param int $expiresIn
+     * @param int $expires
      * @return AuthToken
      */
-    public function setExpiresIn(int $expiresIn): self
+    public function setExpires(int $expires): self
     {
-        $this->expiresIn = $expiresIn;
+        $this->expires = $expires;
 
         return $this;
     }
 
+    public function hasExpired(): bool
+    {
+        $expires = $this->getExpires();
+
+        if (empty($expires)) {
+            throw new \RuntimeException('"expires" is not set on the token');
+        }
+
+        return $expires < time();
+    }
 }

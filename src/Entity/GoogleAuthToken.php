@@ -12,13 +12,13 @@ class GoogleAuthToken extends AuthToken
 {
     /**
      * @var string
-     * @ORM\Column(name="scope", nullable=false, type="text")
+     * @ORM\Column(name="scope", nullable=true, type="text")
      */
     private $scope;
 
     /**
      * @var string
-     * @ORM\Column(name="json", nullable=false, type="text")
+     * @ORM\Column(name="json", nullable=true, type="text")
      */
     private $json;
 

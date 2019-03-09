@@ -28,7 +28,14 @@ abstract class AbstractConnectorHandler
 
     public function getToken(User $user): AuthToken
     {
-        return $this->authTokenRepository->findOneBy(['user' => $user]);
+        /** @var AuthToken $token */
+        $token = $this->authTokenRepository->findOneBy(['user' => $user]);
+
+        if ($token->hasExpired()) {
+            $token = $this->refreshAccessToken($user, $token);
+        }
+
+        return $token;
     }
 
     abstract public function getAuthUrl(User $user): string;
@@ -36,4 +43,6 @@ abstract class AbstractConnectorHandler
     abstract public function fetchAccessToken(string $authCode): AccessTokenInterface;
 
     abstract public function persist(AccessTokenInterface $token, User $user): AuthToken;
+
+    abstract protected function refreshAccessToken(User $user, AuthToken $token): AuthToken;
 }

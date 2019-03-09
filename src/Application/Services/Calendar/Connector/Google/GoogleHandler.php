@@ -11,6 +11,7 @@ use App\Repository\GoogleCalendarRepository;
 use App\Repository\GoogleAuthTokenRepository;
 use Google_Service_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
+use League\OAuth2\Client\Grant\RefreshToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Google;
 use League\OAuth2\Client\Token\AccessTokenInterface;
@@ -32,6 +33,11 @@ class GoogleHandler extends AbstractConnectorHandler
      * @var GoogleCalendarRepository
      */
     private $googleCalendarRepository;
+
+    /**
+     * @var AbstractProvider
+     */
+    private $provider;
 
     public function __construct(GoogleAuthTokenRepository $googleTokenRepository, GoogleCalendarRepository $googleCalendarRepository, \Google_Client $client)
     {
@@ -117,20 +123,22 @@ class GoogleHandler extends AbstractConnectorHandler
 
     public function getAuthUrl(User $user): string
     {
-        return $this->getProvider()->getAuthorizationUrl();
+        return $this->getProvider()->getAuthorizationUrl(['prompt' => 'consent']);
     }
 
     private function getProvider(): AbstractProvider
     {
-        $provider = new Google([
-            'clientId' => getenv('GOOGLE_CLIENT_ID'),
-            'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
-            'redirectUri' => 'https://calendar.test.buzila.ro',
-            'accessType' => 'offline',
-            'scopes' => ['https://www.googleapis.com/auth/calendar'],
-        ]);
+        if (null === $this->provider) {
+            $this->provider = new Google([
+                'clientId' => getenv('GOOGLE_CLIENT_ID'),
+                'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
+                'redirectUri' => 'https://calendar.test.buzila.ro',
+                'accessType' => 'offline',
+                'scopes' => ['https://www.googleapis.com/auth/calendar'],
+            ]);
+        }
 
-        return $provider;
+        return $this->provider;
     }
 
     public function fetchAccessToken(string $authCode): AccessTokenInterface
@@ -144,9 +152,27 @@ class GoogleHandler extends AbstractConnectorHandler
     {
         $googleToken = (new GoogleAuthToken)
             ->setUser($user)
-            ->setExpiresIn($token->getExpires())
+            ->setExpires($token->getExpires())
             ->setAccessToken($token->getToken())
-            ->setRefreshToken($token->getRefreshToken());
+            ->setRefreshToken($token->getRefreshToken())
+            ->setScope('https://www.googleapis.com/auth/calendar')
+            ->setJson(json_encode($token));
+
+        $this->authTokenRepository->persistAndFlush($googleToken);
+
+        return $googleToken;
+    }
+
+    protected function refreshAccessToken(User $user, AuthToken $googleToken): AuthToken
+    {
+        $grant = new RefreshToken;
+
+        $token = $this->getProvider()->getAccessToken($grant, ['refresh_token' => $googleToken->getRefreshToken()]);
+
+        $googleToken->setExpires($token->getExpires())
+            ->setAccessToken($token->getToken())
+            ->setRefreshToken($token->getRefreshToken())
+            ->setJson(json_encode($token));
 
         $this->authTokenRepository->persistAndFlush($googleToken);
 

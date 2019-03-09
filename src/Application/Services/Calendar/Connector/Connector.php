@@ -2,6 +2,7 @@
 
 namespace App\Application\Services\Calendar\Connector;
 
+use App\Entity\AuthToken;
 use App\Entity\User;
 use App\Repository\UserRepository;
 
@@ -51,7 +52,7 @@ class Connector
         $handler->persist($token, $user);
     }
 
-    public function getToken(User $user, string $service): string
+    public function getToken(User $user, string $service): AuthToken
     {
         $handler = $this->connectorRegistry->getConnectorHandler($service);
 
