@@ -4,31 +4,17 @@ namespace App\Application\Services\Calendar\Connector;
 
 use App\Entity\AuthToken;
 use App\Entity\User;
-use App\Repository\UserRepository;
 
 class Connector
 {
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
-    /**
-     * @var iterable
-     */
-    private $services;
     /**
      * @var ConnectorRegistry
      */
     private $connectorRegistry;
 
-    public function __construct(UserRepository $userRepository, ConnectorRegistry $connectorRegistry)
+    public function __construct(ConnectorRegistry $connectorRegistry)
     {
-        $this->userRepository = $userRepository;
         $this->connectorRegistry = $connectorRegistry;
-    }
-
-    public function connect(User $user, string $service)
-    {
     }
 
     public function isRegistered(User $user, string $service): bool
