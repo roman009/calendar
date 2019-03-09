@@ -19,7 +19,7 @@ class GoogleHandler extends AbstractConnectorHandler
 {
     public const ALIAS = 'google';
     /**
-     * @var AbstractProvider
+     * @var Google
      */
     private $provider;
 
@@ -38,7 +38,7 @@ class GoogleHandler extends AbstractConnectorHandler
         return $this->getProvider()->getAuthorizationUrl(['prompt' => 'consent']);
     }
 
-    private function getProvider(): AbstractProvider
+    protected function getProvider(): AbstractProvider
     {
         if (null === $this->provider) {
             $this->provider = new Google([

@@ -6,6 +6,7 @@ use App\Application\Services\Calendar\AbstractHandler;
 use App\Entity\AuthToken;
 use App\Entity\User;
 use App\Repository\AuthTokenRepository;
+use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
 abstract class AbstractConnectorHandler extends AbstractHandler
@@ -44,4 +45,6 @@ abstract class AbstractConnectorHandler extends AbstractHandler
     abstract public function persist(AccessTokenInterface $token, User $user): AuthToken;
 
     abstract protected function refreshAccessToken(User $user, AuthToken $token): AuthToken;
+
+    abstract protected function getProvider(): AbstractProvider;
 }

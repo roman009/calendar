@@ -5,7 +5,7 @@ namespace App\Application\Services\Calendar\Connector\Microsoft;
 use App\Repository\AuthTokenRepository;
 use App\Repository\Office365AuthTokenRepository;
 
-class Office365Handler extends MicrosoftHandler
+class Office365Handler /*extends MicrosoftHandler*/
 {
     public const ALIAS = 'office365';
 

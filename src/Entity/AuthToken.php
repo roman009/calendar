@@ -33,6 +33,12 @@ abstract class AuthToken
      */
     protected $expires;
 
+    /**
+     * @var string
+     * @ORM\Column(name="json", nullable=true, type="text")
+     */
+    protected $json;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,5 +125,25 @@ abstract class AuthToken
         }
 
         return $expires < time();
+    }
+
+    /**
+     * @return string
+     */
+    public function getJson(): string
+    {
+        return $this->json;
+    }
+
+    /**
+     * @param string $json
+     *
+     * @return GoogleAuthToken
+     */
+    public function setJson(string $json): self
+    {
+        $this->json = $json;
+
+        return $this;
     }
 }

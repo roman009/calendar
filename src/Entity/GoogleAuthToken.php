@@ -16,11 +16,6 @@ class GoogleAuthToken extends AuthToken
      */
     private $scope;
 
-    /**
-     * @var string
-     * @ORM\Column(name="json", nullable=true, type="text")
-     */
-    private $json;
 
     /**
      * @return string
@@ -38,26 +33,6 @@ class GoogleAuthToken extends AuthToken
     public function setScope(string $scope): self
     {
         $this->scope = $scope;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getJson(): string
-    {
-        return $this->json;
-    }
-
-    /**
-     * @param string $json
-     *
-     * @return GoogleAuthToken
-     */
-    public function setJson(string $json): self
-    {
-        $this->json = $json;
 
         return $this;
     }
