@@ -132,6 +132,12 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "league/oauth2-client": {
+        "version": "2.4.1"
+    },
+    "league/oauth2-google": {
+        "version": "3.0.1"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
@@ -185,6 +191,9 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "stevenmaguire/oauth2-microsoft": {
+        "version": "2.2.0"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.1.3"

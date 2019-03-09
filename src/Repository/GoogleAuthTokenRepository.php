@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\GoogleToken;
+use App\Entity\GoogleAuthToken;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
- * @method GoogleToken|null find($id, $lockMode = null, $lockVersion = null)
- * @method GoogleToken|null findOneBy(array $criteria, array $orderBy = null)
- * @method GoogleToken[]    findAll()
- * @method GoogleToken[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method GoogleAuthToken|null find($id, $lockMode = null, $lockVersion = null)
+ * @method GoogleAuthToken|null findOneBy(array $criteria, array $orderBy = null)
+ * @method GoogleAuthToken[]    findAll()
+ * @method GoogleAuthToken[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GoogleTokenRepository extends BaseRepository
+class GoogleAuthTokenRepository extends AuthTokenRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, GoogleToken::class);
+        parent::__construct($registry, GoogleAuthToken::class);
     }
 
     // /**

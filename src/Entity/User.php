@@ -18,7 +18,7 @@ class User
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\GoogleToken", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="GoogleAuthToken", mappedBy="user")
      */
     private $googleToken;
 
@@ -52,7 +52,7 @@ class User
         return $this->googleToken;
     }
 
-    public function setGoogleToken(GoogleToken $googleToken): self
+    public function setGoogleToken(GoogleAuthToken $googleToken): self
     {
         $this->googleToken = $googleToken;
 

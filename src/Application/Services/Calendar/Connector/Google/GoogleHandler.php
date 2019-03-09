@@ -2,11 +2,13 @@
 
 namespace App\Application\Services\Calendar\Connector\Google;
 
+use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
+use App\Entity\AuthToken;
 use App\Entity\GoogleCalendar;
-use App\Entity\GoogleToken;
+use App\Entity\GoogleAuthToken;
 use App\Entity\User;
 use App\Repository\GoogleCalendarRepository;
-use App\Repository\GoogleTokenRepository;
+use App\Repository\GoogleAuthTokenRepository;
 use Google_Service_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
 
@@ -16,27 +18,32 @@ use Google_Service_Calendar_CalendarListEntry;
  *
  * https://developers.google.com/calendar/quickstart/php
  */
-class Google
+class GoogleHandler extends AbstractConnectorHandler
 {
+    public const ALIAS = 'google';
     /**
      * @var \Google_Client
      */
     private $client;
     /**
-     * @var GoogleTokenRepository
-     */
-    private $googleTokenRepository;
-    /**
      * @var GoogleCalendarRepository
      */
     private $googleCalendarRepository;
 
-    public function __construct(\Google_Client $client, GoogleTokenRepository $googleTokenRepository, GoogleCalendarRepository $googleCalendarRepository)
+    public function __construct(GoogleAuthTokenRepository $googleTokenRepository, GoogleCalendarRepository $googleCalendarRepository, \Google_Client $client)
     {
         $this->client = $client;
-        $this->googleTokenRepository = $googleTokenRepository;
         $this->googleCalendarRepository = $googleCalendarRepository;
+        parent::__construct($googleTokenRepository);
     }
+
+
+
+
+
+
+
+
 
     public function handle(User $user)
     {
@@ -45,7 +52,7 @@ class Google
         $this->client->setAccessType('offline');
         $this->client->setPrompt('select_account consent');
 
-        $googleToken = $this->googleTokenRepository->findOneBy(['user' => $user]);
+        $googleToken = $this->authTokenRepository->findOneBy(['user' => $user]);
 
         if (null !== $googleToken && $googleToken->getJson()) {
             $this->client->setAccessToken($googleToken->getJson());
@@ -69,17 +76,17 @@ class Google
                 }
 
                 if (null !== $googleToken) {
-                    $this->googleTokenRepository->delete($googleToken);
+                    $this->authTokenRepository->delete($googleToken);
                 }
 
-                $googleToken = (new GoogleToken)
+                $googleToken = (new GoogleAuthToken)
                     ->setAccessToken($token['access_token'])
                     ->setUser($user)
                     ->setRefreshToken($token['refresh_token'])
                     ->setScope($token['scope'])
                     ->setExpiresIn($token['expires_in'])
                     ->setJson(json_encode($token));
-                $this->googleTokenRepository->persistAndFlush($googleToken);
+                $this->authTokenRepository->persistAndFlush($googleToken);
             }
         }
 
@@ -98,5 +105,10 @@ class Google
                 ->setPrimary($calendar->getPrimary() ?? false);
             $this->googleCalendarRepository->persistAndFlush($googleCalendar);
         }
+    }
+
+    public static function alias(): string
+    {
+        return self::ALIAS;
     }
 }

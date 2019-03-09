@@ -39,6 +39,7 @@ trait BaseEntityTrait
 
     /**
      * @param \DateTime $updated
+     * @return self
      */
     public function setUpdated(\DateTime $updated): self
     {
@@ -86,6 +87,7 @@ trait BaseEntityTrait
 
     /**
      * @param \DateTime $created
+     * @return self
      */
     public function setCreated(\DateTime $created): self
     {

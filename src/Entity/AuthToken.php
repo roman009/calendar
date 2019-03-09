@@ -4,11 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\GoogleTokenRepository")
- * @ORM\HasLifecycleCallbacks
- */
-class GoogleToken
+abstract class AuthToken
 {
     use BaseEntityTrait;
 
@@ -17,44 +13,32 @@ class GoogleToken
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="googleToken")
      * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
      */
-    private $user;
+    protected $user;
 
     /**
      * @var string
      * @ORM\Column(name="access_token", nullable=false, type="string")
      */
-    private $accessToken;
+    protected $accessToken;
 
     /**
      * @var string
      * @ORM\Column(name="refresh_token", nullable=false, type="string")
      */
-    private $refreshToken;
-
-    /**
-     * @var string
-     * @ORM\Column(name="scope", nullable=false, type="text")
-     */
-    private $scope;
+    protected $refreshToken;
 
     /**
      * @var integer
      * @ORM\Column(name="expires_in", nullable=false, type="integer")
      */
-    private $expiresIn;
-
-    /**
-     * @var string
-     * @ORM\Column(name="json", nullable=false, type="text")
-     */
-    private $json;
+    protected $expiresIn;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -76,6 +60,7 @@ class GoogleToken
 
     /**
      * @param string $accessToken
+     * @return AuthToken
      */
     public function setAccessToken(string $accessToken): self
     {
@@ -94,6 +79,7 @@ class GoogleToken
 
     /**
      * @param string $refreshToken
+     * @return AuthToken
      */
     public function setRefreshToken(string $refreshToken): self
     {
@@ -112,46 +98,11 @@ class GoogleToken
 
     /**
      * @param int $expiresIn
+     * @return AuthToken
      */
     public function setExpiresIn(int $expiresIn): self
     {
         $this->expiresIn = $expiresIn;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getScope(): string
-    {
-        return $this->scope;
-    }
-
-    /**
-     * @param string $scope
-     */
-    public function setScope(string $scope): self
-    {
-        $this->scope = $scope;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getJson(): string
-    {
-        return $this->json;
-    }
-
-    /**
-     * @param string $json
-     */
-    public function setJson(string $json): self
-    {
-        $this->json = $json;
 
         return $this;
     }

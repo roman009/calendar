@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
+use App\DependencyInjection\Compiler\ConnectorPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -23,6 +25,12 @@ class Kernel extends BaseKernel
                 yield new $class();
             }
         }
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        $container->registerForAutoconfiguration(AbstractConnectorHandler::class)->addTag(Constants::TAG_CONNECTOR);
+        $container->addCompilerPass(new ConnectorPass);
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void

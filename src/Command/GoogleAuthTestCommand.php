@@ -2,7 +2,8 @@
 
 namespace App\Command;
 
-use App\Application\Services\Calendar\Connector\Google\Google;
+use App\Application\Services\Calendar\Connector\Connector;
+use App\Application\Services\Calendar\Connector\Google\GoogleHandler;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -14,19 +15,19 @@ class GoogleAuthTestCommand extends Command
 {
     protected static $defaultName = 'app:google-auth-test';
     /**
-     * @var Google
-     */
-    private $google;
-    /**
      * @var UserRepository
      */
     private $userRepository;
+    /**
+     * @var Connector
+     */
+    private $connector;
 
-    public function __construct(Google $google, ?string $name = null, UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, Connector $connector, ?string $name = null)
     {
         parent::__construct($name);
-        $this->google = $google;
         $this->userRepository = $userRepository;
+        $this->connector = $connector;
     }
 
     protected function configure()
@@ -41,6 +42,16 @@ class GoogleAuthTestCommand extends Command
 
         $user = $this->userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);
 
-        $this->google->handle($user);
+        $service = 'google';
+
+        if (!$this->connector->isRegistered($user, $service)) {
+            $this->connector->register($user, $service);
+        }
+
+        $token = $this->connector->getAuthToken($user, $service);
+
+        dump($token);
+
+//        $this->google->handle($user);
     }
 }
