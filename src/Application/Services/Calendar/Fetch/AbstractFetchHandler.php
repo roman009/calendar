@@ -6,7 +6,6 @@ use App\Application\Services\Calendar\AbstractHandler;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\FreeBusy;
-use App\Entity\User;
 
 abstract class AbstractFetchHandler extends AbstractHandler
 {
@@ -30,6 +29,7 @@ abstract class AbstractFetchHandler extends AbstractHandler
      * @param \DateTime $endDate
      * @param array $calendars
      * @param string|null $timezone
+     *
      * @return array<FreeBusy>
      */
     abstract public function freeBusy(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array;

@@ -6,8 +6,10 @@ class GenerateToken
 {
     /**
      * @param int $length
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function __invoke(int $length = 32): string
     {

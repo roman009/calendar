@@ -29,7 +29,6 @@ class User
      */
     private $accounts;
 
-
     public function getId(): ?int
     {
         return $this->id;

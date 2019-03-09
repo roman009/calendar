@@ -37,11 +37,14 @@ class ApiController extends AbstractController
 
     /**
      * @Route("/free-busy", methods={"GET"}, name="api-freebusy")
+     *
      * @param Request $request
      * @param Connector $connector
      * @param Fetch $fetch
-     * @return JsonResponse
+     *
      * @throws \Exception
+     *
+     * @return JsonResponse
      */
     public function freeBusy(Request $request, Connector $connector, Fetch $fetch)
     {

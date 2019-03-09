@@ -40,6 +40,7 @@ class ApiResponse
 
     /**
      * @param mixed $data
+     *
      * @return ApiResponse
      */
     public function setData($data): self
@@ -59,6 +60,7 @@ class ApiResponse
 
     /**
      * @param array $meta
+     *
      * @return ApiResponse
      */
     public function setMeta($meta): self

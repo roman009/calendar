@@ -3,7 +3,6 @@
 namespace App\Application\Services\Calendar\Fetch;
 
 use App\Entity\AuthToken;
-use App\Entity\User;
 
 class Fetch
 {

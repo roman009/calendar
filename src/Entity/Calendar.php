@@ -47,6 +47,12 @@ abstract class Calendar
     protected $publicId;
 
     /**
+     * @var string
+     * @ORM\Column(name="timezone", nullable=true, type="string")
+     */
+    protected $timezone;
+
+    /**
      * Gets triggered only on insert
      *
      * @ORM\PrePersist()
@@ -57,12 +63,6 @@ abstract class Calendar
         $this->updated = new \DateTime;
         $this->publicId = (new GenerateToken)();
     }
-
-    /**
-     * @var string
-     * @ORM\Column(name="timezone", nullable=true, type="string")
-     */
-    protected $timezone;
 
     public function getId(): ?int
     {
@@ -99,6 +99,7 @@ abstract class Calendar
 
     /**
      * @param bool $primary
+     *
      * @return Calendar
      */
     public function setPrimary(bool $primary): self
@@ -198,6 +199,7 @@ abstract class Calendar
 
     /**
      * @param string $publicId
+     *
      * @return Calendar
      */
     public function setPublicId(string $publicId): self

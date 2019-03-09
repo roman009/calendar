@@ -66,8 +66,10 @@ class GoogleHandler extends AbstractFetchHandler
      * @param \DateTime $endDate
      * @param array $calendars
      * @param string|null $timezone
-     * @return array<GoogleFreeBusy>
+     *
      * @throws \Exception
+     *
+     * @return array<GoogleFreeBusy>
      */
     public function freeBusy(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {
