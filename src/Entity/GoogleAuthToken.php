@@ -16,7 +16,6 @@ class GoogleAuthToken extends AuthToken
      */
     private $scope;
 
-
     /**
      * @return string
      */

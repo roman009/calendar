@@ -6,6 +6,7 @@ use App\Application\Services\Calendar\AbstractHandler;
 use App\Entity\AuthToken;
 use App\Entity\User;
 use App\Repository\AuthTokenRepository;
+use League\OAuth2\Client\Grant\RefreshToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
@@ -38,13 +39,31 @@ abstract class AbstractConnectorHandler extends AbstractHandler
         return $token;
     }
 
+    public function fetchAccessToken(string $authCode): AccessTokenInterface
+    {
+        $token = $this->getProvider()->getAccessToken('authorization_code', ['code' => $authCode]);
+
+        return $token;
+    }
+
+    protected function refreshAccessToken(User $user, AuthToken $authToken): AuthToken
+    {
+        $grant = new RefreshToken;
+
+        $token = $this->getProvider()->getAccessToken($grant, ['refresh_token' => $authToken->getRefreshToken()]);
+
+        $authToken->setExpires($token->getExpires())
+            ->setAccessToken($token->getToken())
+            ->setJson(json_encode($token));
+
+        $this->authTokenRepository->persistAndFlush($authToken);
+
+        return $authToken;
+    }
+
     abstract public function getAuthUrl(User $user): string;
 
-    abstract public function fetchAccessToken(string $authCode): AccessTokenInterface;
-
     abstract public function persist(AccessTokenInterface $token, User $user): AuthToken;
-
-    abstract protected function refreshAccessToken(User $user, AuthToken $token): AuthToken;
 
     abstract protected function getProvider(): AbstractProvider;
 }

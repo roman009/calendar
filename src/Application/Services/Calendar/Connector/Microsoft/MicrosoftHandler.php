@@ -32,6 +32,11 @@ abstract class MicrosoftHandler extends AbstractConnectorHandler
 
     public function getAuthUrl(User $user): string
     {
-        return $this->getProvider()->getAuthorizationUrl();
+        $options = [
+            'state' => 'OPTIONAL_CUSTOM_CONFIGURED_STATE',
+            'scope' => ['wl.basic', 'wl.signin', 'wl.offline_access', 'wl.calendars', 'wl.calendars_update'] // array or string
+        ];
+
+        return $this->getProvider()->getAuthorizationUrl($options);
     }
 }

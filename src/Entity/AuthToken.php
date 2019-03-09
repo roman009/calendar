@@ -17,13 +17,13 @@ abstract class AuthToken
 
     /**
      * @var string
-     * @ORM\Column(name="access_token", nullable=false, type="string")
+     * @ORM\Column(name="access_token", nullable=false, type="text")
      */
     protected $accessToken;
 
     /**
      * @var string
-     * @ORM\Column(name="refresh_token", nullable=false, type="string")
+     * @ORM\Column(name="refresh_token", nullable=false, type="text")
      */
     protected $refreshToken;
 

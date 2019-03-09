@@ -7,7 +7,6 @@ use App\Entity\AuthToken;
 use App\Entity\GoogleAuthToken;
 use App\Entity\User;
 use App\Repository\GoogleAuthTokenRepository;
-use League\OAuth2\Client\Grant\RefreshToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Google;
 use League\OAuth2\Client\Token\AccessTokenInterface;
@@ -53,13 +52,6 @@ class GoogleHandler extends AbstractConnectorHandler
         return $this->provider;
     }
 
-    public function fetchAccessToken(string $authCode): AccessTokenInterface
-    {
-        $token = $this->getProvider()->getAccessToken('authorization_code', ['code' => $authCode]);
-
-        return $token;
-    }
-
     public function persist(AccessTokenInterface $token, User $user): AuthToken
     {
         $googleToken = (new GoogleAuthToken)
@@ -68,21 +60,6 @@ class GoogleHandler extends AbstractConnectorHandler
             ->setAccessToken($token->getToken())
             ->setRefreshToken($token->getRefreshToken())
             ->setScope('https://www.googleapis.com/auth/calendar')
-            ->setJson(json_encode($token));
-
-        $this->authTokenRepository->persistAndFlush($googleToken);
-
-        return $googleToken;
-    }
-
-    protected function refreshAccessToken(User $user, AuthToken $googleToken): AuthToken
-    {
-        $grant = new RefreshToken;
-
-        $token = $this->getProvider()->getAccessToken($grant, ['refresh_token' => $googleToken->getRefreshToken()]);
-
-        $googleToken->setExpires($token->getExpires())
-            ->setAccessToken($token->getToken())
             ->setJson(json_encode($token));
 
         $this->authTokenRepository->persistAndFlush($googleToken);
