@@ -7,10 +7,10 @@ use App\Entity\Office365AuthToken;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method GoogleAuthToken|null find($id, $lockMode = null, $lockVersion = null)
- * @method GoogleAuthToken|null findOneBy(array $criteria, array $orderBy = null)
- * @method GoogleAuthToken[]    findAll()
- * @method GoogleAuthToken[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Office365AuthToken|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Office365AuthToken|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Office365AuthToken[]    findAll()
+ * @method Office365AuthToken[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class Office365AuthTokenRepository extends AuthTokenRepository
 {
@@ -18,33 +18,4 @@ class Office365AuthTokenRepository extends AuthTokenRepository
     {
         parent::__construct($registry, Office365AuthToken::class);
     }
-
-    // /**
-    //  * @return GoogleToken[] Returns an array of GoogleToken objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?GoogleToken
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
