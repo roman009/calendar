@@ -9,6 +9,7 @@ abstract class FreeBusy
     use BaseEntityTrait;
 
     public const TYPE_BUSY = 'busy';
+    public const TYPE_FREE = 'free';
 
     /**
      * @var string
