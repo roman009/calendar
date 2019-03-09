@@ -18,3 +18,4 @@
 ###< symfony/web-server-bundle ###
 
 /.idea/
+/.php_cs.cache
