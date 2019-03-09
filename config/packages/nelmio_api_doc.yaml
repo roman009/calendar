@@ -1,0 +1,19 @@
+nelmio_api_doc:
+    documentation:
+        host: api.%domain%
+        info:
+            title: Calendar API
+            description: This is an awesome API
+            version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header
+    areas: # to filter documented areas ->example(['^/api', '^/api(?!/admin)'])
+        path_patterns:
+            - ^/(?!doc)
+        host_patterns:
+            - ^api\.
+
