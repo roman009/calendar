@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Fetch\Fetch;
+use App\Entity\ApiResponse;
 use App\Entity\User;
+use App\Exception\Api\ApiException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,6 +41,7 @@ class ApiController extends AbstractController
      * @param Connector $connector
      * @param Fetch $fetch
      * @return JsonResponse
+     * @throws \Exception
      */
     public function freeBusy(Request $request, Connector $connector, Fetch $fetch)
     {
@@ -52,10 +55,14 @@ class ApiController extends AbstractController
 
         $calendars = $fetch->calendars($service, $token);
 
-        $response = $fetch->freeBusy($service, $token, $startDate, $endDate, $calendars, $request->get('timezone'));
+        try {
+            $response = $fetch->freeBusy($service, $token, $startDate, $endDate, $calendars, $request->get('timezone'));
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
 
         $defaultApiContext = ['groups' => 'default_api_response_group'];
-        return $this->json($response, Response::HTTP_OK, [], $defaultApiContext);
+        return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
     }
 
     private function authenticate(Request $request)

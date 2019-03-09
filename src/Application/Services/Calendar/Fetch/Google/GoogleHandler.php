@@ -86,7 +86,12 @@ class GoogleHandler extends AbstractFetchHandler
         $postBody->setTimeZone($timezone);
         $postBody->setTimeMin($startDate->format(DATE_ATOM));
         $postBody->setTimeMax($endDate->format(DATE_ATOM));
-        $freeBusyResponse = $service->freebusy->query($postBody);
+        try {
+            $freeBusyResponse = $service->freebusy->query($postBody);
+        } catch (\Google_Exception $exception) {
+            $exception = json_decode($exception->getMessage(), true);
+            throw new \Exception($exception['error']['message']);
+        }
 
         /** @var Google_Service_Calendar_FreeBusyCalendar $freeBusyCalendar */
         foreach ($freeBusyResponse->getCalendars() as $id => $freeBusyCalendar) {
