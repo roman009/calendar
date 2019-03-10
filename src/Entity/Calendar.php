@@ -42,7 +42,7 @@ abstract class Calendar
 
     /**
      * @var string
-     * @ORM\Column(name="public_id", nullable=false, type="string", length=32)
+     * @ORM\Column(name="public_id", nullable=false, type="string", length=32, unique=true)
      */
     protected $publicId;
 

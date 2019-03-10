@@ -9,6 +9,7 @@ use App\Entity\Calendar;
 use App\Entity\FreeBusy;
 use App\Entity\OutlookCalendar;
 use App\Entity\OutlookFreeBusy;
+use App\Repository\OutlookCalendarRepository;
 use GuzzleHttp\Exception\RequestException;
 use Microsoft\Graph\Graph;
 
@@ -19,10 +20,15 @@ class OutlookHandler extends AbstractFetchHandler
      * @var Graph
      */
     private $client;
+    /**
+     * @var OutlookCalendarRepository
+     */
+    private $outlookCalendarRepository;
 
-    public function __construct(Graph $client)
+    public function __construct(Graph $client, OutlookCalendarRepository $outlookCalendarRepository)
     {
         $this->client = $client;
+        $this->outlookCalendarRepository = $outlookCalendarRepository;
     }
 
     public static function alias(): string
@@ -33,9 +39,10 @@ class OutlookHandler extends AbstractFetchHandler
     /**
      * @param AuthToken $token
      *
-     * @throws \Microsoft\Graph\Exception\GraphException
-     *
      * @return array<Calendar>
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Microsoft\Graph\Exception\GraphException
      */
     public function calendars(AuthToken $token): array
     {
@@ -53,13 +60,20 @@ class OutlookHandler extends AbstractFetchHandler
 
         /** @var \Microsoft\Graph\Model\Calendar $calendar */
         foreach ($calendarsResponse as $calendar) {
-            $outlookCalendar = (new OutlookCalendar)
+            $outlookCalendar = $this->outlookCalendarRepository->findOneBy(['user' => $token->getUser(), 'calendarId' => $calendar->getId()]);
+            if (null === $outlookCalendar) {
+                $outlookCalendar = new OutlookCalendar;
+            }
+            $outlookCalendar
                 ->setOwnerEmailAddress($calendar->getOwner()->getAddress())
 //                ->setDescription()
                 ->setSummary($calendar->getName())
 //                ->setTimezone($calendar->get)
                 ->setPrimary($calendar->getCanEdit())
-                ->setCalendarId($calendar->getId());
+                ->setCalendarId($calendar->getId())
+                ->setUser($token->getUser());
+            $this->outlookCalendarRepository->persistAndFlush($outlookCalendar);
+
             $calendars[] = $outlookCalendar;
         }
 

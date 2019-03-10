@@ -8,6 +8,7 @@ use App\Entity\Calendar;
 use App\Entity\FreeBusy;
 use App\Entity\GoogleCalendar;
 use App\Entity\GoogleFreeBusy;
+use App\Repository\GoogleCalendarRepository;
 use Google_Service_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
 use Google_Service_Calendar_FreeBusyCalendar;
@@ -22,10 +23,15 @@ class GoogleHandler extends AbstractFetchHandler
      * @var \Google_Client
      */
     private $client;
+    /**
+     * @var GoogleCalendarRepository
+     */
+    private $googleCalendarRepository;
 
-    public function __construct(\Google_Client $client)
+    public function __construct(\Google_Client $client, GoogleCalendarRepository $googleCalendarRepository)
     {
         $this->client = $client;
+        $this->googleCalendarRepository = $googleCalendarRepository;
     }
 
     public static function alias(): string
@@ -37,6 +43,8 @@ class GoogleHandler extends AbstractFetchHandler
      * @param AuthToken $token
      *
      * @return array<GoogleCalendar>
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function calendars(AuthToken $token): array
     {
@@ -47,12 +55,19 @@ class GoogleHandler extends AbstractFetchHandler
 
         /** @var Google_Service_Calendar_CalendarListEntry $calendar */
         foreach ($service->calendarList->listCalendarList() as $calendar) {
-            $googleCalendar = (new GoogleCalendar)
+            $googleCalendar = $this->googleCalendarRepository->findOneBy(['user' => $token->getUser(), 'calendarId' => $calendar->getId()]);
+            if (null === $googleCalendar) {
+                $googleCalendar = new GoogleCalendar;
+            }
+            $googleCalendar
                 ->setDescription($calendar->getDescription())
                 ->setSummary($calendar->getSummaryOverride() ?? $calendar->getSummary())
                 ->setTimezone($calendar->getTimeZone())
                 ->setPrimary($calendar->getPrimary() ?? false)
-                ->setCalendarId($calendar->getId());
+                ->setCalendarId($calendar->getId())
+                ->setUser($token->getUser());
+            $this->googleCalendarRepository->persistAndFlush($googleCalendar);
+
             $calendars[] = $googleCalendar;
         }
 
