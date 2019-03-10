@@ -113,4 +113,25 @@ trait BaseEntityTrait
 
         return $this;
     }
+
+
+    /**
+     * @return string
+     */
+    public function getPublicId(): ?string
+    {
+        return $this->publicId;
+    }
+
+    /**
+     * @param string $publicId
+     *
+     * @return Calendar
+     */
+    public function setPublicId(string $publicId): self
+    {
+        $this->publicId = $publicId;
+
+        return $this;
+    }
 }

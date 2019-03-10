@@ -13,6 +13,13 @@ abstract class FreeBusy
 
     /**
      * @var string
+     *
+     * @Groups({""})
+     */
+    protected $publicId;
+
+    /**
+     * @var string
      * @Groups({"default_api_response_group"})
      */
     protected $calendar;
