@@ -14,7 +14,8 @@ abstract class FreeBusy
     /**
      * @var string
      *
-     * @Groups({""})
+     * @ORM\Column(name="public_id", nullable=false, type="string", length=32, unique=true)
+     * @Groups({"hidden"})
      */
     protected $publicId;
 
