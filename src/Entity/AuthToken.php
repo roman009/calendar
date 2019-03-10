@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AuthToken
 {
     use BaseEntityTrait;
+    use BaseAccountUserEntityTrait;
 
     /**
      * @var string
@@ -40,18 +41,6 @@ abstract class AuthToken
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     /**

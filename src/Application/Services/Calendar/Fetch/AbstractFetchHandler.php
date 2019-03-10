@@ -33,6 +33,7 @@ abstract class AbstractFetchHandler extends AbstractHandler
      * @param \DateTime $endDate
      * @param array $calendars
      * @param string|null $timezone
+     *
      * @return array<Event>
      */
     abstract public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array;

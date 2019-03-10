@@ -2,6 +2,7 @@
 
 namespace App\Application\Services\Calendar\Connector;
 
+use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\User;
 
@@ -17,30 +18,30 @@ class Connector
         $this->connectorRegistry = $connectorRegistry;
     }
 
-    public function isRegistered(User $user, string $service): bool
+    public function isRegistered(AccountUser $accountUser, string $service): bool
     {
         $handler = $this->connectorRegistry->getConnectorHandler($service);
 
-        return $handler->isRegistered($user);
+        return $handler->isRegistered($accountUser);
     }
 
-    public function register(User $user, string $service)
+    public function register(AccountUser $accountUser, string $service)
     {
         $handler = $this->connectorRegistry->getConnectorHandler($service);
 
-        echo $handler->getAuthUrl($user) . PHP_EOL;
+        echo $handler->getAuthUrl($accountUser) . PHP_EOL;
 
         $authCode = trim(fgets(STDIN));
 
         $token = $handler->fetchAccessToken($authCode);
 
-        $handler->persist($token, $user);
+        $handler->persist($token, $accountUser);
     }
 
-    public function getToken(User $user, string $service): AuthToken
+    public function getToken(AccountUser $accountUser, string $service): AuthToken
     {
         $handler = $this->connectorRegistry->getConnectorHandler($service);
 
-        return $handler->getToken($user);
+        return $handler->getToken($accountUser);
     }
 }

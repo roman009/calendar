@@ -156,6 +156,59 @@ class ApiController extends AbstractController
         return $this->json((new ApiResponse)->setData($calendars), Response::HTTP_OK, [], $defaultApiContext);
     }
 
+    /**
+     * @Route("/calendar/{id}/events", methods={"GET"}, name="api-calendar-events")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of events in specific calendar",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="service",
+     *     in="query",
+     *     type="string",
+     *     description="Service to query: google, outlook, office365, apple"
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="query",
+     *     type="string",
+     *     description="Calendar ID"
+     * )
+     * @SWG\Tag(name="calendar")
+     * @Security(name="Bearer")
+     * @Areas({"internal","default"})
+     *
+     * @param Request $request
+     * @param Connector $connector
+     * @param Fetch $fetch
+     *
+     * @throws \Exception
+     *
+     * @return JsonResponse
+     */
+    public function calendarEvents(Request $request, Connector $connector, Fetch $fetch): JsonResponse
+    {
+        $user = $this->authenticate($request);
+
+        $service = $request->get('service');
+        $calendarId = $request->get('id');
+
+        $token = $connector->getToken($user, $service);
+
+        try {
+            $events = $fetch->events($service, $calendarId, $token);
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
+
+        $defaultApiContext = ['groups' => 'default_api_response_group'];
+        return $this->json((new ApiResponse)->setData($events), Response::HTTP_OK, [], $defaultApiContext);
+    }
+
     private function authenticate(Request $request)
     {
         $userRepository = $this->getDoctrine()->getRepository(User::class);

@@ -2,6 +2,7 @@
 
 namespace App\Application\Services\Calendar\Connector\Microsoft;
 
+use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\OutlookAuthToken;
 use App\Entity\User;
@@ -22,10 +23,10 @@ class OutlookHandler extends MicrosoftHandler
         return self::ALIAS;
     }
 
-    public function persist(AccessTokenInterface $token, User $user): AuthToken
+    public function persist(AccessTokenInterface $token, AccountUser $accountUser): AuthToken
     {
         $outlookAuthToken = (new OutlookAuthToken)
-            ->setUser($user)
+            ->setAccountUser($accountUser)
             ->setExpires($token->getExpires())
             ->setAccessToken($token->getToken())
             ->setRefreshToken($token->getRefreshToken())

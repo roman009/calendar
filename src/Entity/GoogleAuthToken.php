@@ -13,13 +13,6 @@ class GoogleAuthToken extends AuthToken
     use GoogleProviderTrait;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="googleTokens")
-     * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
-     */
-    protected $user;
-
-    /**
      * @var string
      * @ORM\Column(name="scope", nullable=true, type="text")
      */

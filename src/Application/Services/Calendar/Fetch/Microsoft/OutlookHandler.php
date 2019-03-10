@@ -39,10 +39,11 @@ class OutlookHandler extends AbstractFetchHandler
     /**
      * @param AuthToken $token
      *
-     * @return array<Calendar>
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Microsoft\Graph\Exception\GraphException
+     *
+     * @return array<Calendar>
      */
     public function calendars(AuthToken $token): array
     {
@@ -60,7 +61,7 @@ class OutlookHandler extends AbstractFetchHandler
 
         /** @var \Microsoft\Graph\Model\Calendar $calendar */
         foreach ($calendarsResponse as $calendar) {
-            $outlookCalendar = $this->outlookCalendarRepository->findOneBy(['user' => $token->getUser(), 'calendarId' => $calendar->getId()]);
+            $outlookCalendar = $this->outlookCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'calendarId' => $calendar->getId()]);
             if (null === $outlookCalendar) {
                 $outlookCalendar = new OutlookCalendar;
             }
@@ -71,7 +72,7 @@ class OutlookHandler extends AbstractFetchHandler
 //                ->setTimezone($calendar->get)
                 ->setPrimary($calendar->getCanEdit())
                 ->setCalendarId($calendar->getId())
-                ->setUser($token->getUser());
+                ->setAccountUser($token->getAccountUser());
             $this->outlookCalendarRepository->persistAndFlush($outlookCalendar);
 
             $calendars[] = $outlookCalendar;
@@ -87,8 +88,9 @@ class OutlookHandler extends AbstractFetchHandler
      * @param array $calendars
      * @param string|null $timezone
      *
-     * @return array<FreeBusy>
      * @throws \Exception
+     *
+     * @return array<FreeBusy>
      */
     public function freeBusy(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {

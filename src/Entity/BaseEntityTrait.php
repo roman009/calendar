@@ -114,7 +114,6 @@ trait BaseEntityTrait
         return $this;
     }
 
-
     /**
      * @return string
      */

@@ -3,6 +3,7 @@
 namespace App\Application\Services\Calendar\Connector\Google;
 
 use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
+use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\GoogleAuthToken;
 use App\Entity\User;
@@ -32,7 +33,7 @@ class GoogleHandler extends AbstractConnectorHandler
         return self::ALIAS;
     }
 
-    public function getAuthUrl(User $user): string
+    public function getAuthUrl(AccountUser $accountUser): string
     {
         return $this->getProvider()->getAuthorizationUrl(['prompt' => 'consent']);
     }
@@ -52,10 +53,10 @@ class GoogleHandler extends AbstractConnectorHandler
         return $this->provider;
     }
 
-    public function persist(AccessTokenInterface $token, User $user): AuthToken
+    public function persist(AccessTokenInterface $token, AccountUser $accountUser): AuthToken
     {
         $googleToken = (new GoogleAuthToken)
-            ->setUser($user)
+            ->setAccountUser($accountUser)
             ->setExpires($token->getExpires())
             ->setAccessToken($token->getToken())
             ->setRefreshToken($token->getRefreshToken())

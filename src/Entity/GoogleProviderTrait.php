@@ -29,6 +29,4 @@ trait GoogleProviderTrait
 
         return $this;
     }
-
-
 }

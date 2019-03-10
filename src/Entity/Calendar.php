@@ -2,20 +2,13 @@
 
 namespace App\Entity;
 
-use App\Application\Services\Security\GenerateToken;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 abstract class Calendar
 {
     use BaseEntityTrait;
-
-    /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="googleCalendars")
-     * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
-     */
-    protected $user;
+    use BaseAccountUserEntityTrait;
 
     /**
      * @var bool
@@ -52,26 +45,6 @@ abstract class Calendar
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return GoogleCalendar
-     */
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     /**

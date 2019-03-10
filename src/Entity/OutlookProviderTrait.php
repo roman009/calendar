@@ -29,6 +29,4 @@ trait OutlookProviderTrait
 
         return $this;
     }
-
-
 }

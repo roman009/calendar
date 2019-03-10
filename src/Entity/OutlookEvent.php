@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OutlookEventRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class GoogleEvent extends Event
+class OutlookEvent extends Event
 {
-
 }

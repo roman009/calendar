@@ -10,10 +10,4 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AppleAuthToken extends AuthToken
 {
-    /**
-     * @var User
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="appleToken")
-     * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
-     */
-    protected $user;
 }

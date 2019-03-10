@@ -42,9 +42,10 @@ class GoogleHandler extends AbstractFetchHandler
     /**
      * @param AuthToken $token
      *
-     * @return array<GoogleCalendar>
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return array<GoogleCalendar>
      */
     public function calendars(AuthToken $token): array
     {
@@ -55,7 +56,7 @@ class GoogleHandler extends AbstractFetchHandler
 
         /** @var Google_Service_Calendar_CalendarListEntry $calendar */
         foreach ($service->calendarList->listCalendarList() as $calendar) {
-            $googleCalendar = $this->googleCalendarRepository->findOneBy(['user' => $token->getUser(), 'calendarId' => $calendar->getId()]);
+            $googleCalendar = $this->googleCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'calendarId' => $calendar->getId()]);
             if (null === $googleCalendar) {
                 $googleCalendar = new GoogleCalendar;
             }
@@ -65,7 +66,7 @@ class GoogleHandler extends AbstractFetchHandler
                 ->setTimezone($calendar->getTimeZone())
                 ->setPrimary($calendar->getPrimary() ?? false)
                 ->setCalendarId($calendar->getId())
-                ->setUser($token->getUser());
+                ->setAccountUser($token->getAccountUser());
             $this->googleCalendarRepository->persistAndFlush($googleCalendar);
 
             $calendars[] = $googleCalendar;

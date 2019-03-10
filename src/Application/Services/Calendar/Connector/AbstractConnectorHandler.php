@@ -3,6 +3,7 @@
 namespace App\Application\Services\Calendar\Connector;
 
 use App\Application\Services\Calendar\AbstractHandler;
+use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\User;
 use App\Repository\AuthTokenRepository;
@@ -22,18 +23,18 @@ abstract class AbstractConnectorHandler extends AbstractHandler
         $this->authTokenRepository = $authTokenRepository;
     }
 
-    public function isRegistered(User $user): bool
+    public function isRegistered(AccountUser $accountUser): bool
     {
-        return null !== $this->authTokenRepository->findOneBy(['user' => $user]);
+        return null !== $this->authTokenRepository->findOneBy(['user' => $accountUser]);
     }
 
-    public function getToken(User $user): AuthToken
+    public function getToken(AccountUser $accountUser): AuthToken
     {
         /** @var AuthToken $token */
-        $token = $this->authTokenRepository->findOneBy(['user' => $user]);
+        $token = $this->authTokenRepository->findOneBy(['accountUser' => $accountUser]);
 
         if ($token->hasExpired()) {
-            $token = $this->refreshAccessToken($user, $token);
+            $token = $this->refreshAccessToken($token);
         }
 
         return $token;
@@ -46,7 +47,7 @@ abstract class AbstractConnectorHandler extends AbstractHandler
         return $token;
     }
 
-    protected function refreshAccessToken(User $user, AuthToken $authToken): AuthToken
+    protected function refreshAccessToken(AuthToken $authToken): AuthToken
     {
         $grant = new RefreshToken;
 
@@ -61,9 +62,9 @@ abstract class AbstractConnectorHandler extends AbstractHandler
         return $authToken;
     }
 
-    abstract public function getAuthUrl(User $user): string;
+    abstract public function getAuthUrl(AccountUser $accountUser): string;
 
-    abstract public function persist(AccessTokenInterface $token, User $user): AuthToken;
+    abstract public function persist(AccessTokenInterface $token, AccountUser $accountUser): AuthToken;
 
     abstract protected function getProvider(): AbstractProvider;
 }
