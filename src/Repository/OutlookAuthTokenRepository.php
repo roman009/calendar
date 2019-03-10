@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\GoogleAuthToken;
 use App\Entity\OutlookAuthToken;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\AppleAuthToken;
-use App\Entity\GoogleAuthToken;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,5 +17,4 @@ class AppleAuthTokenRepository extends AuthTokenRepository
     {
         parent::__construct($registry, AppleAuthToken::class);
     }
-
 }

@@ -3,6 +3,7 @@
 namespace App\Application\Services\Calendar\Fetch\Microsoft;
 
 use App\Application\Services\Calendar\Fetch\AbstractFetchHandler;
+use App\Application\Services\Calendar\Fetch\Microsoft\CustomModel\Calendar as CustomCalendar;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\FreeBusy;
@@ -10,7 +11,6 @@ use App\Entity\OutlookCalendar;
 use App\Entity\OutlookFreeBusy;
 use GuzzleHttp\Exception\RequestException;
 use Microsoft\Graph\Graph;
-use App\Application\Services\Calendar\Fetch\Microsoft\CustomModel\Calendar as CustomCalendar;
 
 class OutlookHandler extends AbstractFetchHandler
 {
@@ -33,8 +33,9 @@ class OutlookHandler extends AbstractFetchHandler
     /**
      * @param AuthToken $token
      *
-     * @return array<Calendar>
      * @throws \Microsoft\Graph\Exception\GraphException
+     *
+     * @return array<Calendar>
      */
     protected function fetchCalendars(AuthToken $token): array
     {

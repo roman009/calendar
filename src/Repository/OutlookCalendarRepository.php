@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\GoogleCalendar;
 use App\Entity\OutlookCalendar;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

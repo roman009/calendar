@@ -27,6 +27,7 @@ class OutlookCalendar extends Calendar
 
     /**
      * @param string $ownerEmailAddress
+     *
      * @return OutlookCalendar
      */
     public function setOwnerEmailAddress(string $ownerEmailAddress): self
