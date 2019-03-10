@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OutlookAuthToken extends AuthToken
 {
+    use OutlookProviderTrait;
+
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="outlookTokens")

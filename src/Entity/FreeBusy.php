@@ -33,12 +33,6 @@ abstract class FreeBusy
      * @var string
      * @Groups({"default_api_response_group"})
      */
-    protected $provider;
-
-    /**
-     * @var string
-     * @Groups({"default_api_response_group"})
-     */
     protected $type;
 
     /**
@@ -91,24 +85,6 @@ abstract class FreeBusy
     public function setEnd(\DateTime $end): self
     {
         $this->end = $end;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProvider()
-    {
-        return $this->provider;
-    }
-
-    /**
-     * @param mixed $provider
-     */
-    public function setProvider($provider): self
-    {
-        $this->provider = $provider;
 
         return $this;
     }

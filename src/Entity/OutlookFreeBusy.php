@@ -9,5 +9,5 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OutlookFreeBusy extends FreeBusy
 {
-    protected $provider = 'outlook';
+    use OutlookProviderTrait;
 }

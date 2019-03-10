@@ -11,4 +11,5 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GoogleCalendar extends Calendar
 {
+    use GoogleProviderTrait;
 }

@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GoogleAuthToken extends AuthToken
 {
+    use GoogleProviderTrait;
+
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="googleTokens")

@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OutlookCalendar extends Calendar
 {
+    use OutlookProviderTrait;
+
     /**
      * @var string
      * @ORM\Column(name="owner_email_address", nullable=true, type="string")

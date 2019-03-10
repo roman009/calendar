@@ -9,5 +9,5 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GoogleFreeBusy extends FreeBusy
 {
-    protected $provider = 'google';
+    use GoogleProviderTrait;
 }
