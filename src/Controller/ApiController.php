@@ -110,6 +110,52 @@ class ApiController extends AbstractController
         return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
     }
 
+    /**
+     * @Route("/calendar", methods={"GET"}, name="api-calendar")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of connected calendars",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=App\Entity\Calendar::class, groups={"default_api_response_group"}))
+     *     )
+     * )
+     * @SWG\Parameter(
+     *     name="service",
+     *     in="query",
+     *     type="string",
+     *     description="Service to query: google, outlook, office365, apple"
+     * )
+     * @SWG\Tag(name="calendar")
+     * @Security(name="Bearer")
+     * @Areas({"internal","default"})
+     *
+     * @param Request $request
+     * @param Connector $connector
+     * @param Fetch $fetch
+     *
+     * @throws \Exception
+     *
+     * @return JsonResponse
+     */
+    public function calendar(Request $request, Connector $connector, Fetch $fetch): JsonResponse
+    {
+        $user = $this->authenticate($request);
+
+        $service = $request->get('service');
+
+        $token = $connector->getToken($user, $service);
+
+        try {
+            $calendars = $fetch->calendars($service, $token);
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
+
+        $defaultApiContext = ['groups' => 'default_api_response_group'];
+        return $this->json((new ApiResponse)->setData($calendars), Response::HTTP_OK, [], $defaultApiContext);
+    }
+
     private function authenticate(Request $request)
     {
         $userRepository = $this->getDoctrine()->getRepository(User::class);

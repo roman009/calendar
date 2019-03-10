@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Application\Services\Security\GenerateToken;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 abstract class Calendar
 {
@@ -19,6 +20,7 @@ abstract class Calendar
     /**
      * @var bool
      * @ORM\Column(name="`primary`", nullable=false, type="boolean", options={"default"=false})
+     * @Groups({"default_api_response_group"})
      */
     protected $primary;
 
@@ -37,6 +39,7 @@ abstract class Calendar
     /**
      * @var string
      * @ORM\Column(name="summary", nullable=true, type="text")
+     * @Groups({"default_api_response_group"})
      */
     protected $summary;
 

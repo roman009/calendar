@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Application\Services\Security\GenerateToken;
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 trait BaseEntityTrait
 {
@@ -20,6 +23,9 @@ trait BaseEntityTrait
      * @var string
      *
      * @ORM\Column(name="public_id", nullable=false, type="string", length=32, unique=true)
+     * @Groups({"default_api_response_group"})
+     * @SerializedName("id")
+     * @SWG\Property(title="id")
      */
     protected $publicId;
 
