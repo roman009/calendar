@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Application\Services\Security\GenerateToken;
 use Doctrine\ORM\Mapping as ORM;
 
 trait BaseEntityTrait
@@ -14,6 +15,13 @@ trait BaseEntityTrait
      * @ORM\Column(type="integer")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="public_id", nullable=false, type="string", length=32, unique=true)
+     */
+    protected $publicId;
 
     /**
      * @var \DateTime
@@ -58,6 +66,7 @@ trait BaseEntityTrait
     {
         $this->created = new \DateTime;
         $this->updated = new \DateTime;
+        $this->publicId = (new GenerateToken)();
     }
 
     /**

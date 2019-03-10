@@ -5,7 +5,11 @@ namespace App\Command;
 use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Fetch\Fetch;
 use App\Application\Services\Security\GenerateToken;
+use App\Entity\Account;
+use App\Entity\AccountUser;
 use App\Entity\User;
+use App\Repository\AccountRepository;
+use App\Repository\AccountUserRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,13 +30,23 @@ class MsAuthTestCommand extends Command
      * @var Fetch
      */
     private $fetch;
+    /**
+     * @var AccountRepository
+     */
+    private $accountRepository;
+    /**
+     * @var AccountUserRepository
+     */
+    private $accountUserRepository;
 
-    public function __construct(UserRepository $userRepository, Connector $connector, Fetch $fetch, ?string $name = null)
+    public function __construct(UserRepository $userRepository, AccountRepository $accountRepository, AccountUserRepository $accountUserRepository, Connector $connector, Fetch $fetch, ?string $name = null)
     {
         parent::__construct($name);
         $this->userRepository = $userRepository;
         $this->connector = $connector;
         $this->fetch = $fetch;
+        $this->accountRepository = $accountRepository;
+        $this->accountUserRepository = $accountUserRepository;
     }
 
     protected function configure()
@@ -43,7 +57,12 @@ class MsAuthTestCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 //        $user = (new User)->setEmail('valeriu.buzila@gmail.com');
+//        $account = (new Account)->setName('my account');
+//        $accountUser = (new AccountUser)->setUser($user)->setAccount($account);
+//
+//        $this->accountRepository->persistAndFlush($account);
 //        $this->userRepository->persistAndFlush($user);
+//        $this->accountUserRepository->persistAndFlush($accountUser);
 
         $user = $this->userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);
 

@@ -42,27 +42,9 @@ abstract class Calendar
 
     /**
      * @var string
-     * @ORM\Column(name="public_id", nullable=false, type="string", length=32, unique=true)
-     */
-    protected $publicId;
-
-    /**
-     * @var string
      * @ORM\Column(name="timezone", nullable=true, type="string")
      */
     protected $timezone;
-
-    /**
-     * Gets triggered only on insert
-     *
-     * @ORM\PrePersist()
-     */
-    public function onPrePersist()
-    {
-        $this->created = new \DateTime;
-        $this->updated = new \DateTime;
-        $this->publicId = (new GenerateToken)();
-    }
 
     public function getId(): ?int
     {

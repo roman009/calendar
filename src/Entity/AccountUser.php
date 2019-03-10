@@ -25,4 +25,40 @@ class AccountUser
      * @ORM\JoinColumn(fieldName="account_id", nullable=false, referencedColumnName="id")
      */
     private $account;
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Account
+     */
+    public function getAccount(): Account
+    {
+        return $this->account;
+    }
+
+    /**
+     * @param Account $account
+     */
+    public function setAccount(Account $account): self
+    {
+        $this->account = $account;
+
+        return $this;
+    }
 }
