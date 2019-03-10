@@ -136,8 +136,9 @@ class GoogleHandler extends AbstractFetchHandler
      * @param string $calendarId
      * @param string|null $timezone
      *
-     * @return array<Event>
      * @throws \Exception
+     *
+     * @return array<Event>
      */
     public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {

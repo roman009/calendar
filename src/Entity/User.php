@@ -52,6 +52,7 @@ class User
 
     /**
      * @param array $accountUsers
+     *
      * @return User
      */
     public function setAccountUsers(array $accountUsers): self

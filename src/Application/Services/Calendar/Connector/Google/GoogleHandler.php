@@ -6,7 +6,6 @@ use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\GoogleAuthToken;
-use App\Entity\User;
 use App\Repository\GoogleAuthTokenRepository;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Google;

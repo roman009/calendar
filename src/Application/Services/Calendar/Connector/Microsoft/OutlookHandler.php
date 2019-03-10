@@ -5,7 +5,6 @@ namespace App\Application\Services\Calendar\Connector\Microsoft;
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\OutlookAuthToken;
-use App\Entity\User;
 use App\Repository\OutlookAuthTokenRepository;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
