@@ -59,7 +59,10 @@ class Fetch
      *
      * @return array<Event>
      */
-    public function events(string $service, string $calendarId, AuthToken $token): array
+    public function events(string $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
+        $handler = $this->fetchRegistry->getFetchHandler($service);
+
+        return $handler->events($token, $startDate, $endDate, $calendarId, $timezone);
     }
 }

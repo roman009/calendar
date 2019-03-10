@@ -14,14 +14,14 @@ class AccountUser
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="accounts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="accountUsers")
      * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
      */
     private $user;
 
     /**
      * @var Account
-     * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Account", inversedBy="accountUsers")
      * @ORM\JoinColumn(fieldName="account_id", nullable=false, referencedColumnName="id")
      */
     private $account;

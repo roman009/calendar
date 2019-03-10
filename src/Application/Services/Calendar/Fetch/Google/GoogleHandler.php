@@ -5,12 +5,15 @@ namespace App\Application\Services\Calendar\Fetch\Google;
 use App\Application\Services\Calendar\Fetch\AbstractFetchHandler;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
+use App\Entity\Event;
 use App\Entity\FreeBusy;
 use App\Entity\GoogleCalendar;
+use App\Entity\GoogleEvent;
 use App\Entity\GoogleFreeBusy;
 use App\Repository\GoogleCalendarRepository;
 use Google_Service_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
+use Google_Service_Calendar_Event;
 use Google_Service_Calendar_FreeBusyCalendar;
 use Google_Service_Calendar_FreeBusyRequest;
 use Google_Service_Calendar_FreeBusyRequestItem;
@@ -126,8 +129,42 @@ class GoogleHandler extends AbstractFetchHandler
         return $freeBusyList;
     }
 
-    public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
+    /**
+     * @param AuthToken $token
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @param string $calendarId
+     * @param string|null $timezone
+     *
+     * @return array<Event>
+     * @throws \Exception
+     */
+    public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
-        throw new \Exception('@TODO');
+        $this->client->setAccessToken($token->getAccessToken());
+
+        $service = new Google_Service_Calendar($this->client);
+
+        $eventList = [];
+
+        $optParams = [
+            'timeZone' => $timezone,
+            'timeMin' => $startDate->format(DATE_ATOM),
+            'timeMax' => $endDate->format(DATE_ATOM),
+        ];
+        $response = $service->events->listEvents($calendarId, $optParams);
+
+        /** @var Google_Service_Calendar_Event $item */
+        foreach ($response->getItems() as $item) {
+            $googleEvent = (new GoogleEvent)
+                ->setName($item->getSummary())
+                ->setStart(new \DateTime($item->getStart()->getDateTime()))
+                ->setEnd(new \DateTime($item->getEnd()->getDateTime()))
+                ->setTimezone($item->getStart()->getTimeZone())
+                ->setEventId($item->getId());
+            $eventList[] = $googleEvent;
+        }
+
+        return $eventList;
     }
 }

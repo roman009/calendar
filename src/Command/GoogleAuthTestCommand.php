@@ -46,23 +46,34 @@ class GoogleAuthTestCommand extends Command
 //        $this->userRepository->persistAndFlush($user);
 
         $user = $this->userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);
+        $accountUser = $user->getAccountUsers()[0];
 
         $service = 'google';
 
-        if (!$this->connector->isRegistered($user, $service)) {
-            $this->connector->register($user, $service);
+        if (!$this->connector->isRegistered($accountUser, $service)) {
+            $this->connector->register($accountUser, $service);
         }
 
-        $token = $this->connector->getToken($user, $service);
+        $token = $this->connector->getToken($accountUser, $service);
 
         dump($token);
 
         $calendars = $this->fetch->calendars($service, $token);
-        dump($calendars);
+//        dump($calendars);
 
-        $freeBusy = $this->fetch->freeBusy($service, $token, new \DateTime(), (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')), $calendars);
-        dump($freeBusy);
+//        $freeBusy = $this->fetch->freeBusy($service, $token, new \DateTime(), (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')), $calendars);
+//        dump($freeBusy);
 
-        dump((new GenerateToken)());
+        foreach ($calendars as $calendar) {
+            dump($calendar);
+            $events = $this->fetch->events(
+                $service,
+                $token,
+                (new \DateTime())->add(\DateInterval::createFromDateString('-20 days')),
+                (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')),
+                $calendar->getCalendarId()
+            );
+            dump($events);
+        }
     }
 }

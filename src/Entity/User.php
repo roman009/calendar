@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,9 +19,11 @@ class User
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\AccountUser", mappedBy="account")
+     * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\AccountUser", mappedBy="user")
      */
-    private $accounts;
+    private $accountUsers;
 
     public function getId(): ?int
     {
@@ -35,6 +38,25 @@ class User
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAccountUsers(): Collection
+    {
+        return $this->accountUsers;
+    }
+
+    /**
+     * @param array $accountUsers
+     * @return User
+     */
+    public function setAccountUsers(array $accountUsers): self
+    {
+        $this->accountUsers = $accountUsers;
 
         return $this;
     }

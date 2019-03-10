@@ -134,8 +134,17 @@ class OutlookHandler extends AbstractFetchHandler
         return $freeBusyList;
     }
 
-    public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
+    /**
+     * @param AuthToken $token
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @param string $calendarId
+     * @param string|null $timezone
+     *
+     * @return array<Event>
+     */
+    public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
-        throw new \Exception('@TODO');
+        // TODO: Implement events() method.
     }
 }

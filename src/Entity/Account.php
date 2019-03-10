@@ -18,9 +18,9 @@ class Account
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\AccountUser", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\AccountUser", mappedBy="account")
      */
-    private $users;
+    private $accountUsers;
 
     public function getName(): ?string
     {

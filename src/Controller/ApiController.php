@@ -147,13 +147,13 @@ class ApiController extends AbstractController
         $token = $connector->getToken($user, $service);
 
         try {
-            $calendars = $fetch->calendars($service, $token);
+            $response = $fetch->calendars($service, $token);
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage());
         }
 
         $defaultApiContext = ['groups' => 'default_api_response_group'];
-        return $this->json((new ApiResponse)->setData($calendars), Response::HTTP_OK, [], $defaultApiContext);
+        return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
     }
 
     /**
@@ -165,6 +165,18 @@ class ApiController extends AbstractController
      *         type="array",
      *         @SWG\Items(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
      *     )
+     * )
+     * @SWG\Parameter(
+     *     name="start_date",
+     *     in="query",
+     *     type="string",
+     *     description="Start datetime of the events interval"
+     * )
+     * @SWG\Parameter(
+     *     name="end_date",
+     *     in="query",
+     *     type="string",
+     *     description="End datetime of the events interval"
      * )
      * @SWG\Parameter(
      *     name="service",
@@ -196,20 +208,23 @@ class ApiController extends AbstractController
 
         $service = $request->get('service');
         $calendarId = $request->get('id');
+        $startDate = new \DateTime($request->get('start_date'));
+        $endDate = new \DateTime($request->get('end_date'));
+        $timezone = $request->get('timezone');
 
         $token = $connector->getToken($user, $service);
 
         try {
-            $events = $fetch->events($service, $calendarId, $token);
+            $response = $fetch->events($service, $token, $startDate, $endDate, $calendarId, $timezone);
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage());
         }
 
         $defaultApiContext = ['groups' => 'default_api_response_group'];
-        return $this->json((new ApiResponse)->setData($events), Response::HTTP_OK, [], $defaultApiContext);
+        return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
     }
 
-    private function authenticate(Request $request)
+    private function authenticate(Request $request): User
     {
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);

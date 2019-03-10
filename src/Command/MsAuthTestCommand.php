@@ -65,22 +65,33 @@ class MsAuthTestCommand extends Command
 //        $this->accountUserRepository->persistAndFlush($accountUser);
 
         $user = $this->userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);
+        $accountUser = $user->getAccountUsers()[0];
 
         $service = 'outlook';
 
-        if (!$this->connector->isRegistered($user, $service)) {
-            $this->connector->register($user, $service);
+        if (!$this->connector->isRegistered($accountUser, $service)) {
+            $this->connector->register($accountUser, $service);
         }
 
-        $token = $this->connector->getToken($user, $service);
+        $token = $this->connector->getToken($accountUser, $service);
 
         dump($token);
 
         $calendars = $this->fetch->calendars($service, $token);
         dump($calendars);
 
-        $freeBusy = $this->fetch->freeBusy($service, $token, new \DateTime(), (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')), $calendars);
-        dump($freeBusy);
+//        $freeBusy = $this->fetch->freeBusy($service, $token, new \DateTime(), (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')), $calendars);
+//        dump($freeBusy);
+
+        $events = $this->fetch->events(
+            $service,
+            $token,
+            new \DateTime(),
+            (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')),
+            $calendars[0]->getCalendarId()
+        );
+
+        dump($events);
 
         dump((new GenerateToken)());
     }

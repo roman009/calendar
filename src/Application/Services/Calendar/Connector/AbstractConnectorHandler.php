@@ -25,7 +25,7 @@ abstract class AbstractConnectorHandler extends AbstractHandler
 
     public function isRegistered(AccountUser $accountUser): bool
     {
-        return null !== $this->authTokenRepository->findOneBy(['user' => $accountUser]);
+        return null !== $this->authTokenRepository->findOneBy(['accountUser' => $accountUser]);
     }
 
     public function getToken(AccountUser $accountUser): AuthToken
