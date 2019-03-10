@@ -17,13 +17,13 @@ class User
      */
     private $email;
     /**
-     * @ORM\OneToOne(targetEntity="GoogleAuthToken", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="GoogleAuthToken", mappedBy="user")
      */
-    private $googleToken;
+    private $googleTokens;
     /**
-     * @ORM\OneToOne(targetEntity="OutlookAuthToken", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="OutlookAuthToken", mappedBy="user")
      */
-    private $outlookToken;
+    private $outlookTokens;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\GoogleCalendar", mappedBy="user")
      */
@@ -53,14 +53,21 @@ class User
     /**
      * @return mixed
      */
-    public function getGoogleToken()
+    public function getGoogleTokens()
     {
-        return $this->googleToken;
+        return $this->googleTokens;
     }
 
-    public function setGoogleToken(GoogleAuthToken $googleToken): self
+    public function setGoogleTokens(array $googleTokens): self
     {
-        $this->googleToken = $googleToken;
+        $this->googleTokens = $googleTokens;
+
+        return $this;
+    }
+
+    public function addGoogleToken(GoogleAuthToken $googleTokens): self
+    {
+        $this->googleTokens[] = $googleTokens;
 
         return $this;
     }
@@ -79,6 +86,31 @@ class User
     public function setGoogleCalendars($googleCalendars): self
     {
         $this->googleCalendars = $googleCalendars;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOutlookTokens()
+    {
+        return $this->outlookTokens;
+    }
+
+    /**
+     * @param mixed $outlookTokens
+     */
+    public function setOutlookTokens(array $outlookTokens): self
+    {
+        $this->outlookTokens = $outlookTokens;
+
+        return $this;
+    }
+
+    public function addOutlookToken(OutlookAuthToken $googleTokens): self
+    {
+        $this->googleTokens[] = $googleTokens;
 
         return $this;
     }

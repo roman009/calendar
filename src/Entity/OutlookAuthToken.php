@@ -12,7 +12,7 @@ class OutlookAuthToken extends AuthToken
 {
     /**
      * @var User
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="outlookToken")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="outlookTokens")
      * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
      */
     protected $user;

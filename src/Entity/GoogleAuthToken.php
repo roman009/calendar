@@ -12,7 +12,7 @@ class GoogleAuthToken extends AuthToken
 {
     /**
      * @var User
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="googleToken")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="googleTokens")
      * @ORM\JoinColumn(fieldName="user_id", nullable=false, referencedColumnName="id")
      */
     protected $user;

@@ -32,6 +32,11 @@ abstract class AuthToken
      */
     protected $json;
 
+    /**
+     * @var User
+     */
+    protected $user;
+
     public function getId(): ?int
     {
         return $this->id;
