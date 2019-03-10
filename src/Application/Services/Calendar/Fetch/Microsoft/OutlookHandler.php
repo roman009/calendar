@@ -37,7 +37,7 @@ class OutlookHandler extends AbstractFetchHandler
      *
      * @return array<Calendar>
      */
-    protected function fetchCalendars(AuthToken $token): array
+    public function calendars(AuthToken $token): array
     {
         $this->client->setAccessToken($token->getAccessToken());
 
@@ -116,5 +116,10 @@ class OutlookHandler extends AbstractFetchHandler
         }
 
         return $freeBusyList;
+    }
+
+    public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
+    {
+        throw new \Exception('@TODO');
     }
 }
