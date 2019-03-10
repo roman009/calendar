@@ -3,7 +3,7 @@
 namespace App\Application\Services\Calendar\Fetch\Microsoft;
 
 use App\Application\Services\Calendar\Fetch\AbstractFetchHandler;
-use App\Application\Services\Calendar\Fetch\Microsoft\CustomModel\Calendar as CustomCalendar;
+use App\Application\Services\Calendar\Fetch\Microsoft\Model\GraphCalendar;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\FreeBusy;
@@ -18,11 +18,11 @@ class OutlookHandler extends AbstractFetchHandler
     /**
      * @var Graph
      */
-    private $graph;
+    private $client;
 
-    public function __construct(Graph $graph)
+    public function __construct(Graph $client)
     {
-        $this->graph = $graph;
+        $this->client = $client;
     }
 
     public static function alias(): string
@@ -39,12 +39,12 @@ class OutlookHandler extends AbstractFetchHandler
      */
     protected function fetchCalendars(AuthToken $token): array
     {
-        $this->graph->setAccessToken($token->getAccessToken());
+        $this->client->setAccessToken($token->getAccessToken());
 
         $calendars = [];
 
         try {
-            $calendarsResponse = $this->graph->createRequest('GET', '/me/calendars')
+            $calendarsResponse = $this->client->createRequest('GET', '/me/calendars')
                 ->setReturnType(\Microsoft\Graph\Model\Calendar::class)
                 ->execute();
         } catch (RequestException $exception) {
@@ -53,9 +53,7 @@ class OutlookHandler extends AbstractFetchHandler
 
         /** @var \Microsoft\Graph\Model\Calendar $calendar */
         foreach ($calendarsResponse as $calendar) {
-            dump($calendar);
-            $outlookCalendar = new OutlookCalendar;
-            $outlookCalendar
+            $outlookCalendar = (new OutlookCalendar)
                 ->setOwnerEmailAddress($calendar->getOwner()->getAddress())
 //                ->setDescription()
                 ->setSummary($calendar->getName())
@@ -76,11 +74,12 @@ class OutlookHandler extends AbstractFetchHandler
      * @param string|null $timezone
      *
      * @return array<FreeBusy>
+     * @throws \Exception
      */
     public function freeBusy(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {
-        $this->graph->setAccessToken($token->getAccessToken());
-        $this->graph->setApiVersion('beta');
+        $this->client->setAccessToken($token->getAccessToken());
+        $this->client->setApiVersion('beta');
 
         $freeBusyList = [];
 
@@ -99,16 +98,12 @@ class OutlookHandler extends AbstractFetchHandler
             'availabilityViewInterval' => '15'
         ];
 
-        try {
-            $freeBusyResponse = $this->graph->createRequest('POST', '/me/calendar/getschedule')
-                ->attachBody($requestBody)
-                ->setReturnType(CustomCalendar::class)
-                ->execute();
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $freeBusyResponse = $this->client->createRequest('POST', '/me/calendar/getschedule')
+            ->attachBody($requestBody)
+            ->setReturnType(GraphCalendar::class)
+            ->execute();
 
-        /** @var CustomCalendar $calendar */
+        /** @var GraphCalendar $calendar */
         foreach ($freeBusyResponse as $calendar) {
             foreach ($calendar->getScheduleItems() as $busyTimePeriod) {
                 $freeBusy = (new OutlookFreeBusy)

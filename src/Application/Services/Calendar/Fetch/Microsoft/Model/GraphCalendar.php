@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Application\Services\Calendar\Fetch\Microsoft\CustomModel;
+namespace App\Application\Services\Calendar\Fetch\Microsoft\Model;
 
-use Microsoft\Graph\Model\Calendar as GraphCalendar;
+use Microsoft\Graph\Model\Calendar;
 
-class Calendar extends GraphCalendar
+class GraphCalendar extends Calendar
 {
     /**
      * Gets the schedule items
@@ -15,17 +15,17 @@ class Calendar extends GraphCalendar
     {
         if (array_key_exists('scheduleItems', $this->_propDict)) {
             return $this->_propDict['scheduleItems'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     public function getScheduleId()
     {
         if (array_key_exists('scheduleId', $this->_propDict)) {
             return $this->_propDict['scheduleId'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 }

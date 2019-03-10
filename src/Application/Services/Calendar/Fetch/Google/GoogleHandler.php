@@ -47,8 +47,7 @@ class GoogleHandler extends AbstractFetchHandler
 
         /** @var Google_Service_Calendar_CalendarListEntry $calendar */
         foreach ($service->calendarList->listCalendarList() as $calendar) {
-            $googleCalendar = new GoogleCalendar;
-            $googleCalendar
+            $googleCalendar = (new GoogleCalendar)
                 ->setDescription($calendar->getDescription())
                 ->setSummary($calendar->getSummaryOverride() ?? $calendar->getSummary())
                 ->setTimezone($calendar->getTimeZone())
