@@ -19,3 +19,5 @@
 
 /.idea/
 /.php_cs.cache
+
+/data/db

@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+    php-fpm:
+        build: ./env/php-fpm/
+        restart: always
+        networks: 
+            - calendar-net
+        depends_on:
+            - db
+        volumes:
+            - .:/var/www/
+        
+    nginx:
+        build: ./env/nginx/
+        restart: always
+        networks: 
+            - calendar-net
+            - default
+        ports:
+            - "80"
+        environment:
+          - NGINX_HOST=calendar.lan
+          - NGINX_PORT=80
+        depends_on:
+            - db
+            - php-fpm
+
+
+    db:
+        image: mariadb
+        command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+        restart: always
+        volumes:
+            - ./data/db:/var/lib/mysql
+            - ./env/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./env/nginx/sites/:/etc/nginx/sites-available
+            - ./env/nginx/conf.d/:/etc/nginx/conf.d
+        networks: 
+            - calendar-net
+        environment:
+            MYSQL_ROOT_PASSWORD: db_root_password 
+            MYSQL_PASSWORD: db_password
+            MYSQL_DATABASE: calendar
+            MYSQL_USER: calendar
+
+networks:
+    calendar-net:
