@@ -2,11 +2,11 @@
 
 namespace App\Application\Services\Calendar\Connector\Apple;
 
-use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
+use App\Application\Services\Calendar\Connector\AbstractConnectorAdapter;
 use App\Repository\AppleAuthTokenRepository;
 use App\Repository\AuthTokenRepository;
 
-class AppleHandler /* extends AbstractConnectorHandler*/
+class AppleAdapter /* extends AbstractConnectorHandler*/
 {
     public const ALIAS = 'apple';
 

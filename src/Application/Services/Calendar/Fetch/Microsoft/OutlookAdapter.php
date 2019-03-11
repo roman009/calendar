@@ -2,7 +2,7 @@
 
 namespace App\Application\Services\Calendar\Fetch\Microsoft;
 
-use App\Application\Services\Calendar\Fetch\AbstractFetchHandler;
+use App\Application\Services\Calendar\Fetch\AbstractFetchAdapter;
 use App\Application\Services\Calendar\Fetch\Microsoft\Model\GraphCalendar;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
@@ -13,7 +13,7 @@ use App\Repository\OutlookCalendarRepository;
 use GuzzleHttp\Exception\RequestException;
 use Microsoft\Graph\Graph;
 
-class OutlookHandler extends AbstractFetchHandler
+class OutlookAdapter extends AbstractFetchAdapter
 {
     public const ALIAS = 'outlook';
     /**

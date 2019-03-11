@@ -2,7 +2,7 @@
 
 namespace App\Application\Services\Calendar\Fetch\Google;
 
-use App\Application\Services\Calendar\Fetch\AbstractFetchHandler;
+use App\Application\Services\Calendar\Fetch\AbstractFetchAdapter;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\Event;
@@ -19,7 +19,7 @@ use Google_Service_Calendar_FreeBusyRequest;
 use Google_Service_Calendar_FreeBusyRequestItem;
 use Google_Service_Calendar_TimePeriod;
 
-class GoogleHandler extends AbstractFetchHandler
+class GoogleAdapter extends AbstractFetchAdapter
 {
     public const ALIAS = 'google';
     /**

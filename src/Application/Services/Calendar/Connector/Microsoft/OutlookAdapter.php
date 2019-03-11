@@ -8,7 +8,7 @@ use App\Entity\OutlookAuthToken;
 use App\Repository\OutlookAuthTokenRepository;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
-class OutlookHandler extends MicrosoftHandler
+class OutlookAdapter extends MicrosoftAdapter
 {
     public const ALIAS = 'outlook';
 

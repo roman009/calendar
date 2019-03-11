@@ -8,7 +8,7 @@ use App\Entity\Office365AuthToken;
 use App\Repository\Office365AuthTokenRepository;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
-class Office365Handler extends MicrosoftHandler
+class Office365Adapter extends MicrosoftAdapter
 {
     public const ALIAS = 'office365';
 

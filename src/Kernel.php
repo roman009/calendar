@@ -2,10 +2,10 @@
 
 namespace App;
 
-use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
-use App\Application\Services\Calendar\Fetch\AbstractFetchHandler;
-use App\DependencyInjection\Compiler\CalendarConnectorHandlerPass;
-use App\DependencyInjection\Compiler\CalendarFetchHandlerPass;
+use App\Application\Services\Calendar\Connector\AbstractConnectorAdapter;
+use App\Application\Services\Calendar\Fetch\AbstractFetchAdapter;
+use App\DependencyInjection\Compiler\CalendarConnectorAdapterPass;
+use App\DependencyInjection\Compiler\CalendarFetchAdapterPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -31,11 +31,11 @@ class Kernel extends BaseKernel
 
     protected function build(ContainerBuilder $container)
     {
-        $container->registerForAutoconfiguration(AbstractConnectorHandler::class)->addTag(Constants::TAG_CONNECTOR_HANDLER);
-        $container->registerForAutoconfiguration(AbstractFetchHandler::class)->addTag(Constants::TAG_FETCH_HANDLER);
+        $container->registerForAutoconfiguration(AbstractConnectorAdapter::class)->addTag(Constants::TAG_CONNECTOR_ADAPTER);
+        $container->registerForAutoconfiguration(AbstractFetchAdapter::class)->addTag(Constants::TAG_FETCH_ADAPTER);
 
-        $container->addCompilerPass(new CalendarConnectorHandlerPass);
-        $container->addCompilerPass(new CalendarFetchHandlerPass);
+        $container->addCompilerPass(new CalendarConnectorAdapterPass);
+        $container->addCompilerPass(new CalendarFetchAdapterPass);
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void

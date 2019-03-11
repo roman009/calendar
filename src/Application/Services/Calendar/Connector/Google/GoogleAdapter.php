@@ -2,7 +2,7 @@
 
 namespace App\Application\Services\Calendar\Connector\Google;
 
-use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
+use App\Application\Services\Calendar\Connector\AbstractConnectorAdapter;
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\GoogleAuthToken;
@@ -14,7 +14,7 @@ use League\OAuth2\Client\Token\AccessTokenInterface;
 /**
  * Class Google
  */
-class GoogleHandler extends AbstractConnectorHandler
+class GoogleAdapter extends AbstractConnectorAdapter
 {
     public const ALIAS = 'google';
     /**

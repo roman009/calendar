@@ -5,9 +5,10 @@ namespace App\Application\Services\Calendar\Fetch;
 use App\Application\Services\Calendar\AbstractHandler;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
+use App\Entity\Event;
 use App\Entity\FreeBusy;
 
-abstract class AbstractFetchHandler extends AbstractHandler
+abstract class AbstractFetchAdapter extends AbstractHandler
 {
     /**
      * @param AuthToken $token

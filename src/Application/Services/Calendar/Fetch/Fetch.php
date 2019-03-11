@@ -9,11 +9,11 @@ use App\Entity\FreeBusy;
 class Fetch
 {
     /**
-     * @var FetchRegistry
+     * @var FetchAdapterRegistry
      */
     private $fetchRegistry;
 
-    public function __construct(FetchRegistry $fetchRegistry)
+    public function __construct(FetchAdapterRegistry $fetchRegistry)
     {
         $this->fetchRegistry = $fetchRegistry;
     }
@@ -28,7 +28,7 @@ class Fetch
      */
     public function calendars(string $service, AuthToken $token): array
     {
-        $handler = $this->fetchRegistry->getFetchHandler($service);
+        $handler = $this->fetchRegistry->getFetchAdapter($service);
 
         return $handler->calendars($token);
     }
@@ -47,7 +47,7 @@ class Fetch
      */
     public function freeBusy(string $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {
-        $handler = $this->fetchRegistry->getFetchHandler($service);
+        $handler = $this->fetchRegistry->getFetchAdapter($service);
 
         return $handler->freeBusy($token, $startDate, $endDate, $calendars, $timezone);
     }
@@ -61,7 +61,7 @@ class Fetch
      */
     public function events(string $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
-        $handler = $this->fetchRegistry->getFetchHandler($service);
+        $handler = $this->fetchRegistry->getFetchAdapter($service);
 
         return $handler->events($token, $startDate, $endDate, $calendarId, $timezone);
     }

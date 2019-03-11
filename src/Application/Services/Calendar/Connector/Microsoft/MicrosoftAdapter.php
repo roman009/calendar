@@ -2,15 +2,15 @@
 
 namespace App\Application\Services\Calendar\Connector\Microsoft;
 
-use App\Application\Services\Calendar\Connector\AbstractConnectorHandler;
+use App\Application\Services\Calendar\Connector\AbstractConnectorAdapter;
 use App\Entity\AccountUser;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use Stevenmaguire\OAuth2\Client\Provider\Microsoft;
 
 /**
- * Class MicrosoftConnector
+ * Class MicrosoftAdapter
  */
-abstract class MicrosoftHandler extends AbstractConnectorHandler
+abstract class MicrosoftAdapter extends AbstractConnectorAdapter
 {
     /**
      * @var Microsoft
