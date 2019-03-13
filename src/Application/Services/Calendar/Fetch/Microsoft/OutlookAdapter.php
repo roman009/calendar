@@ -145,6 +145,6 @@ class OutlookAdapter extends AbstractFetchAdapter
      */
     public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
-        // TODO: Implement events() method.
+        $calendar = $this->outlookCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'objectId' => $calendarId]);
     }
 }

@@ -24,7 +24,7 @@ class CalendarController extends AbstractApiController
 {
 
     /**
-     * @Route("/calendar", methods={"GET"}, name="api-calendar")
+     * @Route("/calendar", methods={"GET"}, name="api-calendar-list")
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of connected calendars",
@@ -130,7 +130,6 @@ class CalendarController extends AbstractApiController
         try {
             $response = $fetch->events($service, $token, $startDate, $endDate, $calendarId, $timezone);
         } catch (\Exception $e) {
-            dump($e); die();
             throw new ApiException($e->getMessage());
         }
 

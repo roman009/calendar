@@ -20,10 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
  */
-class FreeBusyController extends AbstractApiController
+class EventsController extends AbstractApiController
 {
     /**
-     * @Route("/free-busy", methods={"GET"}, name="api-freebusy")
+     * @Route("/free-busy", methods={"GET"}, name="api-events-freebusy")
      * @SWG\Response(
      *     response=200,
      *     description="Returns the free/busy information from the calendars",
@@ -56,7 +56,7 @@ class FreeBusyController extends AbstractApiController
      *     type="string",
      *     description="Timezone of the request"
      * )
-     * @SWG\Tag(name="free-busy")
+     * @SWG\Tag(name="event")
      * @Security(name="Bearer")
      * @Areas({"internal","default"})
      *
@@ -88,5 +88,65 @@ class FreeBusyController extends AbstractApiController
 
         $defaultApiContext = ['groups' => 'default_api_response_group'];
         return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
+    }
+
+    /**
+     * https://docs.cronofy.com/developers/api/events/read-events/
+     *
+     * @Route("/event", methods={"GET"}, name="api-event-list")
+     * @SWG\Tag(name="event")
+     * @Security(name="Bearer")
+     * @Areas({"internal","default"})
+     *
+     * @return JsonResponse
+     */
+    public function list(Request $request): JsonResponse
+    {
+
+    }
+
+    /**
+     * https://docs.cronofy.com/developers/api/events/read-events/
+     *
+     * @Route("/event", methods={"POST"}, name="api-event-create")
+     * @SWG\Tag(name="event")
+     * @Security(name="Bearer")
+     * @Areas({"internal","default"})
+     *
+     * @return JsonResponse
+     */
+    public function create(Request $request): JsonResponse
+    {
+
+    }
+
+    /**
+     * https://docs.cronofy.com/developers/api/events/read-events/
+     *
+     * @Route("/event/{objectId}", methods={"PATCH"}, name="api-event-update")
+     * @SWG\Tag(name="event")
+     * @Security(name="Bearer")
+     * @Areas({"internal","default"})
+     *
+     * @return JsonResponse
+     */
+    public function update(Request $request): JsonResponse
+    {
+
+    }
+
+    /**
+     * https://docs.cronofy.com/developers/api/events/read-events/
+     *
+     * @Route("/event/{objectId}", methods={"DELETE"}, name="api-event-delete")
+     * @SWG\Tag(name="event")
+     * @Security(name="Bearer")
+     * @Areas({"internal","default"})
+     *
+     * @return JsonResponse
+     */
+    public function delete(Request $request): JsonResponse
+    {
+
     }
 }
