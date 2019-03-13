@@ -2,11 +2,10 @@
 
 namespace App\Entity\OAuth;
 
-use App\Entity\BaseEntityTrait;
-use Doctrine\ORM\Mapping as ORM;
 use App\Entity\AccountUser;
 use App\Entity\BaseAccountUserEntityTrait;
-use League\OAuth2\Server\AuthorizationServer;
+use App\Entity\BaseEntityTrait;
+use Doctrine\ORM\Mapping as ORM;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\Traits\AccessTokenTrait;
 use League\OAuth2\Server\Entities\Traits\EntityTrait;
@@ -28,5 +27,4 @@ class ApiAccessTokenEntity implements AccessTokenEntityInterface
      * @ORM\JoinColumn(fieldName="account_user_id", nullable=false, referencedColumnName="id")
      */
     protected $accountUser;
-
 }

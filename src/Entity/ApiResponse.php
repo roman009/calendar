@@ -81,6 +81,7 @@ class ApiResponse
 
     /**
      * @param array $error
+     *
      * @return ApiResponse
      */
     public function addError(array $error): self
@@ -92,6 +93,7 @@ class ApiResponse
 
     /**
      * @param array $errors
+     *
      * @return ApiResponse
      */
     public function setErrors(array $errors): self
