@@ -8,7 +8,7 @@ trait OutlookProviderTrait
 {
     /**
      * @var string
-     * @Groups({"default_api_response_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     protected $provider = 'outlook';
 

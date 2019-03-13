@@ -17,7 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+/**
+ * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
+ */
 class HealthController extends AbstractApiController
 {
     /**
@@ -29,7 +31,7 @@ class HealthController extends AbstractApiController
      *         type="string"
      *     )
      * )
-     * @SWG\Tag(name="default")
+     * @SWG\Tag(name="health")
      * @Security(name="Bearer")
      * @Areas({"internal","default"})
      */

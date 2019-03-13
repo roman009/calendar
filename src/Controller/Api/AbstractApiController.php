@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Fetch\Fetch;
+use App\Entity\AccountUser;
 use App\Entity\ApiResponse;
 use App\Entity\User;
 use App\Exception\Api\ApiException;
@@ -17,17 +18,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 /**
  * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
  */
 abstract class AbstractApiController extends AbstractController
 {
-    protected function authenticate(Request $request): User
+    protected function authenticate(Request $request): AccountUser
     {
         $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);
 
-        return $user;
+        $accountUserRepository = $this->getDoctrine()->getRepository(AccountUser::class);
+        $accountUser = $accountUserRepository->findOneBy(['user' => $user]);
+
+        return $accountUser;
     }
 }

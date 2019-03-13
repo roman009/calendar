@@ -5,7 +5,7 @@ namespace App\Controller\Api;
 use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Fetch\Fetch;
 use App\Entity\ApiResponse;
-use App\Entity\User;
+use App\Entity\Calendar;
 use App\Exception\Api\ApiException;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
+ */
 class CalendarController extends AbstractApiController
 {
 
@@ -48,13 +51,13 @@ class CalendarController extends AbstractApiController
      *
      * @return JsonResponse
      */
-    public function calendar(Request $request, Connector $connector, Fetch $fetch): JsonResponse
+    public function list(Request $request, Connector $connector, Fetch $fetch): JsonResponse
     {
-        $user = $this->authenticate($request);
+        $accountUser = $this->authenticate($request);
 
         $service = $request->get('service');
 
-        $token = $connector->getToken($user, $service);
+        $token = $connector->getToken($accountUser, $service);
 
         try {
             $response = $fetch->calendars($service, $token);
@@ -67,7 +70,7 @@ class CalendarController extends AbstractApiController
     }
 
     /**
-     * @Route("/calendar/{id}/events", methods={"GET"}, name="api-calendar-events")
+     * @Route("/calendar/{objectId}/events", methods={"GET"}, name="api-calendar-events")
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of events in specific calendar",
@@ -95,7 +98,7 @@ class CalendarController extends AbstractApiController
      *     description="Service to query: google, outlook, office365, apple"
      * )
      * @SWG\Parameter(
-     *     name="id",
+     *     name="objectId",
      *     in="query",
      *     type="string",
      *     description="Calendar ID"
@@ -114,23 +117,61 @@ class CalendarController extends AbstractApiController
      */
     public function calendarEvents(Request $request, Connector $connector, Fetch $fetch): JsonResponse
     {
-        $user = $this->authenticate($request);
+        $accountUser = $this->authenticate($request);
 
         $service = $request->get('service');
-        $calendarId = $request->get('id');
+        $calendarId = $request->get('objectId');
         $startDate = new \DateTime($request->get('start_date'));
         $endDate = new \DateTime($request->get('end_date'));
         $timezone = $request->get('timezone');
 
-        $token = $connector->getToken($user, $service);
+        $token = $connector->getToken($accountUser, $service);
 
         try {
             $response = $fetch->events($service, $token, $startDate, $endDate, $calendarId, $timezone);
         } catch (\Exception $e) {
+            dump($e); die();
             throw new ApiException($e->getMessage());
         }
 
         $defaultApiContext = ['groups' => 'default_api_response_group'];
         return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
+    }
+
+    /**
+     * @Route("/calendar", methods={"POST"}, name="api-calendar-create")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Create a new calendar in the selected service",
+     *     @SWG\Schema(ref=@Model(type=App\Entity\Calendar::class, groups={"default_api_response_group"}))
+     * )
+     * @SWG\Parameter(
+     *     name="service",
+     *     in="query",
+     *     type="string",
+     *     description="Service to query: google, outlook, office365, apple"
+     * )
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="body",
+     *     type="string",
+     *     schema=@SWG\Schema(ref=@Model(type=App\Entity\Calendar::class, groups={"default_api_write_group"})),
+     *     description="Calendar name"
+     * )
+     * @SWG\Tag(name="calendar")
+     * @Security(name="Bearer")
+     * @Areas({"internal","default"})
+     *
+     * @param Request $request
+     * @param Connector $connector
+     * @param Fetch $fetch
+     *
+     * @throws \Exception
+     *
+     * @return JsonResponse
+     */
+    public function create(Request $request, Connector $connector, Fetch $fetch): JsonResponse
+    {
+
     }
 }

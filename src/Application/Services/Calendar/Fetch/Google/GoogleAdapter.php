@@ -142,6 +142,8 @@ class GoogleAdapter extends AbstractFetchAdapter
      */
     public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
+        $calendar = $this->googleCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'objectId' => $calendarId]);
+
         $this->client->setAccessToken($token->getAccessToken());
 
         $service = new Google_Service_Calendar($this->client);
@@ -153,7 +155,7 @@ class GoogleAdapter extends AbstractFetchAdapter
             'timeMin' => $startDate->format(DATE_ATOM),
             'timeMax' => $endDate->format(DATE_ATOM),
         ];
-        $response = $service->events->listEvents($calendarId, $optParams);
+        $response = $service->events->listEvents($calendar->getCalendarId(), $optParams);
 
         /** @var Google_Service_Calendar_Event $item */
         foreach ($response->getItems() as $item) {

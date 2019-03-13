@@ -8,7 +8,7 @@ trait GoogleProviderTrait
 {
     /**
      * @var string
-     * @Groups({"default_api_response_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     protected $provider = 'google';
 
@@ -22,6 +22,7 @@ trait GoogleProviderTrait
 
     /**
      * @param mixed $provider
+     * @return self
      */
     public function setProvider($provider): self
     {

@@ -22,12 +22,10 @@ trait BaseEntityTrait
     /**
      * @var string
      *
-     * @ORM\Column(name="public_id", nullable=false, type="string", length=32, unique=true)
+     * @ORM\Column(name="object_id", nullable=false, type="string", length=32, unique=true)
      * @Groups({"default_api_response_group"})
-     * @SerializedName("id")
-     * @SWG\Property(title="id")
      */
-    protected $publicId;
+    protected $objectId;
 
     /**
      * @var \DateTime
@@ -72,7 +70,7 @@ trait BaseEntityTrait
     {
         $this->created = new \DateTime;
         $this->updated = new \DateTime;
-        $this->publicId = (new GenerateToken)();
+        $this->objectId = (new GenerateToken)();
     }
 
     /**
@@ -117,19 +115,19 @@ trait BaseEntityTrait
     /**
      * @return string
      */
-    public function getPublicId(): ?string
+    public function getObjectId(): ?string
     {
-        return $this->publicId;
+        return $this->objectId;
     }
 
     /**
-     * @param string $publicId
+     * @param string $objectId
      *
      * @return Calendar
      */
-    public function setPublicId(string $publicId): self
+    public function setObjectId(string $objectId): self
     {
-        $this->publicId = $publicId;
+        $this->objectId = $objectId;
 
         return $this;
     }

@@ -32,7 +32,7 @@ abstract class Calendar
     /**
      * @var string
      * @ORM\Column(name="summary", nullable=true, type="text")
-     * @Groups({"default_api_response_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     protected $summary;
 
