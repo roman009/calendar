@@ -27,6 +27,7 @@ class ApiResponse
     public function __construct()
     {
         $this->meta = [];
+        $this->data = [];
         $this->errors = [];
     }
 
@@ -79,7 +80,19 @@ class ApiResponse
     }
 
     /**
+     * @param array $error
+     * @return ApiResponse
+     */
+    public function addError(array $error): self
+    {
+        $this->errors[] = $error;
+
+        return $this;
+    }
+
+    /**
      * @param array $errors
+     * @return ApiResponse
      */
     public function setErrors(array $errors): self
     {

@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Fetch\Fetch;
+use App\Entity\AccountUser;
 use App\Entity\ApiResponse;
 use App\Entity\Calendar;
 use App\Entity\Service;
@@ -175,13 +176,13 @@ class CalendarController extends AbstractApiController
      * @param Connector $connector
      * @param Fetch $fetch
      * @param $serviceName
-     * @param \App\Entity\AccountUser $accountUser
+     * @param AccountUser $accountUser
      *
      * @throws ApiException
      *
      * @return JsonResponse
      */
-    private function listOneService(Connector $connector, Fetch $fetch, $serviceName, \App\Entity\AccountUser $accountUser): JsonResponse
+    private function listOneService(Connector $connector, Fetch $fetch, $serviceName, AccountUser $accountUser): JsonResponse
     {
         try {
             $service = Service::get($serviceName);
@@ -204,13 +205,13 @@ class CalendarController extends AbstractApiController
     /**
      * @param Connector $connector
      * @param Fetch $fetch
-     * @param \App\Entity\AccountUser $accountUser
+     * @param AccountUser $accountUser
      *
      * @throws ApiException
      *
      * @return JsonResponse
      */
-    private function listAllServices(Connector $connector, Fetch $fetch, \App\Entity\AccountUser $accountUser): JsonResponse
+    private function listAllServices(Connector $connector, Fetch $fetch, AccountUser $accountUser): JsonResponse
     {
         $response = [];
 
