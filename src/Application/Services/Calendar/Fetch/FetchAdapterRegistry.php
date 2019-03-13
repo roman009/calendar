@@ -11,9 +11,9 @@ class FetchAdapterRegistry
         $this->fetchAdapter = [];
     }
 
-    public function addFetchAdapter(AbstractFetchAdapter $connector, string $alias)
+    public function addFetchAdapter(AbstractFetchAdapter $adapter, string $alias)
     {
-        $this->fetchAdapter[$alias] = $connector;
+        $this->fetchAdapter[$alias] = $adapter;
     }
 
     public function getFetchAdapter(string $alias): AbstractFetchAdapter

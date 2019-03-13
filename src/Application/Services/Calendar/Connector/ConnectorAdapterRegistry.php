@@ -11,9 +11,9 @@ class ConnectorAdapterRegistry
         $this->connectorAdapters = [];
     }
 
-    public function addConnectorAdapter(AbstractConnectorAdapter $connector, string $alias)
+    public function addConnectorAdapter(AbstractConnectorAdapter $adapter, string $alias)
     {
-        $this->connectorAdapters[$alias] = $connector;
+        $this->connectorAdapters[$alias] = $adapter;
     }
 
     public function getConnectorAdapter(string $alias): AbstractConnectorAdapter

@@ -4,6 +4,7 @@ namespace App\Application\Services\Calendar\Fetch;
 
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
+use App\Entity\Event;
 use App\Entity\FreeBusy;
 
 class Fetch
