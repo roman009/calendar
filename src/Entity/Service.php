@@ -55,18 +55,26 @@ class Service
         return $this;
     }
 
+    /**
+     * @return array<Service>
+     */
     public static function all(): array
     {
         $services = [];
 
         $services['google'] = (new Service('google'))->setName('Google');
         $services['outlook'] = (new Service('outlook'))->setName('Outlook');
-        $services['office365'] = (new Service('office365'))->setName('Office365');
-        $services['exchange'] = (new Service('exchange'))->setName('Exchange');
+//        $services['office365'] = (new Service('office365'))->setName('Office365');
+//        $services['exchange'] = (new Service('exchange'))->setName('Exchange');
 
         return $services;
     }
 
+    /**
+     * @param string $code
+     * @return Service
+     * @throws \Exception
+     */
     public static function get(string $code): Service
     {
         $all = self::all();

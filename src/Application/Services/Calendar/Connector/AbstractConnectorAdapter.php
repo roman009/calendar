@@ -27,10 +27,14 @@ abstract class AbstractConnectorAdapter extends AbstractHandler
         return null !== $this->authTokenRepository->findOneBy(['accountUser' => $accountUser]);
     }
 
-    public function getToken(AccountUser $accountUser): AuthToken
+    public function getToken(AccountUser $accountUser): ?AuthToken
     {
         /** @var AuthToken $token */
         $token = $this->authTokenRepository->findOneBy(['accountUser' => $accountUser]);
+
+        if (null === $token) {
+            return null;
+        }
 
         if ($token->hasExpired()) {
             $token = $this->refreshAccessToken($token);

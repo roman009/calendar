@@ -54,18 +54,12 @@ class CalendarController extends AbstractApiController
     {
         $accountUser = $this->authenticate($request);
 
-        $service = Service::get($request->get('service'));
-
-        $token = $connector->getToken($accountUser, $service);
-
-        try {
-            $response = $fetch->calendars($service, $token);
-        } catch (\Exception $e) {
-            throw new ApiException($e->getMessage());
+        $serviceName = $request->get('service');
+        if (null === $serviceName) {
+            return $this->listAllServices($connector, $fetch, $accountUser);
         }
 
-        $defaultApiContext = ['groups' => 'default_api_response_group'];
-        return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
+        return $this->listOneService($connector, $fetch, $serviceName, $accountUser);
     }
 
     /**
@@ -118,7 +112,12 @@ class CalendarController extends AbstractApiController
     {
         $accountUser = $this->authenticate($request);
 
-        $service = $request->get('service');
+        try {
+            $service = Service::get($request->get('service'));
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
+
         $calendarId = $request->get('objectId');
         $startDate = new \DateTime($request->get('start_date'));
         $endDate = new \DateTime($request->get('end_date'));
@@ -170,5 +169,55 @@ class CalendarController extends AbstractApiController
      */
     public function create(Request $request, Connector $connector, Fetch $fetch): JsonResponse
     {
+    }
+
+    /**
+     * @param Connector $connector
+     * @param Fetch $fetch
+     * @param $serviceName
+     * @param \App\Entity\AccountUser $accountUser
+     * @return JsonResponse
+     * @throws ApiException
+     */
+    private function listOneService(Connector $connector, Fetch $fetch, $serviceName, \App\Entity\AccountUser $accountUser): JsonResponse
+    {
+        try {
+            $service = Service::get($serviceName);
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
+
+        $token = $connector->getToken($accountUser, $service);
+
+        try {
+            $response = $fetch->calendars($service, $token);
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
+
+        $defaultApiContext = ['groups' => 'default_api_response_group'];
+        return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
+    }
+
+    private function listAllServices(Connector $connector, Fetch $fetch, \App\Entity\AccountUser $accountUser): JsonResponse
+    {
+        $response = [];
+        
+        /** @var Service $service */
+        foreach (Service::all() as $service) {
+            $token = $connector->getToken($accountUser, $service);
+            if (null === $token) {
+                continue;
+            }
+
+            try {
+                array_push($response, ...$fetch->calendars($service, $token));
+            } catch (\Exception $e) {
+                throw new ApiException($e->getMessage());
+            }
+        }
+
+        $defaultApiContext = ['groups' => 'default_api_response_group'];
+        return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
     }
 }

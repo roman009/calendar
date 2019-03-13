@@ -47,7 +47,7 @@ class Fetch
      *
      * @return array<FreeBusy>
      */
-    public function freeBusy(string $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
+    public function freeBusy(Service $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {
         $handler = $this->fetchRegistry->getFetchAdapter($service);
 
@@ -66,7 +66,7 @@ class Fetch
      *
      * @return array<Event>
      */
-    public function events(string $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
+    public function events(Service $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
         $handler = $this->fetchRegistry->getFetchAdapter($service);
 

@@ -18,14 +18,14 @@ class Connector
         $this->connectorRegistry = $connectorRegistry;
     }
 
-    public function isRegistered(AccountUser $accountUser, string $service): bool
+    public function isRegistered(AccountUser $accountUser, Service $service): bool
     {
         $handler = $this->connectorRegistry->getConnectorAdapter($service);
 
         return $handler->isRegistered($accountUser);
     }
 
-    public function register(AccountUser $accountUser, string $service)
+    public function register(AccountUser $accountUser, Service $service)
     {
         $handler = $this->connectorRegistry->getConnectorAdapter($service);
 
@@ -38,7 +38,7 @@ class Connector
         $handler->persist($token, $accountUser);
     }
 
-    public function getToken(AccountUser $accountUser, Service $service): AuthToken
+    public function getToken(AccountUser $accountUser, Service $service): ?AuthToken
     {
         $handler = $this->connectorRegistry->getConnectorAdapter($service);
 
