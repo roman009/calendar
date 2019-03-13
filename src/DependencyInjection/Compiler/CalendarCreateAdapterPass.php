@@ -3,7 +3,6 @@
 namespace App\DependencyInjection\Compiler;
 
 use App\Application\Services\Calendar\Create\CreateAdapterRegistry;
-use App\Application\Services\Calendar\Fetch\FetchAdapterRegistry;
 use App\Constants;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

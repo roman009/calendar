@@ -176,8 +176,10 @@ class CalendarController extends AbstractApiController
      * @param Fetch $fetch
      * @param $serviceName
      * @param \App\Entity\AccountUser $accountUser
-     * @return JsonResponse
+     *
      * @throws ApiException
+     *
+     * @return JsonResponse
      */
     private function listOneService(Connector $connector, Fetch $fetch, $serviceName, \App\Entity\AccountUser $accountUser): JsonResponse
     {
@@ -199,10 +201,19 @@ class CalendarController extends AbstractApiController
         return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
     }
 
+    /**
+     * @param Connector $connector
+     * @param Fetch $fetch
+     * @param \App\Entity\AccountUser $accountUser
+     *
+     * @throws ApiException
+     *
+     * @return JsonResponse
+     */
     private function listAllServices(Connector $connector, Fetch $fetch, \App\Entity\AccountUser $accountUser): JsonResponse
     {
         $response = [];
-        
+
         /** @var Service $service */
         foreach (Service::all() as $service) {
             $token = $connector->getToken($accountUser, $service);

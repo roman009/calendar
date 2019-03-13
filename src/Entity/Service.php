@@ -72,8 +72,10 @@ class Service
 
     /**
      * @param string $code
-     * @return Service
+     *
      * @throws \Exception
+     *
+     * @return Service
      */
     public static function get(string $code): Service
     {
