@@ -11,7 +11,6 @@ use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +21,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CalendarController extends AbstractApiController
 {
-
     /**
      * @Route("/calendar", methods={"GET"}, name="api-calendar-list")
      * @SWG\Response(
@@ -171,6 +169,5 @@ class CalendarController extends AbstractApiController
      */
     public function create(Request $request, Connector $connector, Fetch $fetch): JsonResponse
     {
-
     }
 }

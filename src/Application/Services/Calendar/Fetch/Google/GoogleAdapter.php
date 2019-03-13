@@ -57,8 +57,15 @@ class GoogleAdapter extends AbstractFetchAdapter
         $service = new Google_Service_Calendar($this->client);
         $calendars = [];
 
+        try {
+            $googleCalendars = $service->calendarList->listCalendarList();
+        } catch (\Google_Exception $exception) {
+            $exception = json_decode($exception->getMessage(), true);
+            throw new \Exception($exception['error']['message']);
+        }
+
         /** @var Google_Service_Calendar_CalendarListEntry $calendar */
-        foreach ($service->calendarList->listCalendarList() as $calendar) {
+        foreach ($googleCalendars as $calendar) {
             $googleCalendar = $this->googleCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'calendarId' => $calendar->getId()]);
             if (null === $googleCalendar) {
                 $googleCalendar = new GoogleCalendar;
@@ -106,6 +113,7 @@ class GoogleAdapter extends AbstractFetchAdapter
         $postBody->setTimeZone($timezone);
         $postBody->setTimeMin($startDate->format(DATE_ATOM));
         $postBody->setTimeMax($endDate->format(DATE_ATOM));
+
         try {
             $freeBusyResponse = $service->freebusy->query($postBody);
         } catch (\Google_Exception $exception) {
@@ -155,7 +163,13 @@ class GoogleAdapter extends AbstractFetchAdapter
             'timeMin' => $startDate->format(DATE_ATOM),
             'timeMax' => $endDate->format(DATE_ATOM),
         ];
-        $response = $service->events->listEvents($calendar->getCalendarId(), $optParams);
+
+        try {
+            $response = $service->events->listEvents($calendar->getCalendarId(), $optParams);
+        } catch (\Google_Exception $exception) {
+            $exception = json_decode($exception->getMessage(), true);
+            throw new \Exception($exception['error']['message']);
+        }
 
         /** @var Google_Service_Calendar_Event $item */
         foreach ($response->getItems() as $item) {

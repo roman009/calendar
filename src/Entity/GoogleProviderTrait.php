@@ -22,6 +22,7 @@ trait GoogleProviderTrait
 
     /**
      * @param mixed $provider
+     *
      * @return self
      */
     public function setProvider($provider): self

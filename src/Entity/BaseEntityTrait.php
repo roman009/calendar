@@ -4,9 +4,7 @@ namespace App\Entity;
 
 use App\Application\Services\Security\GenerateToken;
 use Doctrine\ORM\Mapping as ORM;
-use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 
 trait BaseEntityTrait
 {

@@ -55,13 +55,14 @@ class Fetch
     /**
      * @param string $service
      * @param AuthToken $token
-     *
      * @param \DateTime $startDate
      * @param \DateTime $endDate
      * @param string $calendarId
      * @param string|null $timezone
-     * @return array<Event>
+     *
      * @throws \Exception
+     *
+     * @return array<Event>
      */
     public function events(string $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
