@@ -2,26 +2,28 @@
 
 namespace App\Application\Services\Calendar\Create;
 
+use App\Entity\Service;
+
 class CreateAdapterRegistry
 {
-    private $createAdapter;
+    private $createAdapters;
 
     public function __construct()
     {
-        $this->createAdapter = [];
+        $this->createAdapters = [];
     }
 
-    public function addFetchAdapter(AbstractCreateAdapter $adapter, string $alias)
+    public function addCreateAdapter(AbstractCreateAdapter $adapter, string $alias)
     {
-        $this->createAdapter[$alias] = $adapter;
+        $this->createAdapters[$alias] = $adapter;
     }
 
-    public function getCreateAdapter(string $alias): AbstractCreateAdapter
+    public function getCreateAdapter(Service $service): AbstractCreateAdapter
     {
-        if (array_key_exists($alias, $this->createAdapter)) {
-            return $this->createAdapter[$alias];
+        if (array_key_exists($service->getCode(), $this->createAdapters)) {
+            return $this->createAdapters[$service->getCode()];
         }
 
-        throw new \Exception('Undefined create adapter: ' . $alias);
+        throw new \Exception('Undefined create adapter: ' . $service->getCode());
     }
 }

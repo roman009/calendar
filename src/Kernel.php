@@ -3,8 +3,10 @@
 namespace App;
 
 use App\Application\Services\Calendar\Connector\AbstractConnectorAdapter;
+use App\Application\Services\Calendar\Create\AbstractCreateAdapter;
 use App\Application\Services\Calendar\Fetch\AbstractFetchAdapter;
 use App\DependencyInjection\Compiler\CalendarConnectorAdapterPass;
+use App\DependencyInjection\Compiler\CalendarCreateAdapterPass;
 use App\DependencyInjection\Compiler\CalendarFetchAdapterPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -33,9 +35,11 @@ class Kernel extends BaseKernel
     {
         $container->registerForAutoconfiguration(AbstractConnectorAdapter::class)->addTag(Constants::TAG_CONNECTOR_ADAPTER);
         $container->registerForAutoconfiguration(AbstractFetchAdapter::class)->addTag(Constants::TAG_FETCH_ADAPTER);
+        $container->registerForAutoconfiguration(AbstractCreateAdapter::class)->addTag(Constants::TAG_CREATE_ADAPTER);
 
         $container->addCompilerPass(new CalendarConnectorAdapterPass);
         $container->addCompilerPass(new CalendarFetchAdapterPass);
+        $container->addCompilerPass(new CalendarCreateAdapterPass);
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void

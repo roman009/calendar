@@ -2,6 +2,8 @@
 
 namespace App\Application\Services\Calendar\Connector;
 
+use App\Entity\Service;
+
 class ConnectorAdapterRegistry
 {
     private $connectorAdapters;
@@ -16,12 +18,12 @@ class ConnectorAdapterRegistry
         $this->connectorAdapters[$alias] = $adapter;
     }
 
-    public function getConnectorAdapter(string $alias): AbstractConnectorAdapter
+    public function getConnectorAdapter(Service $service): AbstractConnectorAdapter
     {
-        if (array_key_exists($alias, $this->connectorAdapters)) {
-            return $this->connectorAdapters[$alias];
+        if (array_key_exists($service->getCode(), $this->connectorAdapters)) {
+            return $this->connectorAdapters[$service->getCode()];
         }
 
-        throw new \Exception('Undefined connection adapter: ' . $alias);
+        throw new \Exception('Undefined connection adapter: ' . $service->getCode());
     }
 }

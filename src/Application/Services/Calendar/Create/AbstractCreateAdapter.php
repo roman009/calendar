@@ -12,6 +12,7 @@ abstract class AbstractCreateAdapter extends AbstractHandler
     /**
      * @param AuthToken $token
      * @param string $calendarName
+     *
      * @return Calendar
      */
     abstract public function createCalendar(AuthToken $token, string $calendarName): Calendar;
@@ -19,6 +20,7 @@ abstract class AbstractCreateAdapter extends AbstractHandler
     /**
      * @param AuthToken $token
      * @param string $eventName
+     *
      * @return Event
      */
     abstract public function createEvent(AuthToken $token, string $eventName): Event;

@@ -6,6 +6,7 @@ use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\Event;
 use App\Entity\FreeBusy;
+use App\Entity\Service;
 
 class Fetch
 {
@@ -27,7 +28,7 @@ class Fetch
      *
      * @return array<Calendar>
      */
-    public function calendars(string $service, AuthToken $token): array
+    public function calendars(Service $service, AuthToken $token): array
     {
         $handler = $this->fetchRegistry->getFetchAdapter($service);
 

@@ -6,4 +6,5 @@ class Constants
 {
     public const TAG_CONNECTOR_ADAPTER = 'app.calendar.connector_adapter_tag';
     public const TAG_FETCH_ADAPTER = 'app.calendar.fetch_adapter_tag';
+    public const TAG_CREATE_ADAPTER = 'app.calendar.create_adapter_tag';
 }

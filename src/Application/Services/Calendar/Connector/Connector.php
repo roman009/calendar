@@ -4,6 +4,7 @@ namespace App\Application\Services\Calendar\Connector;
 
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
+use App\Entity\Service;
 
 class Connector
 {
@@ -37,7 +38,7 @@ class Connector
         $handler->persist($token, $accountUser);
     }
 
-    public function getToken(AccountUser $accountUser, string $service): AuthToken
+    public function getToken(AccountUser $accountUser, Service $service): AuthToken
     {
         $handler = $this->connectorRegistry->getConnectorAdapter($service);
 

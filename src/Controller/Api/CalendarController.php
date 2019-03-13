@@ -6,6 +6,7 @@ use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Fetch\Fetch;
 use App\Entity\ApiResponse;
 use App\Entity\Calendar;
+use App\Entity\Service;
 use App\Exception\Api\ApiException;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -53,7 +54,7 @@ class CalendarController extends AbstractApiController
     {
         $accountUser = $this->authenticate($request);
 
-        $service = $request->get('service');
+        $service = Service::get($request->get('service'));
 
         $token = $connector->getToken($accountUser, $service);
 

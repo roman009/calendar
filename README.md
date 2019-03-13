@@ -28,3 +28,16 @@
 ## message bus
 - https://symfony.com/doc/current/components/messenger.html
 - rabbitmq
+
+
+
+# details
+
+- account
+    - account user
+        - user
+            - token - for authenticating to services (google, ms, etc)
+            - calendars
+            - events
+            - api_access_token - for authenticating on api.<domain>
+            - api_refresh_token - for authenticating on api.<domain>
