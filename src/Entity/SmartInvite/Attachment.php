@@ -48,4 +48,22 @@ class Attachment
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getIcalendar(): string
+    {
+        return $this->icalendar;
+    }
+
+    /**
+     * @param string $icalendar
+     */
+    public function setIcalendar(string $icalendar): self
+    {
+        $this->icalendar = $icalendar;
+
+        return $this;
+    }
 }

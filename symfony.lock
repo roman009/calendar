@@ -96,6 +96,9 @@
     "egulias/email-validator": {
         "version": "2.1.7"
     },
+    "eluceo/ical": {
+        "version": "0.15.0"
+    },
     "exsyst/swagger": {
         "version": "v0.4.1"
     },

@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-openssl": "*",
+        "eluceo/ical": "^0.15.0",
         "google/apiclient": "^2.2",
         "league/oauth2-client": "^2.4",
         "league/oauth2-google": "^3.0",
