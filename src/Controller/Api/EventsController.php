@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Application\Services\Calendar\Connector\Connector;
 use App\Application\Services\Calendar\Fetch\Fetch;
 use App\Entity\ApiResponse;
+use App\Entity\Service;
 use App\Exception\Api\ApiException;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -70,16 +71,17 @@ class EventsController extends AbstractApiController
     {
         $user = $this->authenticate($request);
 
-        $service = $request->get('service');
+        $service = Service::get($request->get('service'));
         $startDate = new \DateTime($request->get('start_date'));
         $endDate = new \DateTime($request->get('end_date'));
 
         $token = $connector->getToken($user, $service);
 
-        $calendars = $fetch->calendars($service, $token);
+//        $calendars = $fetch->calendars($service, $token);
 
         try {
-            $response = $fetch->freeBusy($service, $token, $startDate, $endDate, $calendars, $request->get('timezone'));
+//            $response = $fetch->freeBusy($service, $token, $startDate, $endDate, $calendars, $request->get('timezone'));
+            $response = $fetch->freeBusy($service, $token, $startDate, $endDate, [], $request->get('timezone'));
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage());
         }

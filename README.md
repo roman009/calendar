@@ -10,6 +10,7 @@
 - https://docs.microsoft.com/en-us/outlook/rest/php-tutorial#create-the-app
 - https://docs.microsoft.com/en-us/previous-versions/office/office-365-api/api/version-2.0/notify-rest-operations
 - https://github.com/jamesiarmes/php-ews
+- https://support.microsoft.com/en-us/help/973627/microsoft-time-zone-index-values
 
 ## apple
 - https://github.com/zubini/php_icloud_calendar
