@@ -3,13 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Entity\SmartInvite\SmartInvite;
-use App\Application\Services\Calendar\Connector\Connector;
-use App\Application\Services\Calendar\Fetch\Fetch;
-use App\Entity\AccountUser;
-use App\Entity\ApiResponse;
-use App\Entity\Calendar;
-use App\Entity\Service;
-use App\Exception\Api\ApiException;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -18,7 +11,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class SmartInviteController
 {
@@ -68,7 +60,6 @@ class SmartInviteController
      */
     public function create(Request $request): JsonResponse
     {
-
     }
 
     /**

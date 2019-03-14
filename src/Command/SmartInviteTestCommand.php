@@ -84,22 +84,21 @@ class SmartInviteTestCommand extends Command
         $smartInvite = (new SmartInvite)
             ->setSmartInviteId('some-invite-iddd')
             ->setCallbackUrl('https://postb.in/XEkkZ1Sv')
-            ->setAccountUser($accoutUser)
-        ;
+            ->setAccountUser($accoutUser);
         $this->smartInviteRepository->persistAndFlush($smartInvite);
 
         $smartInvite
             ->setOrganizer((new Organizer)->setName('some organizer name')->setAccountUser($accoutUser))
             ->setRecipient((new Recipient)->setEmail('valeriu@buzila.ro')->setAccountUser($accoutUser))
-            ->setEvent((new Event)
+            ->setEvent(
+                (new Event)
                 ->setSummary('this is the event summary')
                 ->setStart(new \DateTime('2019-03-28 11:00', new \DateTimeZone('CET')))
                 ->setEnd(new \DateTime('2019-03-28 13:00', new \DateTimeZone('CET')))
                 ->setLocation('1st floor')
                 ->setTimezone('CET')
                 ->setAccountUser($accoutUser)
-            )
-        ;
+            );
 
         $organizer = $smartInvite->getOrganizer();
         $organizer->setSmartInvite($smartInvite);
@@ -138,8 +137,7 @@ class SmartInviteTestCommand extends Command
             ->setDtEnd($event->getEnd())
             ->setOrganizer($voganizer)
             ->setAttendees($vattendees)
-            ->setLocation($event->getLocation())
-        ;
+            ->setLocation($event->getLocation());
         $vcalendar->addComponent($vevent);
         $vcalendar->setTimezone($smartInvite->getEvent()->getTimezone());
         $vcalendar->setMethod('REQUEST');
@@ -160,9 +158,8 @@ class SmartInviteTestCommand extends Command
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom('postmaster@sandboxf05b190d1444418fb0b4407bfe487b16.mailgun.org')
             ->setTo($recipient->getEmail())
-            ->setBody('see attached calendarinvite','text/html')
-            ->attach($messageAttachment)
-        ;
+            ->setBody('see attached calendarinvite', 'text/html')
+            ->attach($messageAttachment);
         $message->addPart($vcalendarRender, 'text/calendar', 'utf-8');
 
         $this->mailer->send($message);
