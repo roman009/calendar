@@ -70,4 +70,8 @@ abstract class AbstractConnectorAdapter extends AbstractHandler
     abstract public function persist(AccessTokenInterface $token, AccountUser $accountUser): AuthToken;
 
     abstract protected function getProvider(): AbstractProvider;
+
+    abstract public function validate(string $username, string $password): bool;
+
+    abstract public function saveUsernamePasswordToken(AccountUser $accountUser, string $username, string $password);
 }

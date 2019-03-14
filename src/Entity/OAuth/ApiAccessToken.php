@@ -15,7 +15,7 @@ use League\OAuth2\Server\Entities\Traits\TokenEntityTrait;
  * @ORM\Entity(repositoryClass="App\Repository\OAuth\ApiAccessTokenRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class ApiAccessTokenEntity implements AccessTokenEntityInterface
+class ApiAccessToken implements AccessTokenEntityInterface
 {
     use AccessTokenTrait, TokenEntityTrait, EntityTrait;
     use BaseEntityTrait;

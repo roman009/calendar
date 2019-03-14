@@ -2,7 +2,7 @@
 
 namespace App\Repository\OAuth;
 
-use App\Entity\OAuth\ApiAccessTokenEntity;
+use App\Entity\OAuth\ApiAccessToken;
 use App\Repository\BaseRepository;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
@@ -15,7 +15,7 @@ class ApiAccessTokenRepository extends BaseRepository implements AccessTokenRepo
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, ApiAccessTokenEntity::class);
+        parent::__construct($registry, ApiAccessToken::class);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Application\Services\Calendar\Connector\Google;
 
 use App\Application\Services\Calendar\Connector\AbstractConnectorAdapter;
+use App\Application\Services\Calendar\Connector\OAuthConnectorInterface;
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\GoogleAuthToken;
@@ -14,7 +15,7 @@ use League\OAuth2\Client\Token\AccessTokenInterface;
 /**
  * Class Google
  */
-class GoogleAdapter extends AbstractConnectorAdapter
+class GoogleAdapter extends AbstractConnectorAdapter implements OAuthConnectorInterface
 {
     public const ALIAS = 'google';
     /**
@@ -65,5 +66,15 @@ class GoogleAdapter extends AbstractConnectorAdapter
         $this->authTokenRepository->persistAndFlush($googleToken);
 
         return $googleToken;
+    }
+
+    public function validate(string $username, string $password): bool
+    {
+        throw new \Exception('This shouldn\'t be called here');
+    }
+
+    public function saveUsernamePasswordToken(AccountUser $accountUser, string $username, string $password)
+    {
+        throw new \Exception('This shouldn\'t be called here');
     }
 }

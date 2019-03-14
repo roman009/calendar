@@ -2,13 +2,14 @@
 
 namespace App\Application\Services\Calendar\Connector\Microsoft;
 
+use App\Application\Services\Calendar\Connector\OAuthConnectorInterface;
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\Office365AuthToken;
 use App\Repository\Office365AuthTokenRepository;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
-class Office365Adapter extends MicrosoftAdapter
+class Office365Adapter extends MicrosoftAdapter implements OAuthConnectorInterface
 {
     public const ALIAS = 'office365';
 
@@ -34,5 +35,15 @@ class Office365Adapter extends MicrosoftAdapter
         $this->authTokenRepository->persistAndFlush($outlookAuthToken);
 
         return $outlookAuthToken;
+    }
+
+    public function validate(string $username, string $password): bool
+    {
+        throw new \Exception('This shouldn\'t be called here');
+    }
+
+    public function saveUsernamePasswordToken(AccountUser $accountUser, string $username, string $password)
+    {
+        throw new \Exception('This shouldn\'t be called here');
     }
 }
