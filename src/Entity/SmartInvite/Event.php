@@ -19,7 +19,7 @@ class Event
 
     /**
      * @var SmartInvite
-     * @ORM\OneToOne(targetEntity="SmartInvite")
+     * @ORM\OneToOne(targetEntity="SmartInvite", inversedBy="event")
      * @ORM\JoinColumn(fieldName="smart_invite_id", nullable=false, referencedColumnName="id")
      */
     private $smartInvite;
@@ -65,4 +65,130 @@ class Event
      * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     private $location;
+
+    /**
+     * @return SmartInvite
+     */
+    public function getSmartInvite(): SmartInvite
+    {
+        return $this->smartInvite;
+    }
+
+    /**
+     * @param SmartInvite $smartInvite
+     */
+    public function setSmartInvite(SmartInvite $smartInvite): self
+    {
+        $this->smartInvite = $smartInvite;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSummary(): string
+    {
+        return $this->summary;
+    }
+
+    /**
+     * @param string $summary
+     */
+    public function setSummary(string $summary): self
+    {
+        $this->summary = $summary;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStart(): \DateTime
+    {
+        return $this->start;
+    }
+
+    /**
+     * @param \DateTime $start
+     */
+    public function setStart(\DateTime $start): self
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEnd(): \DateTime
+    {
+        return $this->end;
+    }
+
+    /**
+     * @param \DateTime $end
+     */
+    public function setEnd(\DateTime $end): self
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimezone(): string
+    {
+        return $this->timezone;
+    }
+
+    /**
+     * @param string $timezone
+     */
+    public function setTimezone(string $timezone): self
+    {
+        $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation(): string
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param string $location
+     */
+    public function setLocation(string $location): self
+    {
+        $this->location = $location;
+
+        return $this;
+    }
 }

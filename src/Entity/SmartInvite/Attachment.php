@@ -30,4 +30,22 @@ class Attachment
      * @Groups({"default_api_response_group"})
      */
     private $icalendar;
+
+    /**
+     * @return SmartInvite
+     */
+    public function getSmartInvite(): SmartInvite
+    {
+        return $this->smartInvite;
+    }
+
+    /**
+     * @param SmartInvite $smartInvite
+     */
+    public function setSmartInvite(SmartInvite $smartInvite): self
+    {
+        $this->smartInvite = $smartInvite;
+
+        return $this;
+    }
 }

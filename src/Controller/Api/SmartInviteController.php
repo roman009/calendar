@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\SmartInvite\SmartInvite;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -57,6 +58,7 @@ class SmartInviteController
      */
     public function create(Request $request): JsonResponse
     {
+
     }
 
     /**

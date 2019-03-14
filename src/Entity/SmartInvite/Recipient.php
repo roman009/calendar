@@ -24,7 +24,7 @@ class Recipient
 
     /**
      * @var SmartInvite
-     * @ORM\OneToOne(targetEntity="SmartInvite")
+     * @ORM\OneToOne(targetEntity="SmartInvite", inversedBy="recipient")
      * @ORM\JoinColumn(fieldName="smart_invite_id", nullable=false, referencedColumnName="id")
      */
     private $smartInvite;
@@ -38,8 +38,67 @@ class Recipient
 
     /**
      * @var string
-     * @ORM\Column(name="email", nullable=false, type="string")
+     * @ORM\Column(name="status", nullable=false, type="string")
      * @Groups({"default_api_response_group"})
      */
     private $status;
+
+    public function __construct()
+    {
+        $this->status = self::STATUS_PENDING;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return SmartInvite
+     */
+    public function getSmartInvite(): SmartInvite
+    {
+        return $this->smartInvite;
+    }
+
+    /**
+     * @param SmartInvite $smartInvite
+     */
+    public function setSmartInvite(SmartInvite $smartInvite): self
+    {
+        $this->smartInvite = $smartInvite;
+
+        return $this;
+    }
 }
