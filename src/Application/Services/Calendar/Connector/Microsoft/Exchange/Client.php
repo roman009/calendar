@@ -19,5 +19,4 @@ class Client extends \jamesiarmes\PhpEws\Client
     {
         return $this->server;
     }
-
 }

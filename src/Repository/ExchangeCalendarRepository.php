@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\ExchangeCalendar;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,5 +17,4 @@ class ExchangeCalendarRepository extends BaseRepository
     {
         parent::__construct($registry, ExchangeCalendar::class);
     }
-
 }

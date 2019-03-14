@@ -81,6 +81,5 @@ class ExchangeTestCommand extends Command
         );
 
         dump($events);
-
     }
 }

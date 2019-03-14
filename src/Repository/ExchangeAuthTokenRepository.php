@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\ExchangeAuthToken;
-use App\Entity\GoogleAuthToken;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**

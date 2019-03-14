@@ -11,23 +11,18 @@ use App\Entity\ExchangeAuthToken;
 use App\Entity\ExchangeCalendar;
 use App\Entity\ExchangeEvent;
 use App\Entity\FreeBusy;
-use App\Repository\ExchangeAuthTokenRepository;
 use App\Repository\ExchangeCalendarRepository;
 use jamesiarmes\PhpEws\ArrayType\ArrayOfMailboxData;
 use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseFolderIdsType;
-use jamesiarmes\PhpEws\Enumeration\ContainmentComparisonType;
-use jamesiarmes\PhpEws\Enumeration\ContainmentModeType;
 use jamesiarmes\PhpEws\Enumeration\DefaultShapeNamesType;
 use jamesiarmes\PhpEws\Enumeration\DistinguishedFolderIdNameType;
 use jamesiarmes\PhpEws\Enumeration\FolderQueryTraversalType;
 use jamesiarmes\PhpEws\Enumeration\FreeBusyViewType;
 use jamesiarmes\PhpEws\Enumeration\ResponseClassType;
-use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 use jamesiarmes\PhpEws\Request\FindFolderType;
 use jamesiarmes\PhpEws\Request\FindItemType;
 use jamesiarmes\PhpEws\Request\GetUserAvailabilityRequestType;
 use jamesiarmes\PhpEws\Type\CalendarViewType;
-use jamesiarmes\PhpEws\Type\ConstantValueType;
 use jamesiarmes\PhpEws\Type\DistinguishedFolderIdType;
 use jamesiarmes\PhpEws\Type\Duration;
 use jamesiarmes\PhpEws\Type\EmailAddressType;
@@ -36,7 +31,6 @@ use jamesiarmes\PhpEws\Type\FolderResponseShapeType;
 use jamesiarmes\PhpEws\Type\FreeBusyViewOptionsType;
 use jamesiarmes\PhpEws\Type\ItemResponseShapeType;
 use jamesiarmes\PhpEws\Type\MailboxData;
-use jamesiarmes\PhpEws\Type\PathToUnindexedFieldType;
 use jamesiarmes\PhpEws\Type\RestrictionType;
 
 class ExchangeAdapter extends AbstractFetchAdapter
@@ -71,7 +65,7 @@ class ExchangeAdapter extends AbstractFetchAdapter
     {
         $calendars = [];
 
-        /** @var ExchangeAuthToken $token */
+        /* @var ExchangeAuthToken $token */
 //        $client = new Client($token->getServer(), $token->getUsername(), $token->getPassword(), $token->getVersion());
         $this->client->setServer($token->getServer());
         $this->client->setVersion($token->getVersion());
@@ -150,12 +144,13 @@ class ExchangeAdapter extends AbstractFetchAdapter
      * @param array $calendars
      * @param string|null $timezone
      *
-     * @return array<FreeBusy>
      * @throws \Exception
+     *
+     * @return array<FreeBusy>
      */
     public function freeBusy(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {
-        /** @var ExchangeAuthToken $token */
+        /* @var ExchangeAuthToken $token */
 //        $client = new Client($token->getServer(), $token->getUsername(), $token->getPassword(), $token->getVersion());
         $this->client->setServer($token->getServer());
         $this->client->setVersion($token->getVersion());
@@ -170,13 +165,13 @@ class ExchangeAdapter extends AbstractFetchAdapter
         $request = new GetUserAvailabilityRequestType();
         $request->FreeBusyViewOptions = new FreeBusyViewOptionsType();
         $request->MailboxDataArray = new ArrayOfMailboxData();
-// Define the time window and details to return.
+        // Define the time window and details to return.
         $request->FreeBusyViewOptions->TimeWindow = new Duration();
         $request->FreeBusyViewOptions->TimeWindow->StartTime = $startDate->format('c');
         $request->FreeBusyViewOptions->TimeWindow->EndTime = $endDate->format('c');
         $request->FreeBusyViewOptions->MergedFreeBusyIntervalInMinutes = 30;
         $request->FreeBusyViewOptions->RequestedView = FreeBusyViewType::DETAILED;
-// Add the user to get availability for.
+        // Add the user to get availability for.
         $mailbox = new MailboxData();
         $mailbox->Email = new EmailAddressType();
         $mailbox->Email->Address = $token->getUsername();
@@ -185,9 +180,9 @@ class ExchangeAdapter extends AbstractFetchAdapter
         $mailbox->ExcludeConflicts = false;
         $request->MailboxDataArray->MailboxData[] = $mailbox;
         $response = $this->client->GetUserAvailability($request);
-// Iterate over the user availability returned, printing any error messages or
-// the working periods for each. On response will be included for each mailbox
-// in the request.
+        // Iterate over the user availability returned, printing any error messages or
+        // the working periods for each. On response will be included for each mailbox
+        // in the request.
         foreach ($response->FreeBusyResponseArray->FreeBusyResponse as $availability) {
             dump($availability);
             // Make sure the request succeeded.
@@ -233,7 +228,7 @@ class ExchangeAdapter extends AbstractFetchAdapter
     {
         $calendar = $this->exchangeCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'objectId' => $calendarId]);
 
-        /** @var ExchangeAuthToken $token */
+        /* @var ExchangeAuthToken $token */
 //        $client = new Client($token->getServer(), $token->getUsername(), $token->getPassword(), $token->getVersion());
         $this->client->setServer($token->getServer());
         $this->client->setVersion($token->getVersion());
@@ -245,7 +240,7 @@ class ExchangeAdapter extends AbstractFetchAdapter
 
         $request = new FindItemType();
         $request->ParentFolderIds = new NonEmptyArrayOfBaseFolderIdsType();
-// Return all event properties.
+        // Return all event properties.
         $request->ItemShape = new ItemResponseShapeType();
         $request->ItemShape->BaseShape = DefaultShapeNamesType::ALL_PROPERTIES;
 
@@ -263,7 +258,7 @@ class ExchangeAdapter extends AbstractFetchAdapter
         $request->CalendarView->EndDate = $endDate->format('c');
 
         $response = $this->client->FindItem($request);
-// Iterate over the results, printing any error messages or event ids.
+        // Iterate over the results, printing any error messages or event ids.
         $response_messages = $response->ResponseMessages->FindItemResponseMessage;
         foreach ($response_messages as $response_message) {
             // Make sure the request succeeded.
