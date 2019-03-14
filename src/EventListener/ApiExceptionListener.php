@@ -15,17 +15,22 @@ class ApiExceptionListener
      * @var SerializerInterface
      */
     private $serializer;
+    /**
+     * @var string
+     */
+    private $environment;
 
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(SerializerInterface $serializer, string $environment)
     {
         $this->serializer = $serializer;
+        $this->environment = $environment;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
 
-        if (!$exception instanceof ApiException) {
+        if ($this->environment === 'dev' || !$exception instanceof ApiException) {
             return;
         }
 
