@@ -2,18 +2,19 @@
 
 namespace App\Application\Services\Calendar\Fetch\Microsoft;
 
+use App\Application\Services\Calendar\Connector\Microsoft\Exchange\Client;
 use App\Application\Services\Calendar\Fetch\AbstractFetchAdapter;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\Event;
 use App\Entity\ExchangeAuthToken;
 use App\Entity\ExchangeCalendar;
+use App\Entity\ExchangeEvent;
 use App\Entity\FreeBusy;
 use App\Repository\ExchangeAuthTokenRepository;
 use App\Repository\ExchangeCalendarRepository;
 use jamesiarmes\PhpEws\ArrayType\ArrayOfMailboxData;
 use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseFolderIdsType;
-use jamesiarmes\PhpEws\Client;
 use jamesiarmes\PhpEws\Enumeration\ContainmentComparisonType;
 use jamesiarmes\PhpEws\Enumeration\ContainmentModeType;
 use jamesiarmes\PhpEws\Enumeration\DefaultShapeNamesType;
@@ -30,6 +31,7 @@ use jamesiarmes\PhpEws\Type\ConstantValueType;
 use jamesiarmes\PhpEws\Type\DistinguishedFolderIdType;
 use jamesiarmes\PhpEws\Type\Duration;
 use jamesiarmes\PhpEws\Type\EmailAddressType;
+use jamesiarmes\PhpEws\Type\FolderIdType;
 use jamesiarmes\PhpEws\Type\FolderResponseShapeType;
 use jamesiarmes\PhpEws\Type\FreeBusyViewOptionsType;
 use jamesiarmes\PhpEws\Type\ItemResponseShapeType;
@@ -44,10 +46,15 @@ class ExchangeAdapter extends AbstractFetchAdapter
      * @var ExchangeCalendarRepository
      */
     private $exchangeCalendarRepository;
+    /**
+     * @var Client
+     */
+    private $client;
 
-    public function __construct(ExchangeCalendarRepository $exchangeCalendarRepository)
+    public function __construct(ExchangeCalendarRepository $exchangeCalendarRepository, Client $client)
     {
         $this->exchangeCalendarRepository = $exchangeCalendarRepository;
+        $this->client = $client;
     }
 
     public static function alias(): string
@@ -65,7 +72,12 @@ class ExchangeAdapter extends AbstractFetchAdapter
         $calendars = [];
 
         /** @var ExchangeAuthToken $token */
-        $client = new Client($token->getServer(), $token->getUsername(), $token->getPassword(), $token->getVersion());
+//        $client = new Client($token->getServer(), $token->getUsername(), $token->getPassword(), $token->getVersion());
+        $this->client->setServer($token->getServer());
+        $this->client->setVersion($token->getVersion());
+        $this->client->setUsername($token->getUsername());
+        $this->client->setPassword($token->getPassword());
+
 
         // Build the request.
         $request = new FindFolderType();
@@ -84,7 +96,7 @@ class ExchangeAdapter extends AbstractFetchAdapter
         $parent->Id = DistinguishedFolderIdNameType::ROOT;
         $request->ParentFolderIds->DistinguishedFolderId[] = $parent;
 
-        $response = $client->FindFolder($request);
+        $response = $this->client->FindFolder($request);
 
         // Iterate over the results, printing any error messages or folder names and ids.
         $response_messages = $response->ResponseMessages->FindFolderResponseMessage;
@@ -144,11 +156,15 @@ class ExchangeAdapter extends AbstractFetchAdapter
     public function freeBusy(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {
         /** @var ExchangeAuthToken $token */
-        $client = new Client($token->getServer(), $token->getUsername(), $token->getPassword(), $token->getVersion());
+//        $client = new Client($token->getServer(), $token->getUsername(), $token->getPassword(), $token->getVersion());
+        $this->client->setServer($token->getServer());
+        $this->client->setVersion($token->getVersion());
+        $this->client->setUsername($token->getUsername());
+        $this->client->setPassword($token->getPassword());
 
         $freeBusyList = [];
 
-        $client->setTimezone($timezone);
+        $this->client->setTimezone($timezone);
 
         // Build the request.
         $request = new GetUserAvailabilityRequestType();
@@ -168,7 +184,7 @@ class ExchangeAdapter extends AbstractFetchAdapter
         $mailbox->AttendeeType = 'Required';
         $mailbox->ExcludeConflicts = false;
         $request->MailboxDataArray->MailboxData[] = $mailbox;
-        $response = $client->GetUserAvailability($request);
+        $response = $this->client->GetUserAvailability($request);
 // Iterate over the user availability returned, printing any error messages or
 // the working periods for each. On response will be included for each mailbox
 // in the request.
@@ -203,6 +219,8 @@ class ExchangeAdapter extends AbstractFetchAdapter
     }
 
     /**
+     * https://github.com/jamesiarmes/php-ews/blob/master/examples/event/find.php
+     *
      * @param AuthToken $token
      * @param \DateTime $startDate
      * @param \DateTime $endDate
@@ -213,6 +231,75 @@ class ExchangeAdapter extends AbstractFetchAdapter
      */
     public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
-        // TODO: Implement events() method.
+        $calendar = $this->exchangeCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'objectId' => $calendarId]);
+
+        /** @var ExchangeAuthToken $token */
+//        $client = new Client($token->getServer(), $token->getUsername(), $token->getPassword(), $token->getVersion());
+        $this->client->setServer($token->getServer());
+        $this->client->setVersion($token->getVersion());
+        $this->client->setUsername($token->getUsername());
+        $this->client->setPassword($token->getPassword());
+
+        $eventList = [];
+        $this->client->setTimezone($timezone);
+
+        $request = new FindItemType();
+        $request->ParentFolderIds = new NonEmptyArrayOfBaseFolderIdsType();
+// Return all event properties.
+        $request->ItemShape = new ItemResponseShapeType();
+        $request->ItemShape->BaseShape = DefaultShapeNamesType::ALL_PROPERTIES;
+
+        $mainFolderId = new DistinguishedFolderIdType();
+        $mainFolderId->Id = DistinguishedFolderIdNameType::CALENDAR;
+
+        $calendarFolderId = new FolderIdType();
+        $calendarFolderId->Id = $calendar->getCalendarId();
+
+
+//        $request->ParentFolderIds->DistinguishedFolderId[] = $mainFolderId;
+        $request->ParentFolderIds->FolderId[] = $calendarFolderId;
+        $request->CalendarView = new CalendarViewType();
+        $request->CalendarView->StartDate = $startDate->format('c');
+        $request->CalendarView->EndDate = $endDate->format('c');
+
+        $response = $this->client->FindItem($request);
+// Iterate over the results, printing any error messages or event ids.
+        $response_messages = $response->ResponseMessages->FindItemResponseMessage;
+        foreach ($response_messages as $response_message) {
+            // Make sure the request succeeded.
+            if ($response_message->ResponseClass != ResponseClassType::SUCCESS) {
+                $code = $response_message->ResponseCode;
+                $message = $response_message->MessageText;
+                dump(
+                    "Failed to search for events with \"$code: $message\"\n"
+                );
+                continue;
+            }
+            // Iterate over the events that were found, printing some data for each.
+            $items = $response_message->RootFolder->Items->CalendarItem;
+            foreach ($items as $item) {
+//                $id = $item->ItemId->Id;
+//                $start = new \DateTime($item->Start);
+//                $end = new \DateTime($item->End);
+//                $output = 'Found event ' . $item->ItemId->Id . "\n"
+//                    . '  Change Key: ' . $item->ItemId->ChangeKey . "\n"
+//                    . '  Title: ' . $item->Subject . "\n"
+//                    . '  Start: ' . $start->format('l, F jS, Y g:ia') . "\n"
+//                    . '  End:   ' . $end->format('l, F jS, Y g:ia') . "\n\n";
+//                dump($output);
+
+                $exchangeEvent = (new ExchangeEvent)
+                    ->setTimezone($timezone)
+                    ->setAccountUser($token->getAccountUser())
+                    ->setName($item->Subject)
+                    ->setStart(new \DateTime($item->Start))
+                    ->setEnd(new \DateTime($item->End));
+
+                $eventList[] = $exchangeEvent;
+            }
+        }
+
+
+        return $eventList;
     }
 }

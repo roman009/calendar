@@ -55,12 +55,32 @@ class ExchangeTestCommand extends Command
 
         if (!$this->connector->isRegistered($accountUser, $service)) {
             dump('register');
-            $username = 'test1@buzilatestcompany.onmicrosoft.com';
-            $password = 'Bag94547';
-            $this->connector->register($accountUser, $service, $username, $password);
+//            $username = 'test1@buzilatestcompany.onmicrosoft.com';
+//            $password = 'Bag94547';
+//            $this->connector->register($accountUser, $service, $username, $password);
         } else {
             dump('not valid');
         }
+
+        $token = $this->connector->getToken($accountUser, $service);
+
+        dump($token);
+
+        $calendars = $this->fetch->calendars($service, $token);
+        dump($calendars);
+
+//        $freeBusy = $this->fetch->freeBusy($service, $token, new \DateTime(), (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')), $calendars);
+//        dump($freeBusy);
+
+        $events = $this->fetch->events(
+            $service,
+            $token,
+            new \DateTime(),
+            (new \DateTime())->add(\DateInterval::createFromDateString('+20 days')),
+            $calendars[0]->getObjectId()
+        );
+
+        dump($events);
 
     }
 }
