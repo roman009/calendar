@@ -22,6 +22,11 @@ class SmartInviteRecipient
     public const STATUS_REJECTED = 'rejected';
     public const STATUS_TENTATIVE = 'tentative';
 
+    public const STATUS_REJECTED_VARIANTS = ['rejected', 'declined'];
+    public const STATUS_PENDING_VARIANTS = ['pending'];
+    public const STATUS_ACCEPTED_VARIANTS = ['accepted'];
+    public const STATUS_TENTATIVE_VARIANTS = ['tentative'];
+
     /**
      * @var SmartInvite
      * @ORM\OneToOne(targetEntity="SmartInvite", inversedBy="recipient")
@@ -138,21 +143,22 @@ class SmartInviteRecipient
     {
         $status = strtolower($status);
 
-        switch ($status) {
-            case self::STATUS_PENDING:
-                return self::STATUS_PENDING;
-                break;
-            case self::STATUS_ACCEPTED:
-                return self::STATUS_ACCEPTED;
-                break;
-            case self::STATUS_REJECTED:
-                return self::STATUS_REJECTED;
-                break;
-            case self::STATUS_TENTATIVE:
-                return self::STATUS_TENTATIVE;
-                break;
-            default:
-                throw new \Exception('Unhandled status: ' . $status);
+        if (in_array($status, self::STATUS_REJECTED_VARIANTS, true)) {
+            return self::STATUS_REJECTED;
         }
+
+        if (in_array($status, self::STATUS_PENDING_VARIANTS, true)) {
+            return self::STATUS_PENDING;
+        }
+
+        if (in_array($status, self::STATUS_ACCEPTED_VARIANTS, true)) {
+            return self::STATUS_ACCEPTED;
+        }
+
+        if (in_array($status, self::STATUS_TENTATIVE_VARIANTS, true)) {
+            return self::STATUS_TENTATIVE;
+        }
+
+        throw new \Exception('Unhandled status: ' . $status);
     }
 }

@@ -42,3 +42,8 @@
             - events
             - api_access_token - for authenticating on api.<domain>
             - api_refresh_token - for authenticating on api.<domain>
+            
+            
+- cron
+    - https://github.com/lavary/crunz
+    - * * * * * cd /project && vendor/bin/crunz schedule:run      
