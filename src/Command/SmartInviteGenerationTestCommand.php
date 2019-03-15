@@ -48,14 +48,14 @@ class SmartInviteGenerationTestCommand extends Command
 
         $smartInvite = $this->create->handle(
             $accoutUser,
-            'some-unique-invite-iddd',
+            'some-unique-invite-iddd2',
             'https://enwvy220zidp.x.pipedream.net',
             'Valeriu the Organizer',
-            /*'valeriu@buzilatestcompany.onmicrosoft.com',*/'valeriu.buzila@gmail.com',
+            'valeriu@buzilatestcompany.onmicrosoft.com',/*'valeriu.buzila@gmail.com',*/
             'Gigi Kent',
-            'this is the event summary',
-            new \DateTime('2019-03-28 13:00'),
-            new \DateTime('2019-03-28 14:00'),
+            'this is another event summary',
+            new \DateTime('2019-03-28 15:00'),
+            new \DateTime('2019-03-28 16:00'),
             'CET',
             '69th floor',
             'some cool event. you have to be there'

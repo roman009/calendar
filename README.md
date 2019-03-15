@@ -46,4 +46,5 @@
             
 - cron
     - https://github.com/lavary/crunz
-    - * * * * * cd /project && vendor/bin/crunz schedule:run      
+    - * * * * * cd /project && vendor/bin/crunz schedule:run     
+    - * * * * * cd /home/valeriu/Projects/calendar-api && vendor/bin/crunz schedule:run
