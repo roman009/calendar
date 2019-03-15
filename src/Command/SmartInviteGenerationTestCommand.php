@@ -45,7 +45,6 @@ class SmartInviteGenerationTestCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $accoutUser = $this->accountUserRepository->find(1);
-        $smtpPostmaster = 'postmaster@sandboxf05b190d1444418fb0b4407bfe487b16.mailgun.org';
 
         $smartInvite = $this->create->handle(
             $accoutUser,
@@ -64,7 +63,8 @@ class SmartInviteGenerationTestCommand extends Command
 
         $messageAttachment = new \Swift_Attachment($smartInvite->getAttachments()[0]->getIcalendar(), 'cal.ics', 'text/calendar');
         $message = (new \Swift_Message('Hello Email'))
-            ->setFrom($smtpPostmaster)
+//            ->setFrom('postmaster@sandboxf05b190d1444418fb0b4407bfe487b16.mailgun.org')
+            ->setFrom('test2@buzilatestcompany.onmicrosoft.com')
             ->setTo($smartInvite->getRecipient()->getEmail())
             ->setBody('see attached calendar invite', 'text/html')
             ->addPart('see attached calendar invite', 'text/plain')

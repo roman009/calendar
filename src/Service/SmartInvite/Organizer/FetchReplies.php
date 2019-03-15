@@ -79,8 +79,8 @@ class FetchReplies
             ImapClient::ENCRYPT_SSL
         );
 
-        // Fetch all the messages in the current folder
-        $incomingImapEmails = $this->imapClient->getMessages();
+        // Fetch all unread messages in the current folder
+        $incomingImapEmails = $this->imapClient->getUnreadMessages();
 
         /** @var IncomingMessage $incomingImapEmail */
         foreach ($incomingImapEmails as $incomingImapEmail) {
@@ -149,9 +149,7 @@ class FetchReplies
                 $this->bus->dispatch(new ReplyReceivedNotification($smartInviteReply->getId()));
             }
 
-            $this->imapClient->deleteMessage($incomingImapEmail->getID());
+            $this->imapClient->setSeenMessage($incomingImapEmail->getID());
         }
-
-//        $ret = $this->imapClient->purge();
     }
 }
