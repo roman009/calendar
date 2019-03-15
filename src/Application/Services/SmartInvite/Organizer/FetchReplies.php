@@ -61,7 +61,6 @@ class FetchReplies
         LoggerInterface $logger,
         MessageBusInterface $bus
     ) {
-
         $this->smartInviteRepository = $smartInviteRepository;
         $this->incomingEmailRepository = $incomingEmailRepository;
         $this->attachmentRepository = $attachmentRepository;
@@ -92,8 +91,7 @@ class FetchReplies
                 ->setEmailDate(new \DateTime($incomingImapEmail->header->date))
                 ->setMessageId($incomingImapEmail->header->message_id)
                 ->setBodyText($incomingImapEmail->message->text)
-                ->setBodyHtml($incomingImapEmail->message->html)
-            ;
+                ->setBodyHtml($incomingImapEmail->message->html);
             $this->incomingEmailRepository->persistAndFlush($incomingEmail);
 
             // file attachments
@@ -102,7 +100,7 @@ class FetchReplies
                     ->setName($imapAttachment->name)
                     ->setBody($imapAttachment->body)
                     ->setIncomingEmail($incomingEmail);
-                ;
+
                 $this->attachmentRepository->persistAndFlush($attachment);
                 $incomingEmail->addAttachment($attachment);
             }
@@ -116,7 +114,7 @@ class FetchReplies
                     ->setName('body_subtype.ics')
                     ->setBody((string)$infoItem)
                     ->setIncomingEmail($incomingEmail);
-                ;
+
                 $this->attachmentRepository->persistAndFlush($attachment);
                 $incomingEmail->addAttachment($attachment);
             }
@@ -145,8 +143,7 @@ class FetchReplies
                     ->setEmail(strtolower(str_ireplace('mailto:', '', $attendee)))
                     ->setStatus(SmartInviteRecipient::determineStatus($status))
                     ->setSmartInvite($smartInvite)
-                    ->setAccountUser($smartInvite->getAccountUser())
-                ;
+                    ->setAccountUser($smartInvite->getAccountUser());
                 $this->smartInviteReplyRepository->persistAndFlush($smartInviteReply);
 
                 $this->bus->dispatch(new ReplyReceivedNotification($smartInviteReply->getId()));

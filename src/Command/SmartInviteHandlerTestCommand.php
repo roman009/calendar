@@ -3,22 +3,9 @@
 namespace App\Command;
 
 use App\Application\Services\SmartInvite\Organizer\FetchReplies;
-use App\Entity\SmartInvite\SmartInviteRecipient;
-use App\Entity\SmartInvite\SmartInviteReply;
-use App\Infrastructure\Imap\ImapClient;
-use App\Infrastructure\Imap\IncomingMessage;
-use App\Entity\Email\IncomingEmailAttachment;
-use App\Entity\Email\IncomingEmail;
-use App\Repository\AccountUserRepository;
-use App\Repository\Email\AttachmentRepository;
-use App\Repository\Email\IncomingEmailRepository;
-use App\Repository\SmartInvite\SmartInviteReplyRepository;
-use App\Repository\SmartInvite\SmartInviteRepository;
-use SSilence\ImapClient\ImapClientException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Sabre\VObject\Reader;
 
 class SmartInviteHandlerTestCommand extends Command
 {

@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Imap;
 
-use App\Infrastructure\Imap\IncomingMessage;
 use SSilence\ImapClient\ImapClientException;
 
 class ImapClient extends \SSilence\ImapClient\ImapClient
@@ -22,13 +21,13 @@ class ImapClient extends \SSilence\ImapClient\ImapClient
      */
     private function checkMessageId($id)
     {
-        if(!is_int($id)){
+        if (!is_int($id)) {
             throw new ImapClientException('$id must be an integer!');
-        };
-        if($id <= 0){
+        }
+        if ($id <= 0) {
             throw new ImapClientException('$id must be greater then 0!');
-        };
-        if($id > $this->countMessages()){
+        }
+        if ($id > $this->countMessages()) {
             throw new ImapClientException('$id does not exist');
         }
     }

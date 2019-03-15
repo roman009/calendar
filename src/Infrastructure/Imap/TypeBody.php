@@ -7,7 +7,7 @@ class TypeBody extends \SSilence\ImapClient\TypeBody
     /**
      * @inheritdoc
      */
-    private static $types = array('PLAIN', 'HTML', 'CALENDAR');
+    private static $types = ['PLAIN', 'HTML', 'CALENDAR'];
 
     /**
      * @inheritdoc

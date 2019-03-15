@@ -129,8 +129,10 @@ class SmartInviteRecipient
 
     /**
      * @param string $status
-     * @return string
+     *
      * @throws \Exception
+     *
+     * @return string
      */
     public static function determineStatus(string $status): string
     {

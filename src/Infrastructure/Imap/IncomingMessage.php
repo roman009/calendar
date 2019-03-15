@@ -2,8 +2,6 @@
 
 namespace App\Infrastructure\Imap;
 
-use App\Infrastructure\Imap\TypeAttachments;
-use App\Infrastructure\Imap\TypeBody;
 use SSilence\ImapClient\ImapClientException;
 
 class IncomingMessage extends \SSilence\ImapClient\IncomingMessage
@@ -28,7 +26,7 @@ class IncomingMessage extends \SSilence\ImapClient\IncomingMessage
                 throw new ImapClientException('Section type not recognised/supported');
                 break;
         }
-        $sections = array();
+        $sections = [];
         foreach ($this->section as $section) {
             $obj = $this->getSectionStructure($section);
             if (!isset($obj->subtype)) {

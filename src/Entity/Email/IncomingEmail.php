@@ -3,7 +3,6 @@
 namespace App\Entity\Email;
 
 use App\Entity\BaseEntityTrait;
-use App\Repository\Email\AttachmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -215,6 +214,7 @@ class IncomingEmail
 
     /**
      * @param IncomingEmailAttachment $attachment
+     *
      * @return IncomingEmail
      */
     public function addAttachment(IncomingEmailAttachment $attachment): self

@@ -3,11 +3,11 @@
 namespace App\Command;
 
 use App\Application\Services\SmartInvite\Organizer\DefaultOrganizer;
+use App\Entity\SmartInvite\SmartInvite;
 use App\Entity\SmartInvite\SmartInviteAttachment;
 use App\Entity\SmartInvite\SmartInviteEvent;
 use App\Entity\SmartInvite\SmartInviteOrganizer;
 use App\Entity\SmartInvite\SmartInviteRecipient;
-use App\Entity\SmartInvite\SmartInvite;
 use App\Repository\AccountUserRepository;
 use App\Repository\SmartInvite\SmartInviteAttachmentRepository;
 use App\Repository\SmartInvite\SmartInviteEventRepository;
@@ -90,12 +90,14 @@ class SmartInviteGenerationTestCommand extends Command
 
         $timezone = 'CET';
         $smartInvite
-            ->setOrganizer((new SmartInviteOrganizer)
+            ->setOrganizer(
+                (new SmartInviteOrganizer)
                 ->setName('The actual organizer')
                 ->setAccountUser($accoutUser)
                 ->setEmail(DefaultOrganizer::getEmail())
             )
-            ->setRecipient((new SmartInviteRecipient)
+            ->setRecipient(
+                (new SmartInviteRecipient)
                 ->setEmail('valeriu@buzilatestcompany.onmicrosoft.com')
 //                ->setEmail('valeriu.buzila@gmail.com')
                 ->setAccountUser($accoutUser)
@@ -164,8 +166,7 @@ class SmartInviteGenerationTestCommand extends Command
             ->setTimezoneString((new \DateTimeZone($timezone))->getName())
             ->setDescription($event->getDescription())
             ->setCreated($event->getCreated())
-            ->setDtStamp($event->getCreated())
-        ;
+            ->setDtStamp($event->getCreated());
         $vcalendar->addComponent($vevent);
 //        $vcalendar->setTimezone($smartInvite->getEvent()->getTimezone());
         $vcalendar->setMethod('REQUEST');
@@ -189,8 +190,7 @@ class SmartInviteGenerationTestCommand extends Command
             ->setTo($recipient->getEmail())
             ->setBody('see attached calendar invite', 'text/html')
             ->addPart('see attached calendar invite', 'text/plain')
-            ->attach($messageAttachment)
-        ;
+            ->attach($messageAttachment);
 
         $messagePart = new \Swift_MimePart($vcalendarRender, 'text/calendar; method=REQUEST', 'UTF-8');
         $messagePart->setEncoder(new \Swift_Mime_ContentEncoder_PlainContentEncoder('7bit'));

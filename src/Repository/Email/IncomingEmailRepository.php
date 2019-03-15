@@ -4,7 +4,6 @@ namespace App\Repository\Email;
 
 use App\Entity\Email\IncomingEmail;
 use App\Repository\BaseRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**

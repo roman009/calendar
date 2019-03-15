@@ -2,7 +2,6 @@
 
 namespace App\Repository\SmartInvite;
 
-use App\Entity\SmartInvite\SmartInviteOrganizer;
 use App\Entity\SmartInvite\SmartInviteReply;
 use App\Repository\BaseRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;

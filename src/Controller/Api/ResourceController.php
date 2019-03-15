@@ -2,9 +2,6 @@
 
 namespace App\Controller\Api;
 
-use Nelmio\ApiDocBundle\Annotation\Areas;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
