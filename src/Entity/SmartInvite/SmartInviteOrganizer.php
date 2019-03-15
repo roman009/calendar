@@ -27,7 +27,7 @@ class SmartInviteOrganizer
     /**
      * @var string
      * @ORM\Column(name="name", nullable=false, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $name;
 

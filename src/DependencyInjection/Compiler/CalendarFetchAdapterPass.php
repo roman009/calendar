@@ -2,7 +2,7 @@
 
 namespace App\DependencyInjection\Compiler;
 
-use App\Services\Calendar\Fetch\FetchAdapterRegistry;
+use App\Service\Calendar\Fetch\FetchAdapterRegistry;
 use App\Constants;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

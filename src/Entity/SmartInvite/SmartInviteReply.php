@@ -84,7 +84,7 @@ class SmartInviteReply
     /**
      * @return string
      */
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Services\Security\GenerateToken;
+use App\Service\Security\GenerateToken;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 

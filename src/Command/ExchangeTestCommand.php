@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use App\Services\Calendar\Connector\Connector;
-use App\Services\Calendar\Fetch\Fetch;
+use App\Service\Calendar\Connector\Connector;
+use App\Service\Calendar\Fetch\Fetch;
 use App\Entity\Service;
 use App\Repository\AccountUserRepository;
 use App\Repository\UserRepository;

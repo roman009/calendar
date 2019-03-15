@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use App\Services\Calendar\Connector\Connector;
-use App\Services\Calendar\Fetch\Fetch;
+use App\Service\Calendar\Connector\Connector;
+use App\Service\Calendar\Fetch\Fetch;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;

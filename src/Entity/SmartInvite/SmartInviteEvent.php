@@ -27,42 +27,42 @@ class SmartInviteEvent
     /**
      * @var string
      * @ORM\Column(name="summary", nullable=false, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $summary;
 
     /**
      * @var string
      * @ORM\Column(name="description", nullable=true, type="text")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $description;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="start", nullable=false, type="datetime")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $start;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="end", nullable=false, type="datetime")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $end;
 
     /**
      * @var string
      * @ORM\Column(name="timezone", nullable=false, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $timezone;
 
     /**
      * @var string
      * @ORM\Column(name="location", nullable=true, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $location;
 

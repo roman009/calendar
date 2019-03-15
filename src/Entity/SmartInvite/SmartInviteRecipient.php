@@ -32,21 +32,21 @@ class SmartInviteRecipient
     /**
      * @var string
      * @ORM\Column(name="email", nullable=false, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $email;
 
     /**
      * @var string
      * @ORM\Column(name="name", nullable=false, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @Groups({"default_api_response_group", "default_api_write_group", "default_callback_response_group"})
      */
     private $name;
 
     /**
      * @var string
      * @ORM\Column(name="status", nullable=false, type="string")
-     * @Groups({"default_api_response_group"})
+     * @Groups({"default_api_response_group", "default_callback_response_group"})
      */
     private $status;
 

@@ -8,7 +8,7 @@ class ApiResponse
 {
     /**
      * @var mixed
-     * @Groups({"default_api_response_group"})
+     * @Groups({"default_api_response_group", "default_callback_response_group"})
      */
     private $data;
 
