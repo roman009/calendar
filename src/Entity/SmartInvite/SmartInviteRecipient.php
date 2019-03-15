@@ -8,11 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SmartInvite\RecipientRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SmartInvite\SmartInviteRecipientRepository")
  * @ORM\Table(indexes={@ORM\Index(columns={"account_user_id", "object_id"})})
  * @ORM\HasLifecycleCallbacks
  */
-class Recipient
+class SmartInviteRecipient
 {
     use BaseEntityTrait;
     use BaseAccountUserEntityTrait;

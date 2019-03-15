@@ -2,8 +2,15 @@
 
 namespace App\Command;
 
+use App\Application\Services\SmartInvite\Imap\ImapClient;
+use App\Entity\Email\IncomingEmailAttachment;
+use App\Entity\Email\IncomingEmail;
 use App\Repository\AccountUserRepository;
+use App\Repository\Email\AttachmentRepository;
+use App\Repository\Email\IncomingEmailRepository;
 use App\Repository\SmartInvite\SmartInviteRepository;
+use SSilence\ImapClient\ImapClientException;
+use SSilence\ImapClient\IncomingMessage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -13,15 +20,27 @@ class SmartInviteHandlerTestCommand extends Command
     protected static $defaultName = 'app:smart-invite-handle-test';
     private $smartInviteRepository;
     private $accountUserRepository;
+    /**
+     * @var IncomingEmailRepository
+     */
+    private $incomingEmailRepository;
+    /**
+     * @var AttachmentRepository
+     */
+    private $attachmentRepository;
 
     public function __construct(
         SmartInviteRepository $smartInviteRepository,
         AccountUserRepository $accountUserRepository,
+        IncomingEmailRepository $incomingEmailRepository,
+        AttachmentRepository $attachmentRepository,
         ?string $name = null
     ) {
         parent::__construct($name);
         $this->smartInviteRepository = $smartInviteRepository;
         $this->accountUserRepository = $accountUserRepository;
+        $this->incomingEmailRepository = $incomingEmailRepository;
+        $this->attachmentRepository = $attachmentRepository;
     }
 
     protected function configure()
@@ -31,6 +50,70 @@ class SmartInviteHandlerTestCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $mailbox = 'outlook.office365.com';
+        $username = 'test1@buzilatestcompany.onmicrosoft.com';
+        $password = 'Bag94547';
+        $encryption = ImapClient::ENCRYPT_SSL; // TLS OR NULL accepted
+
+        try {
+            $imap = new ImapClient($mailbox, $username, $password, $encryption);
+            // You can also check out example-connect.php for more connection options
+
+        } catch (ImapClientException $error){
+            echo $error->getMessage().PHP_EOL; // You know the rule, no errors in production ...
+            die(); // Oh no :( we failed
+        }
+
+        $folders = $imap->getFolders();
+        foreach($folders as $folder) {
+            dump($folder);
+        }
+
+        $overallMessages = $imap->countMessages();
+        dump($overallMessages);
+
+        $unreadMessages = $imap->countUnreadMessages();
+        dump($unreadMessages);
+
+        // Fetch all the messages in the current folder
+        $incomingImapEmails = $imap->getMessages();
+//        dump($emails);
+
+        /** @var IncomingMessage $emailToDelete */
+//        $emailToDelete = $emails[0];
+//        dump($emailToDelete->getID());
+//
+//        $ret = $imap->deleteMessage($emailToDelete->getID());
+//        dump($ret);
+//
+//        $ret = $imap->purge();
+//        dump($ret);
+
+        /** @var IncomingMessage $incomingImapEmail */
+
+        foreach ($incomingImapEmails as $incomingImapEmail) {
+            dump($incomingImapEmail);
+
+            $incomingEmail = (new IncomingEmail)
+                ->setFrom($incomingImapEmail->header->from)
+                ->setTo($incomingImapEmail->header->to)
+                ->setDate($incomingImapEmail->header->date)
+                ->setMessageId($incomingImapEmail->header->message_id)
+                ->setBodyText($incomingImapEmail->message->text)
+                ->setBodyHtml($incomingImapEmail->message->html)
+            ;
+            $this->incomingEmailRepository->persistAndFlush($incomingEmail);
+
+            foreach ($incomingImapEmail->attachments as $imapAttachment) {
+                $attachment = (new IncomingEmailAttachment)
+                    ->setName($imapAttachment->name)
+                    ->setBody($imapAttachment->body)
+                    ->setIncomingEmail($incomingEmail);
+                ;
+                $this->attachmentRepository->persistAndFlush($attachment);
+            }
+
+        }
 
     }
 }

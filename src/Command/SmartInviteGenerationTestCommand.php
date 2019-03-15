@@ -2,16 +2,16 @@
 
 namespace App\Command;
 
-use App\Entity\SmartInvite\Attachment;
-use App\Entity\SmartInvite\Event;
-use App\Entity\SmartInvite\Organizer;
-use App\Entity\SmartInvite\Recipient;
+use App\Entity\SmartInvite\SmartInviteAttachment;
+use App\Entity\SmartInvite\SmartInviteEvent;
+use App\Entity\SmartInvite\SmartInviteOrganizer;
+use App\Entity\SmartInvite\SmartInviteRecipient;
 use App\Entity\SmartInvite\SmartInvite;
 use App\Repository\AccountUserRepository;
-use App\Repository\SmartInvite\AttachmentRepository;
-use App\Repository\SmartInvite\EventRepository;
-use App\Repository\SmartInvite\OrganizerRepository;
-use App\Repository\SmartInvite\RecipientRepository;
+use App\Repository\SmartInvite\SmartInviteAttachmentRepository;
+use App\Repository\SmartInvite\SmartInviteEventRepository;
+use App\Repository\SmartInvite\SmartInviteOrganizerRepository;
+use App\Repository\SmartInvite\SmartInviteRecipientRepository;
 use App\Repository\SmartInvite\SmartInviteRepository;
 use Eluceo\iCal\Component\Calendar;
 use Eluceo\iCal\Property\Event\Attendees;
@@ -31,19 +31,19 @@ class SmartInviteGenerationTestCommand extends Command
      */
     private $accountUserRepository;
     /**
-     * @var RecipientRepository
+     * @var SmartInviteRecipientRepository
      */
     private $recipientRepository;
     /**
-     * @var OrganizerRepository
+     * @var SmartInviteOrganizerRepository
      */
     private $organizerRepository;
     /**
-     * @var EventRepository
+     * @var SmartInviteEventRepository
      */
     private $eventRepository;
     /**
-     * @var AttachmentRepository
+     * @var SmartInviteAttachmentRepository
      */
     private $attachmentRepository;
     /**
@@ -54,10 +54,10 @@ class SmartInviteGenerationTestCommand extends Command
     public function __construct(
         SmartInviteRepository $smartInviteRepository,
         AccountUserRepository $accountUserRepository,
-        RecipientRepository $recipientRepository,
-        OrganizerRepository $organizerRepository,
-        EventRepository $eventRepository,
-        AttachmentRepository $attachmentRepository,
+        SmartInviteRecipientRepository $recipientRepository,
+        SmartInviteOrganizerRepository $organizerRepository,
+        SmartInviteEventRepository $eventRepository,
+        SmartInviteAttachmentRepository $attachmentRepository,
         \Swift_Mailer $mailer,
         ?string $name = null
     ) {
@@ -89,18 +89,19 @@ class SmartInviteGenerationTestCommand extends Command
 
         $timezone = 'CET';
         $smartInvite
-            ->setOrganizer((new Organizer)
-                ->setName('some organizer name')
+            ->setOrganizer((new SmartInviteOrganizer)
+                ->setName('The actual organizer')
                 ->setAccountUser($accoutUser)
-                ->setEmail('valeriu.buzila@gmail.com')
+                ->setEmail('test1@buzilatestcompany.onmicrosoft.com')
             )
-            ->setRecipient((new Recipient)
-            ->setEmail('valeriu@buzilatestcompany.onmicrosoft.com')
+            ->setRecipient((new SmartInviteRecipient)
+//                ->setEmail('valeriu@buzilatestcompany.onmicrosoft.com')
+                ->setEmail('valeriu.buzila@gmail.com')
                 ->setAccountUser($accoutUser)
                 ->setName('Gigel')
             )
             ->setEvent(
-                (new Event)
+                (new SmartInviteEvent)
                 ->setSummary('this is the event summary')
                 ->setStart(new \DateTime('2019-03-28 11:00', new \DateTimeZone($timezone)))
                 ->setEnd(new \DateTime('2019-03-28 13:00', new \DateTimeZone($timezone)))
@@ -111,6 +112,7 @@ class SmartInviteGenerationTestCommand extends Command
             );
 
         $organizer = $smartInvite->getOrganizer();
+//        $organizer->setEmail($smartInvite->getObjectId() . '+' . $organizer->getEmail());
         $organizer->setSmartInvite($smartInvite);
 
         $recipient = $smartInvite->getRecipient();
@@ -145,11 +147,11 @@ class SmartInviteGenerationTestCommand extends Command
         ]);
 //        $voganizer = new \Eluceo\iCal\Property\Event\Organizer('organizer@calendar.lan', [
 //        $voganizer = new \Eluceo\iCal\Property\Event\Organizer('MAILTO:' . 'valeriu@buzilatestcompany.onmicrosoft.com', [
-        $voganizer = new \Eluceo\iCal\Property\Event\Organizer('MAILTO:' /*. $smartInvite->getObjectId()*/ . 'valeriu@buzila.ro', [
+        $voganizer = new \Eluceo\iCal\Property\Event\Organizer('MAILTO:' . $organizer->getEmail(), [
             'CN' => $organizer->getName()
         ]);
 //        $vevent = new \Eluceo\iCal\Component\Event($smartInvite->getObjectId() . '+invite@calendar.lan');
-        $vevent = new \Eluceo\iCal\Component\Event($smartInvite->getObjectId() . '+' . $smtpPostmaster);
+        $vevent = new \Eluceo\iCal\Component\Event($smartInvite->getObjectId() . '+' . $organizer->getEmail());
         $vevent
             ->setSummary($event->getSummary())
             ->setDtStart($event->getStart())
@@ -173,7 +175,7 @@ class SmartInviteGenerationTestCommand extends Command
         $vcalendarRender = $vcalendar->render();
         dump($vcalendarRender);
 
-        $attachment = (new Attachment)
+        $attachment = (new SmartInviteAttachment)
             ->setSmartInvite($smartInvite)
             ->setAccountUser($accoutUser)
             ->setIcalendar($vcalendar->render());
@@ -182,7 +184,7 @@ class SmartInviteGenerationTestCommand extends Command
 
         $messageAttachment = new \Swift_Attachment($vcalendarRender, 'cal.ics', 'text/calendar');
         $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('postmaster@sandboxf05b190d1444418fb0b4407bfe487b16.mailgun.org')
+            ->setFrom($smtpPostmaster)
             ->setTo($recipient->getEmail())
             ->setBody('see attached calendarinvite', 'text/html')
             ->addPart('see attached calendar invite', 'text/plain')

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fbe1bbb1234e14c8f834c2914bc8595",
+    "content-hash": "d84bb548dd7026cf38e4a6cda4d87e16",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -3236,6 +3236,123 @@
                 "controllers"
             ],
             "time": "2018-12-11T16:59:23+00:00"
+        },
+        {
+            "name": "ssilence/php-imap-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SSilence/php-imap-client.git",
+                "reference": "90c083d4476366e2395a92a559bf389b5b04d035"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SSilence/php-imap-client/zipball/90c083d4476366e2395a92a559bf389b5b04d035",
+                "reference": "90c083d4476366e2395a92a559bf389b5b04d035",
+                "shasum": ""
+            },
+            "require": {
+                "ext-imap": "*",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SSilence\\ImapClient\\": "ImapClient"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SSilence",
+                    "email": "tobias.zeising@aditu.de",
+                    "homepage": "https://github.com/SSilence",
+                    "role": "Founder"
+                },
+                {
+                    "name": "xXXIMMATTEWXXx",
+                    "email": "mattparksjr@gmail.com",
+                    "homepage": "http://matthewp.lexium.xyz/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "sergey144010",
+                    "homepage": "https://github.com/sergey144010",
+                    "role": "Developer"
+                },
+                {
+                    "name": "natanfelles",
+                    "email": "natanfelles@gmail.com",
+                    "homepage": "https://natanfelles.github.io",
+                    "role": "Developer"
+                },
+                {
+                    "name": "developarts",
+                    "email": "nexus@developarts.com",
+                    "homepage": "http://www.developarts.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "dutchakdev",
+                    "email": "dutchakdev@gmail.com",
+                    "homepage": "http://dutchak.io/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "HenriqueSalvan",
+                    "email": "henriquesalvan@gmail.com",
+                    "homepage": "https://github.com/HenriqueSalvan",
+                    "role": "Developer"
+                },
+                {
+                    "name": "melcak",
+                    "email": "jiri@plugo.cz",
+                    "homepage": "http://www.plugo.cz",
+                    "role": "Developer"
+                },
+                {
+                    "name": "fulldecent",
+                    "email": "github.com@phor.net",
+                    "homepage": "http://phor.net",
+                    "role": "Developer"
+                },
+                {
+                    "name": "parturi",
+                    "homepage": "https://github.com/parturi",
+                    "role": "Developer"
+                },
+                {
+                    "name": "tomjoad2000",
+                    "homepage": "https://github.com/tomjoad2000",
+                    "role": "Developer"
+                },
+                {
+                    "name": "radub",
+                    "homepage": "https://github.com/radub",
+                    "role": "Developer"
+                },
+                {
+                    "name": "russ-ab",
+                    "homepage": "https://github.com/russ-ab",
+                    "role": "Developer"
+                },
+                {
+                    "name": "wayne5w",
+                    "homepage": "https://github.com/wayne5w",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Php imap client",
+            "homepage": "https://github.com/SSilence/php-imap-client",
+            "keywords": [
+                "client",
+                "imap",
+                "php"
+            ],
+            "time": "2018-09-04T15:49:43+00:00"
         },
         {
             "name": "stevenmaguire/oauth2-microsoft",
@@ -7599,7 +7716,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "ssilence/php-imap-client": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

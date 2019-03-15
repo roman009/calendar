@@ -8,53 +8,28 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SmartInvite\OrganizerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SmartInvite\SmartInviteAttachmentRepository")
  * @ORM\Table(indexes={@ORM\Index(columns={"account_user_id", "object_id"})})
  * @ORM\HasLifecycleCallbacks
  */
-class Organizer
+class SmartInviteAttachment
 {
     use BaseEntityTrait;
     use BaseAccountUserEntityTrait;
 
     /**
      * @var SmartInvite
-     * @ORM\OneToOne(targetEntity="SmartInvite", inversedBy="organizer")
+     * @ORM\ManyToOne(targetEntity="SmartInvite")
      * @ORM\JoinColumn(fieldName="smart_invite_id", nullable=false, referencedColumnName="id")
      */
     private $smartInvite;
 
     /**
      * @var string
-     * @ORM\Column(name="name", nullable=false, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
+     * @ORM\Column(name="icalendar", nullable=false, type="text")
+     * @Groups({"default_api_response_group"})
      */
-    private $name;
-
-    /**
-     * @var string
-     * @ORM\Column(name="email", nullable=false, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
-     */
-    private $email;
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
+    private $icalendar;
 
     /**
      * @return SmartInvite
@@ -77,17 +52,17 @@ class Organizer
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getIcalendar(): string
     {
-        return $this->email;
+        return $this->icalendar;
     }
 
     /**
-     * @param string $email
+     * @param string $icalendar
      */
-    public function setEmail(string $email): self
+    public function setIcalendar(string $icalendar): self
     {
-        $this->email = $email;
+        $this->icalendar = $icalendar;
 
         return $this;
     }

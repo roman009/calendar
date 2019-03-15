@@ -19,8 +19,8 @@ class SmartInvite
     use BaseAccountUserEntityTrait;
 
     /**
-     * @var Recipient
-     * @ORM\OneToOne(targetEntity="Recipient", mappedBy="smartInvite", cascade={"persist"})
+     * @var SmartInviteRecipient
+     * @ORM\OneToOne(targetEntity="SmartInviteRecipient", mappedBy="smartInvite", cascade={"persist"})
      * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     private $recipient;
@@ -40,22 +40,22 @@ class SmartInvite
     private $callbackUrl;
 
     /**
-     * @var Event
-     * @ORM\OneToOne(targetEntity="Event", mappedBy="smartInvite", cascade={"persist"})
+     * @var SmartInviteEvent
+     * @ORM\OneToOne(targetEntity="SmartInviteEvent", mappedBy="smartInvite", cascade={"persist"})
      * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     private $event;
 
     /**
-     * @var Organizer
-     * @ORM\OneToOne(targetEntity="Organizer", mappedBy="smartInvite", cascade={"persist"})
+     * @var SmartInviteOrganizer
+     * @ORM\OneToOne(targetEntity="SmartInviteOrganizer", mappedBy="smartInvite", cascade={"persist"})
      * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     private $organizer;
 
     /**
-     * @var ArrayCollection<Attachment>
-     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="smartInvite", cascade={"persist"})
+     * @var ArrayCollection<SmartInviteAttachment>
+     * @ORM\OneToMany(targetEntity="SmartInviteAttachment", mappedBy="smartInvite", cascade={"persist"})
      * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     private $attachments;
@@ -66,17 +66,17 @@ class SmartInvite
     }
 
     /**
-     * @return Recipient
+     * @return SmartInviteRecipient
      */
-    public function getRecipient(): Recipient
+    public function getRecipient(): SmartInviteRecipient
     {
         return $this->recipient;
     }
 
     /**
-     * @param Recipient $recipient
+     * @param SmartInviteRecipient $recipient
      */
-    public function setRecipient(Recipient $recipient): self
+    public function setRecipient(SmartInviteRecipient $recipient): self
     {
         $this->recipient = $recipient;
 
@@ -120,17 +120,17 @@ class SmartInvite
     }
 
     /**
-     * @return Event
+     * @return SmartInviteEvent
      */
-    public function getEvent(): Event
+    public function getEvent(): SmartInviteEvent
     {
         return $this->event;
     }
 
     /**
-     * @param Event $event
+     * @param SmartInviteEvent $event
      */
-    public function setEvent(Event $event): self
+    public function setEvent(SmartInviteEvent $event): self
     {
         $this->event = $event;
 
@@ -138,17 +138,17 @@ class SmartInvite
     }
 
     /**
-     * @return Organizer
+     * @return SmartInviteOrganizer
      */
-    public function getOrganizer(): Organizer
+    public function getOrganizer(): SmartInviteOrganizer
     {
         return $this->organizer;
     }
 
     /**
-     * @param Organizer $organizer
+     * @param SmartInviteOrganizer $organizer
      */
-    public function setOrganizer(Organizer $organizer): self
+    public function setOrganizer(SmartInviteOrganizer $organizer): self
     {
         $this->organizer = $organizer;
 

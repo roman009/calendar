@@ -16,6 +16,7 @@
         "nelmio/api-doc-bundle": "^3.4",
         "php-ews/php-ews": "^1.0",
         "sensio/framework-extra-bundle": "^5.1",
+        "ssilence/php-imap-client": "dev-master",
         "stevenmaguire/oauth2-microsoft": "^2.2",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",

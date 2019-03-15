@@ -232,6 +232,9 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "ssilence/php-imap-client": {
+        "version": "dev-master"
+    },
     "stevenmaguire/oauth2-microsoft": {
         "version": "2.2.0"
     },
