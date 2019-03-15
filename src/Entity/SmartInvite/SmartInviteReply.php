@@ -19,7 +19,7 @@ class SmartInviteReply
 
     /**
      * @var SmartInvite
-     * @ORM\OneToOne(targetEntity="SmartInvite", inversedBy="organizer")
+     * @ORM\ManyToOne(targetEntity="SmartInvite", inversedBy="replies")
      * @ORM\JoinColumn(fieldName="smart_invite_id", nullable=false, referencedColumnName="id")
      */
     private $smartInvite;

@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Application\Services\SmartInvite\Organizer\DefaultOrganizer;
 use App\Entity\SmartInvite\SmartInviteAttachment;
 use App\Entity\SmartInvite\SmartInviteEvent;
 use App\Entity\SmartInvite\SmartInviteOrganizer;
@@ -92,7 +93,7 @@ class SmartInviteGenerationTestCommand extends Command
             ->setOrganizer((new SmartInviteOrganizer)
                 ->setName('The actual organizer')
                 ->setAccountUser($accoutUser)
-                ->setEmail('test1@buzilatestcompany.onmicrosoft.com')
+                ->setEmail(DefaultOrganizer::getEmail())
             )
             ->setRecipient((new SmartInviteRecipient)
                 ->setEmail('valeriu@buzilatestcompany.onmicrosoft.com')

@@ -34,7 +34,6 @@ class SmartInviteOrganizer
     /**
      * @var string
      * @ORM\Column(name="email", nullable=false, type="string")
-     * @Groups({"default_api_response_group", "default_api_write_group"})
      */
     private $email;
 
