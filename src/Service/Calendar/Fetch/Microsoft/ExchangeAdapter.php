@@ -2,8 +2,6 @@
 
 namespace App\Service\Calendar\Fetch\Microsoft;
 
-use App\Service\Calendar\Connector\Microsoft\Exchange\Client;
-use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\Event;
@@ -12,6 +10,8 @@ use App\Entity\ExchangeCalendar;
 use App\Entity\ExchangeEvent;
 use App\Entity\FreeBusy;
 use App\Repository\ExchangeCalendarRepository;
+use App\Service\Calendar\Connector\Microsoft\Exchange\Client;
+use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use jamesiarmes\PhpEws\ArrayType\ArrayOfMailboxData;
 use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseFolderIdsType;
 use jamesiarmes\PhpEws\Enumeration\DefaultShapeNamesType;

@@ -2,11 +2,11 @@
 
 namespace App\Service\Calendar\Fetch;
 
-use App\Service\Calendar\AbstractHandler;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\Event;
 use App\Entity\FreeBusy;
+use App\Service\Calendar\AbstractHandler;
 
 abstract class AbstractFetchAdapter extends AbstractHandler
 {

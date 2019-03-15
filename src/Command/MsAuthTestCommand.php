@@ -2,15 +2,15 @@
 
 namespace App\Command;
 
-use App\Service\Calendar\Connector\Connector;
-use App\Service\Calendar\Fetch\Fetch;
-use App\Service\Security\GenerateToken;
 use App\Entity\Account;
 use App\Entity\AccountUser;
 use App\Entity\User;
 use App\Repository\AccountRepository;
 use App\Repository\AccountUserRepository;
 use App\Repository\UserRepository;
+use App\Service\Calendar\Connector\Connector;
+use App\Service\Calendar\Fetch\Fetch;
+use App\Service\Security\GenerateToken;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

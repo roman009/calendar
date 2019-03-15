@@ -191,6 +191,7 @@ class SmartInvite
 
     /**
      * @param SmartInviteAttachment $attachment
+     *
      * @return SmartInvite
      */
     public function addAttachment(SmartInviteAttachment $attachment): self

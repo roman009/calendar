@@ -89,7 +89,7 @@ class ReplyReceivedNotificationHandler implements MessageHandlerInterface
         try {
             $this->client->send($request);
         } catch (RequestException $requestException) {
-            $this->logger->error($requestException->getMessage(), [ 'domain' => get_class($this)]);
+            $this->logger->error($requestException->getMessage(), ['domain' => get_class($this)]);
         }
     }
 }

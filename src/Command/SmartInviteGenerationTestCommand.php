@@ -2,21 +2,8 @@
 
 namespace App\Command;
 
-use App\Service\SmartInvite\Create\Create;
-use App\Service\SmartInvite\Organizer\DefaultOrganizer;
-use App\Entity\SmartInvite\SmartInvite;
-use App\Entity\SmartInvite\SmartInviteAttachment;
-use App\Entity\SmartInvite\SmartInviteEvent;
-use App\Entity\SmartInvite\SmartInviteOrganizer;
-use App\Entity\SmartInvite\SmartInviteRecipient;
 use App\Repository\AccountUserRepository;
-use App\Repository\SmartInvite\SmartInviteAttachmentRepository;
-use App\Repository\SmartInvite\SmartInviteEventRepository;
-use App\Repository\SmartInvite\SmartInviteOrganizerRepository;
-use App\Repository\SmartInvite\SmartInviteRecipientRepository;
-use App\Repository\SmartInvite\SmartInviteRepository;
-use Eluceo\iCal\Component\Calendar;
-use Eluceo\iCal\Property\Event\Attendees;
+use App\Service\SmartInvite\Create\Create;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -62,17 +49,17 @@ class SmartInviteGenerationTestCommand extends Command
 
         $smartInvite = $this->create->handle(
             $accoutUser,
-            'some-invite-iddd',
+            'some-unique-invite-iddd',
             'https://enwvy220zidp.x.pipedream.net',
-            'Valeriu the organizer',
-            'valeriu@buzilatestcompany.onmicrosoft.com',
-            'Gigle',
+            'Valeriu the Organizer',
+            /*'valeriu@buzilatestcompany.onmicrosoft.com',*/'valeriu.buzila@gmail.com',
+            'Gigi Kent',
             'this is the event summary',
             new \DateTime('2019-03-28 13:00'),
             new \DateTime('2019-03-28 14:00'),
             'CET',
             '69th floor',
-            'some cool event'
+            'some cool event. you have to be there'
         );
 
         $messageAttachment = new \Swift_Attachment($smartInvite->getAttachments()[0]->getIcalendar(), 'cal.ics', 'text/calendar');

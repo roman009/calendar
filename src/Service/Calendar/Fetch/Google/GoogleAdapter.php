@@ -2,7 +2,6 @@
 
 namespace App\Service\Calendar\Fetch\Google;
 
-use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\Event;
@@ -11,6 +10,7 @@ use App\Entity\GoogleCalendar;
 use App\Entity\GoogleEvent;
 use App\Entity\GoogleFreeBusy;
 use App\Repository\GoogleCalendarRepository;
+use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use Google_Service_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
 use Google_Service_Calendar_Event;

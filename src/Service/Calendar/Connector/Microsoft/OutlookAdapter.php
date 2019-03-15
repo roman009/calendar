@@ -2,11 +2,11 @@
 
 namespace App\Service\Calendar\Connector\Microsoft;
 
-use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\OutlookAuthToken;
 use App\Repository\OutlookAuthTokenRepository;
+use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
 class OutlookAdapter extends MicrosoftAdapter implements OAuthConnectorInterface

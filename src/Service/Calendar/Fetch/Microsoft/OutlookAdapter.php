@@ -2,14 +2,14 @@
 
 namespace App\Service\Calendar\Fetch\Microsoft;
 
-use App\Service\Calendar\Fetch\AbstractFetchAdapter;
-use App\Service\Calendar\Fetch\Microsoft\Model\GraphCalendar;
 use App\Entity\AuthToken;
 use App\Entity\Calendar;
 use App\Entity\FreeBusy;
 use App\Entity\OutlookCalendar;
 use App\Entity\OutlookFreeBusy;
 use App\Repository\OutlookCalendarRepository;
+use App\Service\Calendar\Fetch\AbstractFetchAdapter;
+use App\Service\Calendar\Fetch\Microsoft\Model\GraphCalendar;
 use GuzzleHttp\Exception\RequestException;
 use Microsoft\Graph\Graph;
 

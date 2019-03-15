@@ -2,11 +2,11 @@
 
 namespace App\Controller\Api;
 
-use App\Service\Calendar\Connector\Connector;
-use App\Service\Calendar\Fetch\Fetch;
 use App\Entity\ApiResponse;
 use App\Entity\Service;
 use App\Exception\Api\ApiException;
+use App\Service\Calendar\Connector\Connector;
+use App\Service\Calendar\Fetch\Fetch;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

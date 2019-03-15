@@ -2,10 +2,10 @@
 
 namespace App\Service\Calendar\Connector;
 
-use App\Service\Calendar\AbstractHandler;
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Repository\AuthTokenRepository;
+use App\Service\Calendar\AbstractHandler;
 use League\OAuth2\Client\Grant\RefreshToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;

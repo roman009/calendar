@@ -2,13 +2,13 @@
 
 namespace App\Service\Calendar\Connector\Microsoft;
 
-use App\Service\Calendar\Connector\Microsoft\Exchange\Autodiscover;
-use App\Service\Calendar\Connector\Microsoft\Exchange\Client;
-use App\Service\Calendar\Connector\UserPasswordConnectorInterface;
 use App\Entity\AccountUser;
 use App\Entity\AuthToken;
 use App\Entity\ExchangeAuthToken;
 use App\Repository\ExchangeAuthTokenRepository;
+use App\Service\Calendar\Connector\Microsoft\Exchange\Autodiscover;
+use App\Service\Calendar\Connector\Microsoft\Exchange\Client;
+use App\Service\Calendar\Connector\UserPasswordConnectorInterface;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
 class ExchangeAdapter extends MicrosoftAdapter implements UserPasswordConnectorInterface

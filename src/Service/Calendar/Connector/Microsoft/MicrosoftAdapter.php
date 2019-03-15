@@ -2,8 +2,8 @@
 
 namespace App\Service\Calendar\Connector\Microsoft;
 
-use App\Service\Calendar\Connector\AbstractConnectorAdapter;
 use App\Entity\AccountUser;
+use App\Service\Calendar\Connector\AbstractConnectorAdapter;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use Stevenmaguire\OAuth2\Client\Provider\Microsoft;
 

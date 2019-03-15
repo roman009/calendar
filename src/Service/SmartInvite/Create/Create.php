@@ -74,7 +74,6 @@ class Create
         ?string $location,
         ?string $description
     ): SmartInvite {
-
         $smartInvite = (new SmartInvite)
             ->setSmartInviteId($smartInviteId)
             ->setCallbackUrl($callbackUrl)
