@@ -10,13 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * https://docs.cronofy.com/developers/api/enterprise-connect/list-resources/
+ */
+
+/**
  * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
  */
 class ResourceController extends AbstractApiController
 {
     /**
-     * https://docs.cronofy.com/developers/api/enterprise-connect/list-resources/
-     *
      * @Route("/resource", methods={"GET"}, name="api-resource-list")
      *
      * @return JsonResponse

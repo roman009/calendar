@@ -11,13 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * https://docs.cronofy.com/developers/api/push-notifications/create-channel/
+ */
+
+/**
  * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
  */
 class NotificationController extends AbstractApiController
 {
     /**
-     * https://docs.cronofy.com/developers/api/push-notifications/create-channel/
-     *
      * @Route("/channel", methods={"GET"}, name="api-channel-list")
      * @SWG\Response(
      *     response=200,
@@ -38,8 +40,6 @@ class NotificationController extends AbstractApiController
     }
 
     /**
-     * https://docs.cronofy.com/developers/api/push-notifications/create-channel/
-     *
      * @Route("/channel", methods={"POST"}, name="api-channel-create")
      * @SWG\Response(
      *     response=200,
@@ -57,8 +57,6 @@ class NotificationController extends AbstractApiController
     }
 
     /**
-     * https://docs.cronofy.com/developers/api/push-notifications/create-channel/
-     *
      * @Route("/channel/{objectId}", methods={"DELETE"}, name="api-channel-delete")
      * @SWG\Response(
      *     response=200,

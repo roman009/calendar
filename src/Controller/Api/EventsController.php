@@ -17,6 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * https://docs.cronofy.com/developers/api/events/read-events/
+ */
+
+/**
  * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
  */
 class EventsController extends AbstractApiController
@@ -91,8 +95,6 @@ class EventsController extends AbstractApiController
     }
 
     /**
-     * https://docs.cronofy.com/developers/api/events/read-events/
-     *
      * @Route("/event", methods={"GET"}, name="api-event-list")
      * @SWG\Response(
      *     response=200,
@@ -113,8 +115,6 @@ class EventsController extends AbstractApiController
     }
 
     /**
-     * https://docs.cronofy.com/developers/api/events/read-events/
-     *
      * @Route("/event", methods={"POST"}, name="api-event-create")
      * @SWG\Response(
      *     response=200,
@@ -132,8 +132,6 @@ class EventsController extends AbstractApiController
     }
 
     /**
-     * https://docs.cronofy.com/developers/api/events/read-events/
-     *
      * @Route("/event/{objectId}", methods={"PATCH"}, name="api-event-update")
      * @SWG\Response(
      *     response=200,
@@ -151,8 +149,6 @@ class EventsController extends AbstractApiController
     }
 
     /**
-     * https://docs.cronofy.com/developers/api/events/read-events/
-     *
      * @Route("/event/{objectId}", methods={"DELETE"}, name="api-event-delete")
      * @SWG\Response(
      *     response=200,

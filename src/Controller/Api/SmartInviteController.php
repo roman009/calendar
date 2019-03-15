@@ -13,13 +13,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * https://docs.cronofy.com/developers/api/smart-invites/create-smart-invite/
+ */
+
+/**
  * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
  */
 class SmartInviteController extends AbstractApiController
 {
     /**
-     * https://docs.cronofy.com/developers/api/smart-invites/create-smart-invite/
-     *
      * @Route("/smart-invite", methods={"GET"}, name="api-smartinvite-list")
      * @SWG\Response(
      *     response=200,
@@ -40,8 +42,6 @@ class SmartInviteController extends AbstractApiController
     }
 
     /**
-     * https://docs.cronofy.com/developers/api/smart-invites/create-smart-invite/
-     *
      * @Route("/smart-invite", methods={"POST"}, name="api-smartinvite-create")
      * @SWG\Response(
      *     response=200,
@@ -66,8 +66,6 @@ class SmartInviteController extends AbstractApiController
     }
 
     /**
-     * https://docs.cronofy.com/developers/api/smart-invites/create-smart-invite/
-     *
      * @Route("/smart-invite/{objectId}", methods={"DELETE"}, name="api-smartinvite-delete")
      * @SWG\Response(
      *     response=200,

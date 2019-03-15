@@ -11,13 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * https://docs.cronofy.com/developers/api/scheduling/availability/
+ */
+
+/**
  * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
  */
 class AvailabilityController extends AbstractApiController
 {
     /**
-     * https://docs.cronofy.com/developers/api/scheduling/availability/
-     *
      * @Route("/availability", methods={"GET"}, name="api-availability")
      * @SWG\Response(
      *     response=200,
