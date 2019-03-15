@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Application\Services\SmartInvite\Organizer\DefaultOrganizer;
+use App\Services\SmartInvite\Organizer\DefaultOrganizer;
 use App\Entity\SmartInvite\SmartInvite;
 use App\Entity\SmartInvite\SmartInviteAttachment;
 use App\Entity\SmartInvite\SmartInviteEvent;

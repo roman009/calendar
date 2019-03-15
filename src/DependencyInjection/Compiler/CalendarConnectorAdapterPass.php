@@ -2,7 +2,7 @@
 
 namespace App\DependencyInjection\Compiler;
 
-use App\Application\Services\Calendar\Connector\ConnectorAdapterRegistry;
+use App\Services\Calendar\Connector\ConnectorAdapterRegistry;
 use App\Constants;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

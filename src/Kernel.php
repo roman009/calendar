@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\Application\Services\Calendar\Connector\AbstractConnectorAdapter;
-use App\Application\Services\Calendar\Create\AbstractCreateAdapter;
-use App\Application\Services\Calendar\Fetch\AbstractFetchAdapter;
+use App\Services\Calendar\Connector\AbstractConnectorAdapter;
+use App\Services\Calendar\Create\AbstractCreateAdapter;
+use App\Services\Calendar\Fetch\AbstractFetchAdapter;
 use App\DependencyInjection\Compiler\CalendarConnectorAdapterPass;
 use App\DependencyInjection\Compiler\CalendarCreateAdapterPass;
 use App\DependencyInjection\Compiler\CalendarFetchAdapterPass;

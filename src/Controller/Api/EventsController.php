@@ -2,8 +2,8 @@
 
 namespace App\Controller\Api;
 
-use App\Application\Services\Calendar\Connector\Connector;
-use App\Application\Services\Calendar\Fetch\Fetch;
+use App\Services\Calendar\Connector\Connector;
+use App\Services\Calendar\Fetch\Fetch;
 use App\Entity\ApiResponse;
 use App\Entity\Service;
 use App\Exception\Api\ApiException;

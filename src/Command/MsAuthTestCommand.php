@@ -2,9 +2,9 @@
 
 namespace App\Command;
 
-use App\Application\Services\Calendar\Connector\Connector;
-use App\Application\Services\Calendar\Fetch\Fetch;
-use App\Application\Services\Security\GenerateToken;
+use App\Services\Calendar\Connector\Connector;
+use App\Services\Calendar\Fetch\Fetch;
+use App\Services\Security\GenerateToken;
 use App\Entity\Account;
 use App\Entity\AccountUser;
 use App\Entity\User;

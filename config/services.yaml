@@ -35,7 +35,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    App\Application\Services\SmartInvite\Organizer\DefaultOrganizer:
+    App\Services\SmartInvite\Organizer\DefaultOrganizer:
         arguments:
             - '%env(DEFAULT_ORGANIZER_EMAIL)%'
             - '%env(DEFAULT_ORGANIZER_MAILBOX_URL)%'
