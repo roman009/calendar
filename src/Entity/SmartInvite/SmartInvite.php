@@ -60,6 +60,13 @@ class SmartInvite
      */
     private $attachments;
 
+    /**
+     * @var ArrayCollection<SmartInviteReply>
+     * @ORM\OneToMany(targetEntity="SmartInviteReply", mappedBy="smartInvite", cascade={"persist"})
+     * @Groups({"default_api_response_group", "default_api_write_group"})
+     */
+    private $replies;
+
     public function __construct()
     {
         $this->attachments = new ArrayCollection;
@@ -169,6 +176,24 @@ class SmartInvite
     public function setAttachments(ArrayCollection $attachments): self
     {
         $this->attachments = $attachments;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getReplies(): ArrayCollection
+    {
+        return $this->replies;
+    }
+
+    /**
+     * @param ArrayCollection $replies
+     */
+    public function setReplies(ArrayCollection $replies): self
+    {
+        $this->replies = $replies;
 
         return $this;
     }

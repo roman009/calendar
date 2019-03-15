@@ -126,4 +126,31 @@ class SmartInviteRecipient
 
         return $this;
     }
+
+    /**
+     * @param string $status
+     * @return string
+     * @throws \Exception
+     */
+    public static function determineStatus(string $status): string
+    {
+        $status = strtolower($status);
+
+        switch ($status) {
+            case self::STATUS_PENDING:
+                return self::STATUS_PENDING;
+                break;
+            case self::STATUS_ACCEPTED:
+                return self::STATUS_ACCEPTED;
+                break;
+            case self::STATUS_REJECTED:
+                return self::STATUS_REJECTED;
+                break;
+            case self::STATUS_TENTATIVE:
+                return self::STATUS_TENTATIVE;
+                break;
+            default:
+                throw new \Exception('Unhandled status: ' . $status);
+        }
+    }
 }

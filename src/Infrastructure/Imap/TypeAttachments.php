@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Services\SmartInvite\Imap;
+namespace App\Infrastructure\Imap;
 
 class TypeAttachments extends \SSilence\ImapClient\TypeAttachments
 {

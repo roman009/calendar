@@ -186,7 +186,7 @@ class SmartInviteGenerationTestCommand extends Command
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom($smtpPostmaster)
             ->setTo($recipient->getEmail())
-            ->setBody('see attached calendarinvite', 'text/html')
+            ->setBody('see attached calendar invite', 'text/html')
             ->addPart('see attached calendar invite', 'text/plain')
             ->attach($messageAttachment)
         ;

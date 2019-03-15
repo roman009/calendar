@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Application\Services\SmartInvite\Imap;
+namespace App\Infrastructure\Imap;
 
+use App\Infrastructure\Imap\IncomingMessage;
 use SSilence\ImapClient\ImapClientException;
 
 class ImapClient extends \SSilence\ImapClient\ImapClient

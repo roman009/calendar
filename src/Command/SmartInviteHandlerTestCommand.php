@@ -2,13 +2,16 @@
 
 namespace App\Command;
 
-use App\Application\Services\SmartInvite\Imap\ImapClient;
-use App\Application\Services\SmartInvite\Imap\IncomingMessage;
+use App\Entity\SmartInvite\SmartInviteRecipient;
+use App\Entity\SmartInvite\SmartInviteReply;
+use App\Infrastructure\Imap\ImapClient;
+use App\Infrastructure\Imap\IncomingMessage;
 use App\Entity\Email\IncomingEmailAttachment;
 use App\Entity\Email\IncomingEmail;
 use App\Repository\AccountUserRepository;
 use App\Repository\Email\AttachmentRepository;
 use App\Repository\Email\IncomingEmailRepository;
+use App\Repository\SmartInvite\SmartInviteReplyRepository;
 use App\Repository\SmartInvite\SmartInviteRepository;
 use SSilence\ImapClient\ImapClientException;
 use Symfony\Component\Console\Command\Command;
@@ -29,12 +32,17 @@ class SmartInviteHandlerTestCommand extends Command
      * @var AttachmentRepository
      */
     private $attachmentRepository;
+    /**
+     * @var SmartInviteReplyRepository
+     */
+    private $smartInviteReplyRepository;
 
     public function __construct(
         SmartInviteRepository $smartInviteRepository,
         AccountUserRepository $accountUserRepository,
         IncomingEmailRepository $incomingEmailRepository,
         AttachmentRepository $attachmentRepository,
+        SmartInviteReplyRepository $smartInviteReplyRepository,
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -42,6 +50,7 @@ class SmartInviteHandlerTestCommand extends Command
         $this->accountUserRepository = $accountUserRepository;
         $this->incomingEmailRepository = $incomingEmailRepository;
         $this->attachmentRepository = $attachmentRepository;
+        $this->smartInviteReplyRepository = $smartInviteReplyRepository;
     }
 
     protected function configure()
@@ -101,6 +110,7 @@ class SmartInviteHandlerTestCommand extends Command
             ;
             $this->incomingEmailRepository->persistAndFlush($incomingEmail);
 
+            // file attachments
             foreach ($incomingImapEmail->attachments as $imapAttachment) {
                 $attachment = (new IncomingEmailAttachment)
                     ->setName($imapAttachment->name)
@@ -111,6 +121,7 @@ class SmartInviteHandlerTestCommand extends Command
                 $incomingEmail->addAttachment($attachment);
             }
 
+            // mime email body contents
             foreach ($incomingImapEmail->message->info as $infoItem) {
                 if ($infoItem->structure->subtype !== 'CALENDAR') {
                     continue;
@@ -132,14 +143,35 @@ class SmartInviteHandlerTestCommand extends Command
                 $status = (string)$vcalendar->VEVENT->ATTENDEE->parameters['PARTSTAT'];
                 $method = (string)$vcalendar->METHOD;
 
-//                dump($vcalendar);
+                $objectId = explode('+', $uid);
+
+                $smartInvite = $this->smartInviteRepository->findOneBy(['objectId' => $objectId]);
+                if (null === $smartInvite) {
+                    // log
+                    continue;
+                }
+
+                $smartInviteReply = (new SmartInviteReply)
+                    ->setEmail(strtolower(str_ireplace('mailto:', '', $attendee)))
+                    ->setStatus(SmartInviteRecipient::determineStatus($status))
+                    ->setSmartInvite($smartInvite)
+                    ->setAccountUser($smartInvite->getAccountUser())
+                ;
+                $this->smartInviteRepository->persistAndFlush($smartInviteReply);
+
+                // save reply
+                // if callback url is set then call it
+
                 dump($uid);
                 dump($attendee);
                 dump($status);
                 dump($method);
                 dump('');
             }
+
+            $imap->deleteMessage($incomingImapEmail->getID());
         }
 
+//        $ret = $imap->purge();
     }
 }
