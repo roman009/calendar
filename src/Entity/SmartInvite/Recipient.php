@@ -38,6 +38,13 @@ class Recipient
 
     /**
      * @var string
+     * @ORM\Column(name="name", nullable=false, type="string")
+     * @Groups({"default_api_response_group", "default_api_write_group"})
+     */
+    private $name;
+
+    /**
+     * @var string
      * @ORM\Column(name="status", nullable=false, type="string")
      * @Groups({"default_api_response_group"})
      */
@@ -98,6 +105,24 @@ class Recipient
     public function setSmartInvite(SmartInvite $smartInvite): self
     {
         $this->smartInvite = $smartInvite;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

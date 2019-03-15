@@ -87,17 +87,27 @@ class SmartInviteTestCommand extends Command
             ->setAccountUser($accoutUser);
         $this->smartInviteRepository->persistAndFlush($smartInvite);
 
+        $timezone = 'CET';
         $smartInvite
-            ->setOrganizer((new Organizer)->setName('some organizer name')->setAccountUser($accoutUser))
-            ->setRecipient((new Recipient)->setEmail('valeriu@buzila.ro')->setAccountUser($accoutUser))
+            ->setOrganizer((new Organizer)
+                ->setName('some organizer name')
+                ->setAccountUser($accoutUser)
+                ->setEmail('valeriu.buzila@gmail.com')
+            )
+            ->setRecipient((new Recipient)
+            ->setEmail('valeriu@buzilatestcompany.onmicrosoft.com')
+                ->setAccountUser($accoutUser)
+                ->setName('Gigel')
+            )
             ->setEvent(
                 (new Event)
                 ->setSummary('this is the event summary')
-                ->setStart(new \DateTime('2019-03-28 11:00', new \DateTimeZone('CET')))
-                ->setEnd(new \DateTime('2019-03-28 13:00', new \DateTimeZone('CET')))
+                ->setStart(new \DateTime('2019-03-28 11:00', new \DateTimeZone($timezone)))
+                ->setEnd(new \DateTime('2019-03-28 13:00', new \DateTimeZone($timezone)))
                 ->setLocation('1st floor')
-                ->setTimezone('CET')
+                ->setTimezone($timezone)
                 ->setAccountUser($accoutUser)
+                ->setDescription('this is the event description')
             );
 
         $organizer = $smartInvite->getOrganizer();
@@ -123,10 +133,19 @@ class SmartInviteTestCommand extends Command
             'PARTSTAT' => 'NEEDS-ACTION',
             'X-NUM-GUESTS' => '0',
             'RSVP' => 'TRUE',
-            'CN' => $recipient->getEmail(),
+            'CN' => $recipient->getName(),
+        ]);
+        $vattendees->add('MAILTO:' . $organizer->getEmail(), [
+            'CUTYPE' => 'INDIVIDUAL',
+            'ROLE' => 'REQ-PARTICIPANT',
+            'PARTSTAT' => 'ACCEPTED',
+            'X-NUM-GUESTS' => '0',
+            'RSVP' => 'TRUE',
+            'CN' => $organizer->getName(),
         ]);
 //        $voganizer = new \Eluceo\iCal\Property\Event\Organizer('organizer@calendar.lan', [
-        $voganizer = new \Eluceo\iCal\Property\Event\Organizer('MAILTO:' . $smtpPostmaster, [
+//        $voganizer = new \Eluceo\iCal\Property\Event\Organizer('MAILTO:' . 'valeriu@buzilatestcompany.onmicrosoft.com', [
+        $voganizer = new \Eluceo\iCal\Property\Event\Organizer('MAILTO:' /*. $smartInvite->getObjectId()*/ . 'valeriu@buzila.ro', [
             'CN' => $organizer->getName()
         ]);
 //        $vevent = new \Eluceo\iCal\Component\Event($smartInvite->getObjectId() . '+invite@calendar.lan');
@@ -137,10 +156,17 @@ class SmartInviteTestCommand extends Command
             ->setDtEnd($event->getEnd())
             ->setOrganizer($voganizer)
             ->setAttendees($vattendees)
-            ->setLocation($event->getLocation());
+            ->setLocation($event->getLocation())
+            ->setStatus(\Eluceo\iCal\Component\Event::STATUS_CONFIRMED)
+            ->setTimezoneString((new \DateTimeZone($timezone))->getName())
+            ->setDescription($event->getDescription())
+            ->setCreated($event->getCreated())
+            ->setDtStamp($event->getCreated())
+        ;
         $vcalendar->addComponent($vevent);
-        $vcalendar->setTimezone($smartInvite->getEvent()->getTimezone());
+//        $vcalendar->setTimezone($smartInvite->getEvent()->getTimezone());
         $vcalendar->setMethod('REQUEST');
+        $vcalendar->setCalendarScale('GREGORIAN');
 
         dump($smartInvite);
 
@@ -159,8 +185,14 @@ class SmartInviteTestCommand extends Command
             ->setFrom('postmaster@sandboxf05b190d1444418fb0b4407bfe487b16.mailgun.org')
             ->setTo($recipient->getEmail())
             ->setBody('see attached calendarinvite', 'text/html')
-            ->attach($messageAttachment);
-        $message->addPart($vcalendarRender, 'text/calendar', 'utf-8');
+            ->addPart('see attached calendar invite', 'text/plain')
+            ->attach($messageAttachment)
+        ;
+
+        $messagePart = new \Swift_MimePart($vcalendarRender, 'text/calendar; method=REQUEST', 'UTF-8');
+        $messagePart->setEncoder(new \Swift_Mime_ContentEncoder_PlainContentEncoder('7bit'));
+
+        $message->attach($messagePart);
 
         $this->mailer->send($message);
     }

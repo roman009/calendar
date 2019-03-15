@@ -32,6 +32,13 @@ class Organizer
     private $name;
 
     /**
+     * @var string
+     * @ORM\Column(name="email", nullable=false, type="string")
+     * @Groups({"default_api_response_group", "default_api_write_group"})
+     */
+    private $email;
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -63,6 +70,24 @@ class Organizer
     public function setSmartInvite(SmartInvite $smartInvite): self
     {
         $this->smartInvite = $smartInvite;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }
