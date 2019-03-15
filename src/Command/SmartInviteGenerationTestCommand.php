@@ -19,9 +19,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SmartInviteTestCommand extends Command
+class SmartInviteGenerationTestCommand extends Command
 {
-    protected static $defaultName = 'app:smart-invite-test';
+    protected static $defaultName = 'app:smart-invite-send-test';
     /**
      * @var SmartInviteRepository
      */
