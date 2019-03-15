@@ -94,6 +94,14 @@ class EventsController extends AbstractApiController
      * https://docs.cronofy.com/developers/api/events/read-events/
      *
      * @Route("/event", methods={"GET"}, name="api-event-list")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of events",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
+     *     )
+     * )
      * @SWG\Tag(name="event")
      * @Security(name="Bearer")
      * @Areas({"internal","default"})
@@ -108,6 +116,11 @@ class EventsController extends AbstractApiController
      * https://docs.cronofy.com/developers/api/events/read-events/
      *
      * @Route("/event", methods={"POST"}, name="api-event-create")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Create a new event in the selected service",
+     *     @SWG\Schema(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
+     * )
      * @SWG\Tag(name="event")
      * @Security(name="Bearer")
      * @Areas({"internal","default"})
@@ -122,6 +135,11 @@ class EventsController extends AbstractApiController
      * https://docs.cronofy.com/developers/api/events/read-events/
      *
      * @Route("/event/{objectId}", methods={"PATCH"}, name="api-event-update")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Update an event in the selected service",
+     *     @SWG\Schema(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
+     * )
      * @SWG\Tag(name="event")
      * @Security(name="Bearer")
      * @Areas({"internal","default"})
@@ -136,6 +154,10 @@ class EventsController extends AbstractApiController
      * https://docs.cronofy.com/developers/api/events/read-events/
      *
      * @Route("/event/{objectId}", methods={"DELETE"}, name="api-event-delete")
+     * @SWG\Response(
+     *     response=200,
+     *     description="Delete an event in the selected service"
+     * )
      * @SWG\Tag(name="event")
      * @Security(name="Bearer")
      * @Areas({"internal","default"})

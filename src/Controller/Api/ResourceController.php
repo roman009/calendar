@@ -18,9 +18,6 @@ class ResourceController extends AbstractApiController
      * https://docs.cronofy.com/developers/api/enterprise-connect/list-resources/
      *
      * @Route("/resource", methods={"GET"}, name="api-resource-list")
-     * @SWG\Tag(name="resource")
-     * @Security(name="Bearer")
-     * @Areas({"internal","default"})
      *
      * @return JsonResponse
      */

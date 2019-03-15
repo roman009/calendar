@@ -12,7 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SmartInviteController
+/**
+ * @Route(host="api.{domain}", defaults={"domain" = "%domain%"}, requirements={"domain" = "%domain%"})
+ */
+class SmartInviteController extends AbstractApiController
 {
     /**
      * https://docs.cronofy.com/developers/api/smart-invites/create-smart-invite/
@@ -23,7 +26,7 @@ class SmartInviteController
      *     description="Returns the list of smart invites",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=App\Entity\SmartInvite::class, groups={"default_api_response_group"}))
+     *         @SWG\Items(ref=@Model(type=App\Entity\SmartInvite\SmartInvite::class, groups={"default_api_response_group"}))
      *     )
      * )
      * @SWG\Tag(name="smart-invite")
@@ -43,13 +46,13 @@ class SmartInviteController
      * @SWG\Response(
      *     response=200,
      *     description="Create a new smart invite",
-     *     @SWG\Schema(ref=@Model(type=App\Entity\SmartInvite::class, groups={"default_api_response_group"}))
+     *     @SWG\Schema(ref=@Model(type=App\Entity\SmartInvite\SmartInvite::class, groups={"default_api_response_group"}))
      * )
      * @SWG\Parameter(
      *     name="smart-invite",
      *     in="body",
      *     type="string",
-     *     schema=@SWG\Schema(ref=@Model(type=App\Entity\SmartInvite::class, groups={"default_api_write_group"})),
+     *     schema=@SWG\Schema(ref=@Model(type=App\Entity\SmartInvite\SmartInvite::class, groups={"default_api_write_group"})),
      *     description="Smart invite body"
      * )
      * @SWG\Tag(name="smart-invite")
@@ -66,7 +69,10 @@ class SmartInviteController
      * https://docs.cronofy.com/developers/api/smart-invites/create-smart-invite/
      *
      * @Route("/smart-invite/{objectId}", methods={"DELETE"}, name="api-smartinvite-delete")
-     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Delete smart invite"
+     * )
      * @SWG\Parameter(
      *     name="objectId",
      *     in="query",
