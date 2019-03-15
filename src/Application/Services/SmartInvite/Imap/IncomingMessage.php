@@ -3,7 +3,6 @@
 namespace App\Application\Services\SmartInvite\Imap;
 
 use SSilence\ImapClient\ImapClientException;
-use SSilence\ImapClient\TypeBody;
 
 class IncomingMessage extends \SSilence\ImapClient\IncomingMessage
 {

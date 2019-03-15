@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Application\Services\SmartInvite\Imap\ImapClient;
+use App\Application\Services\SmartInvite\Imap\IncomingMessage;
 use App\Entity\Email\IncomingEmailAttachment;
 use App\Entity\Email\IncomingEmail;
 use App\Repository\AccountUserRepository;
@@ -10,10 +11,10 @@ use App\Repository\Email\AttachmentRepository;
 use App\Repository\Email\IncomingEmailRepository;
 use App\Repository\SmartInvite\SmartInviteRepository;
 use SSilence\ImapClient\ImapClientException;
-use SSilence\ImapClient\IncomingMessage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Sabre\VObject\Reader;
 
 class SmartInviteHandlerTestCommand extends Command
 {
@@ -64,11 +65,6 @@ class SmartInviteHandlerTestCommand extends Command
             die(); // Oh no :( we failed
         }
 
-        $folders = $imap->getFolders();
-        foreach($folders as $folder) {
-            dump($folder);
-        }
-
         $overallMessages = $imap->countMessages();
         dump($overallMessages);
 
@@ -92,12 +88,13 @@ class SmartInviteHandlerTestCommand extends Command
         /** @var IncomingMessage $incomingImapEmail */
 
         foreach ($incomingImapEmails as $incomingImapEmail) {
-            dump($incomingImapEmail);
+//            dump($incomingImapEmail);
 
             $incomingEmail = (new IncomingEmail)
-                ->setFrom($incomingImapEmail->header->from)
-                ->setTo($incomingImapEmail->header->to)
-                ->setDate($incomingImapEmail->header->date)
+                ->setSubject($incomingImapEmail->header->subject)
+                ->setEmailFrom($incomingImapEmail->header->from)
+                ->setEmailTo($incomingImapEmail->header->to)
+                ->setEmailDate(new \DateTime($incomingImapEmail->header->date))
                 ->setMessageId($incomingImapEmail->header->message_id)
                 ->setBodyText($incomingImapEmail->message->text)
                 ->setBodyHtml($incomingImapEmail->message->html)
@@ -111,8 +108,37 @@ class SmartInviteHandlerTestCommand extends Command
                     ->setIncomingEmail($incomingEmail);
                 ;
                 $this->attachmentRepository->persistAndFlush($attachment);
+                $incomingEmail->addAttachment($attachment);
             }
 
+            foreach ($incomingImapEmail->message->info as $infoItem) {
+                if ($infoItem->structure->subtype !== 'CALENDAR') {
+                    continue;
+                }
+                $attachment = (new IncomingEmailAttachment)
+                    ->setName('body_subtype.ics')
+                    ->setBody((string)$infoItem)
+                    ->setIncomingEmail($incomingEmail);
+                ;
+                $this->attachmentRepository->persistAndFlush($attachment);
+                $incomingEmail->addAttachment($attachment);
+            }
+
+            /** @var IncomingEmailAttachment $attachment */
+            foreach ($incomingEmail->getAttachments() as $attachment) {
+                $vcalendar = Reader::read($attachment->getBody());
+                $uid = (string)$vcalendar->VEVENT->UID;
+                $attendee = (string)$vcalendar->VEVENT->ATTENDEE;
+                $status = (string)$vcalendar->VEVENT->ATTENDEE->parameters['PARTSTAT'];
+                $method = (string)$vcalendar->METHOD;
+
+//                dump($vcalendar);
+                dump($uid);
+                dump($attendee);
+                dump($status);
+                dump($method);
+                dump('');
+            }
         }
 
     }

@@ -3,7 +3,9 @@
 namespace App\Entity\Email;
 
 use App\Entity\BaseEntityTrait;
+use App\Repository\Email\AttachmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,21 +24,21 @@ class IncomingEmail
 
     /**
      * @var string
-     * @ORM\Column(name="from", nullable=false, type="string")
+     * @ORM\Column(name="email_from", nullable=false, type="string")
      */
-    private $from;
+    private $emailFrom;
 
     /**
      * @var string
-     * @ORM\Column(name="to", nullable=false, type="string")
+     * @ORM\Column(name="email_to", nullable=false, type="string")
      */
-    private $to;
+    private $emailTo;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="date", nullable=false, type="datetime")
+     * @ORM\Column(name="email_date", nullable=false, type="datetime")
      */
-    private $date;
+    private $emailDate;
 
     /**
      * @var string
@@ -46,13 +48,13 @@ class IncomingEmail
 
     /**
      * @var string
-     * @ORM\Column(name="body_html", nullable=false, type="text")
+     * @ORM\Column(name="body_html", nullable=true, type="text")
      */
     private $bodyHtml;
 
     /**
      * @var string
-     * @ORM\Column(name="body_text", nullable=false, type="text")
+     * @ORM\Column(name="body_text", nullable=true, type="text")
      */
     private $bodyText;
 
@@ -61,6 +63,11 @@ class IncomingEmail
      * @ORM\OneToMany(targetEntity="IncomingEmailAttachment", mappedBy="incomingEmail", cascade={"persist"})
      */
     private $attachments;
+
+    public function __construct()
+    {
+        $this->attachments = new ArrayCollection;
+    }
 
     /**
      * @return string
@@ -83,17 +90,17 @@ class IncomingEmail
     /**
      * @return string
      */
-    public function getFrom(): string
+    public function getEmailFrom(): string
     {
-        return $this->from;
+        return $this->emailFrom;
     }
 
     /**
-     * @param string $from
+     * @param string $emailFrom
      */
-    public function setFrom(string $from): self
+    public function setEmailFrom(string $emailFrom): self
     {
-        $this->from = $from;
+        $this->emailFrom = $emailFrom;
 
         return $this;
     }
@@ -101,17 +108,17 @@ class IncomingEmail
     /**
      * @return string
      */
-    public function getTo(): string
+    public function getEmailTo(): string
     {
-        return $this->to;
+        return $this->emailTo;
     }
 
     /**
-     * @param string $to
+     * @param string $emailTo
      */
-    public function setTo(string $to): self
+    public function setEmailTo(string $emailTo): self
     {
-        $this->to = $to;
+        $this->emailTo = $emailTo;
 
         return $this;
     }
@@ -119,17 +126,17 @@ class IncomingEmail
     /**
      * @return \DateTime
      */
-    public function getDate(): \DateTime
+    public function getEmailDate(): \DateTime
     {
-        return $this->date;
+        return $this->emailDate;
     }
 
     /**
-     * @param \DateTime $date
+     * @param \DateTime $emailDate
      */
-    public function setDate(\DateTime $date): self
+    public function setEmailDate(\DateTime $emailDate): self
     {
-        $this->date = $date;
+        $this->emailDate = $emailDate;
 
         return $this;
     }
@@ -155,7 +162,7 @@ class IncomingEmail
     /**
      * @return string
      */
-    public function getBodyHtml(): string
+    public function getBodyHtml(): ?string
     {
         return $this->bodyHtml;
     }
@@ -163,7 +170,7 @@ class IncomingEmail
     /**
      * @param string $bodyHtml
      */
-    public function setBodyHtml(string $bodyHtml): self
+    public function setBodyHtml(?string $bodyHtml): self
     {
         $this->bodyHtml = $bodyHtml;
 
@@ -173,7 +180,7 @@ class IncomingEmail
     /**
      * @return string
      */
-    public function getBodyText(): string
+    public function getBodyText(): ?string
     {
         return $this->bodyText;
     }
@@ -181,7 +188,7 @@ class IncomingEmail
     /**
      * @param string $bodyText
      */
-    public function setBodyText(string $bodyText): self
+    public function setBodyText(?string $bodyText): self
     {
         $this->bodyText = $bodyText;
 
@@ -189,21 +196,31 @@ class IncomingEmail
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAttachments(): ArrayCollection
+    public function getAttachments(): Collection
     {
         return $this->attachments;
     }
 
     /**
-     * @param ArrayCollection $attachments
+     * @param Collection $attachments
      */
-    public function setAttachments(ArrayCollection $attachments): self
+    public function setAttachments(Collection $attachments): self
     {
         $this->attachments = $attachments;
 
         return $this;
     }
 
+    /**
+     * @param IncomingEmailAttachment $attachment
+     * @return IncomingEmail
+     */
+    public function addAttachment(IncomingEmailAttachment $attachment): self
+    {
+        $this->attachments[] = $attachment;
+
+        return $this;
+    }
 }
