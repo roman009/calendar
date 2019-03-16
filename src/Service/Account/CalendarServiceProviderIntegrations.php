@@ -52,7 +52,10 @@ class CalendarServiceProviderIntegrations
         $calendarIntegrations = [];
         /** @var CalendarServiceProvider $service */
         foreach (CalendarServiceProvider::all() as $service) {
-            $calendarIntegrations[$service->getName()] = $this->{$service->getCode() . 'AuthTokenRepository'}->findOneBy(['accountUser' => $accountUser]);
+            $calendarIntegrations[] = [
+                'service' => $service,
+                'token' => $this->{$service->getCode() . 'AuthTokenRepository'}->findOneBy(['accountUser' => $accountUser])
+            ];
         }
 
         return $calendarIntegrations;

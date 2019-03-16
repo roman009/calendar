@@ -8,14 +8,15 @@ use App\Entity\Calendar\Office365\Office365AuthToken;
 use App\Repository\Calendar\Office365\Office365AuthTokenRepository;
 use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class Office365Adapter extends MicrosoftAdapter implements OAuthConnectorInterface
 {
     public const ALIAS = 'office365';
 
-    public function __construct(Office365AuthTokenRepository $authTokenRepository)
+    public function __construct(Office365AuthTokenRepository $authTokenRepository, RouterInterface $router)
     {
-        parent::__construct($authTokenRepository);
+        parent::__construct($authTokenRepository, $router);
     }
 
     public static function alias(): string

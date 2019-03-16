@@ -8,14 +8,15 @@ use App\Entity\Calendar\Outlook\OutlookAuthToken;
 use App\Repository\Calendar\Outlook\OutlookAuthTokenRepository;
 use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class OutlookAdapter extends MicrosoftAdapter implements OAuthConnectorInterface
 {
     public const ALIAS = 'outlook';
 
-    public function __construct(OutlookAuthTokenRepository $authTokenRepository)
+    public function __construct(OutlookAuthTokenRepository $authTokenRepository, RouterInterface $router)
     {
-        parent::__construct($authTokenRepository);
+        parent::__construct($authTokenRepository, $router);
     }
 
     public static function alias(): string

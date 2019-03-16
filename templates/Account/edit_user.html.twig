@@ -12,10 +12,17 @@
     {{ form_widget(form) }}
     {{ form_end(form) }}
 
-    <h2>Integrations</h2>
+    <h2>Calendar Integrations</h2>
     <ul>
-        {% for name, integration in user_integration %}
-            <li>{{ name }} | {% if integration is not null %}yes{% else %}no{% endif %}</li>
+        {% for calendar_integration in user_integration %}
+            <li>
+                {{ calendar_integration.service.name }} |
+                {% if calendar_integration.token is not null %}
+                    yes
+                {% else %}
+                    no <a href="{{ url('integration-calendar-connect', {'providerName': calendar_integration.service.code, 'objectId':account_user.objectId}) }}">link</a>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

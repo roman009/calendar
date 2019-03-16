@@ -5,6 +5,11 @@ namespace App\Service\Calendar\Connector;
 use App\Entity\AccountUser;
 use App\Entity\Calendar\AuthToken;
 use App\Entity\Calendar\CalendarServiceProvider;
+use App\Service\Calendar\Connector\Response\RegisterFailResponse;
+use App\Service\Calendar\Connector\Response\RegisterOAuthAuthUrlResponse;
+use App\Service\Calendar\Connector\Response\RegisterResponse;
+use App\Service\Calendar\Connector\Response\RegisterSuccessResponse;
+use App\Service\Calendar\Connector\Response\RegisterUserPasswordRequestResponse;
 
 class Connector
 {
@@ -25,15 +30,19 @@ class Connector
         return $handler->isRegistered($accountUser);
     }
 
-    public function register(AccountUser $accountUser, CalendarServiceProvider $service, string $username = null, string $password = null)
+    public function register(AccountUser $accountUser, CalendarServiceProvider $service, string $authCode = null, string $username = null, string $password = null): RegisterResponse
     {
         $handler = $this->connectorRegistry->getConnectorAdapter($service);
 
         if ($handler instanceof OAuthConnectorInterface) {
-            $this->registerOAuth($accountUser, $handler);
-        } elseif ($handler instanceof UserPasswordConnectorInterface) {
-            $this->registerUserPassword($accountUser, $handler, $username, $password);
+            return $this->registerOAuth($accountUser, $handler, $authCode);
         }
+
+        if ($handler instanceof UserPasswordConnectorInterface) {
+            return $this->registerUserPassword($accountUser, $handler, $username, $password);
+        }
+
+        throw new \Exception('Registration method not supported');
     }
 
     public function getToken(AccountUser $accountUser, CalendarServiceProvider $service): ?AuthToken
@@ -49,15 +58,22 @@ class Connector
      * @param AccountUser $accountUser
      * @param $handler
      */
-    private function registerOAuth(AccountUser $accountUser, AbstractConnectorAdapter $handler): void
+    private function registerOAuth(AccountUser $accountUser, AbstractConnectorAdapter $handler, string $authCode = null): RegisterResponse
     {
-        echo $handler->getAuthUrl($accountUser) . PHP_EOL;
+        if (null === $authCode) {
+            $authUrl = $handler->getAuthUrl($accountUser);
+            return new RegisterOAuthAuthUrlResponse($authUrl);
+        }
 
-        $authCode = trim(fgets(STDIN));
+//        echo $handler->getAuthUrl($accountUser) . PHP_EOL;
+
+//        $authCode = trim(fgets(STDIN));
 
         $token = $handler->fetchAccessToken($authCode);
 
         $handler->persist($token, $accountUser);
+
+        return new RegisterSuccessResponse;
     }
 
     /**
@@ -66,10 +82,17 @@ class Connector
      * @param string $username
      * @param string $password
      */
-    private function registerUserPassword(AccountUser $accountUser, AbstractConnectorAdapter $handler, string $username, string $password)
+    private function registerUserPassword(AccountUser $accountUser, AbstractConnectorAdapter $handler, string $username = null, string $password = null): RegisterResponse
     {
+        if (null === $username || null === $password) {
+            return new RegisterUserPasswordRequestResponse;
+        }
         if ($handler->validate($username, $password)) {
             $handler->saveUsernamePasswordToken($accountUser, $username, $password);
+
+            return new RegisterSuccessResponse;
         }
+
+        return new RegisterFailResponse;
     }
 }

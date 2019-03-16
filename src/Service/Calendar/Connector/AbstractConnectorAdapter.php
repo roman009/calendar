@@ -9,6 +9,7 @@ use App\Service\Calendar\AbstractHandler;
 use League\OAuth2\Client\Grant\RefreshToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 abstract class AbstractConnectorAdapter extends AbstractHandler
 {
@@ -16,10 +17,15 @@ abstract class AbstractConnectorAdapter extends AbstractHandler
      * @var AuthTokenRepository
      */
     protected $authTokenRepository;
+    /**
+     * @var RouterInterface
+     */
+    protected $router;
 
-    public function __construct(AuthTokenRepository $authTokenRepository)
+    public function __construct(AuthTokenRepository $authTokenRepository, RouterInterface $router)
     {
         $this->authTokenRepository = $authTokenRepository;
+        $this->router = $router;
     }
 
     public function isRegistered(AccountUser $accountUser): bool

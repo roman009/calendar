@@ -6,6 +6,7 @@ use App\Entity\AccountUser;
 use App\Service\Calendar\Connector\AbstractConnectorAdapter;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use Stevenmaguire\OAuth2\Client\Provider\Microsoft;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class MicrosoftAdapter
@@ -20,14 +21,7 @@ abstract class MicrosoftAdapter extends AbstractConnectorAdapter
     protected function getProvider(): AbstractProvider
     {
         if (null === $this->provider) {
-            $this->provider = new Microsoft([
-                'clientId' => getenv('MICROSOFT_APPLICATION_ID'),
-                'clientSecret' => getenv('MICROSOFT_APPLICATION_PASSWORD'),
-                'redirectUri' => 'https://calendar.lan/ms-callback',
-                'urlAuthorize' => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-                'urlAccessToken' => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-                'urlResourceOwnerDetails' => 'https://outlook.office.com/api/v2.0/me'
-            ]);
+            $this->provider = new Microsoft($this->getMainProviderOptions());
         }
 
         return $this->provider;
@@ -40,6 +34,31 @@ abstract class MicrosoftAdapter extends AbstractConnectorAdapter
             'scope' => 'offline_access Calendars.Read Calendars.Read.Shared Calendars.ReadWrite Calendars.ReadWrite.Shared' // array or string
         ];
 
-        return $this->getProvider()->getAuthorizationUrl($options);
+        return $this->getAuthProviderWithUrl($accountUser)->getAuthorizationUrl($options);
+    }
+
+    protected function getMainProviderOptions(): array
+    {
+        return [
+            'clientId' => getenv('MICROSOFT_APPLICATION_ID'),
+            'clientSecret' => getenv('MICROSOFT_APPLICATION_PASSWORD'),
+            'urlAuthorize' => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+            'urlAccessToken' => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+            'urlResourceOwnerDetails' => 'https://outlook.office.com/api/v2.0/me',
+        ];
+    }
+
+    private function getAuthProviderWithUrl(AccountUser $accountUser)
+    {
+        return new Microsoft(array_merge(
+            $this->getMainProviderOptions(),
+            [
+                'redirectUri' => $this->router->generate(
+                    'integration-calendar-connect-oauth-callback-handler',
+                    ['providerName' => $this->alias(), 'objectId' => $accountUser->getObjectId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                )
+            ]
+        ));
     }
 }

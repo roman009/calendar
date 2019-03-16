@@ -10,14 +10,15 @@ use App\Service\Calendar\Connector\Microsoft\Exchange\Autodiscover;
 use App\Service\Calendar\Connector\Microsoft\Exchange\Client;
 use App\Service\Calendar\Connector\UserPasswordConnectorInterface;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class ExchangeAdapter extends MicrosoftAdapter implements UserPasswordConnectorInterface
 {
     public const ALIAS = 'exchange';
 
-    public function __construct(ExchangeAuthTokenRepository $authTokenRepository)
+    public function __construct(ExchangeAuthTokenRepository $authTokenRepository, RouterInterface $router)
     {
-        parent::__construct($authTokenRepository);
+        parent::__construct($authTokenRepository, $router);
     }
 
     public static function alias(): string

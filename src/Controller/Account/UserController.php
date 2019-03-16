@@ -143,6 +143,7 @@ class UserController extends AbstractAccountController
         return $this->render('Account/edit_user.html.twig', [
             'form' => $form->createView(),
             'user_integration' => $userIntegrations,
+            'account_user' => $accountUser,
         ]);
     }
 }

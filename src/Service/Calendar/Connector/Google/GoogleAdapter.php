@@ -11,6 +11,8 @@ use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Google;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Class Google
@@ -23,9 +25,9 @@ class GoogleAdapter extends AbstractConnectorAdapter implements OAuthConnectorIn
      */
     private $provider;
 
-    public function __construct(GoogleAuthTokenRepository $googleTokenRepository)
+    public function __construct(GoogleAuthTokenRepository $googleTokenRepository, RouterInterface $router)
     {
-        parent::__construct($googleTokenRepository);
+        parent::__construct($googleTokenRepository, $router);
     }
 
     public static function alias(): string
@@ -35,19 +37,17 @@ class GoogleAdapter extends AbstractConnectorAdapter implements OAuthConnectorIn
 
     public function getAuthUrl(AccountUser $accountUser): string
     {
-        return $this->getProvider()->getAuthorizationUrl(['prompt' => 'consent']);
+        $options = [
+            'prompt' => 'consent'
+        ];
+
+        return $this->getAuthProviderWithUrl($accountUser)->getAuthorizationUrl($options);
     }
 
     protected function getProvider(): AbstractProvider
     {
         if (null === $this->provider) {
-            $this->provider = new Google([
-                'clientId' => getenv('GOOGLE_CLIENT_ID'),
-                'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
-                'redirectUri' => 'https://calendar.test.buzila.ro',
-                'accessType' => 'offline',
-                'scopes' => ['https://www.googleapis.com/auth/calendar'],
-            ]);
+            $this->provider = new Google($this->getMainProviderOptions());
         }
 
         return $this->provider;
@@ -76,5 +76,29 @@ class GoogleAdapter extends AbstractConnectorAdapter implements OAuthConnectorIn
     public function saveUsernamePasswordToken(AccountUser $accountUser, string $username, string $password)
     {
         throw new \Exception('This shouldn\'t be called here');
+    }
+
+    private function getAuthProviderWithUrl(AccountUser $accountUser)
+    {
+        return new Google(array_merge(
+            $this->getMainProviderOptions(),
+            [
+                'redirectUri' => $this->router->generate(
+                    'integration-calendar-connect-oauth-callback-handler',
+                    ['providerName' => $this->alias(), 'objectId' => $accountUser->getObjectId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+            ]
+        ));
+    }
+
+    protected function getMainProviderOptions(): array
+    {
+        return [
+            'clientId' => getenv('GOOGLE_CLIENT_ID'),
+            'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
+            'accessType' => 'offline',
+            'scopes' => ['https://www.googleapis.com/auth/calendar'],
+        ];
     }
 }
