@@ -165,7 +165,6 @@ class UserController extends AbstractAccountController
      * @param string $objectId
      * @param string $calendarObjectId
      * @param AccountRepository $accountRepository
-     * @param UserRepository $userRepository
      * @param AccountUserRepository $accountUserRepository
      * @param CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
      *

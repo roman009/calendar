@@ -158,9 +158,12 @@ class MainController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getData());
+            $response = $connector->register($accountUser, $service, null, $form->get('username')->getData(), $form->get('password')->getData());
+            if ($response instanceof RegisterSuccessResponse) {
+                return $this->json('success');
+            }
 
-            return $this->json('success');
+            return $this->json('error', Response::HTTP_BAD_REQUEST);
         }
 
         return $this->render('Integration/authenticate.html.twig', [
