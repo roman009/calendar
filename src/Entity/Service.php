@@ -64,8 +64,10 @@ class Service
 
         $services['google'] = (new Service('google'))->setName('Google');
         $services['outlook'] = (new Service('outlook'))->setName('Outlook');
-//        $services['office365'] = (new Service('office365'))->setName('Office365');
+        $services['office365'] = (new Service('office365'))->setName('Office365');
         $services['exchange'] = (new Service('exchange'))->setName('Exchange');
+        $services['apple'] = (new Service('apple'))->setName('Apple');
+        ksort($services);
 
         return $services;
     }

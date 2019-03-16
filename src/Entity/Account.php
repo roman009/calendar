@@ -19,7 +19,7 @@ class Account
     private $name;
 
     /**
-     * @var Collection
+     * @var Collection<AccountUser>
      *
      * @ORM\OneToMany(targetEntity="App\Entity\AccountUser", mappedBy="account")
      */
@@ -42,5 +42,13 @@ class Account
         return array_map(function (AccountUser $accountUser) {
             return $accountUser->getUser();
         }, $this->accountUsers->toArray());
+    }
+
+    /**
+     * @return Collection<AccountUser>
+     */
+    public function getAccountUsers(): Collection
+    {
+        return $this->accountUsers;
     }
 }

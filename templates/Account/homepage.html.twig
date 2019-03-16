@@ -8,8 +8,13 @@
     <div>
         Users
         <ol>
-        {% for user in users %}
-            <li>{{ user.objectId }} | {{ user.email }} | <a href="{{ url('account-delete-user', {'objectId': user.objectId}) }}">delete</a></li>
+        {% for account_user in account_users %}
+            <li>
+                {{ account_user.objectId }} |
+                {{ account_user.user.email }} |
+                <a href="{{ url('account-edit-user', {'objectId': account_user.objectId}) }}">edit</a> |
+                <a href="{{ url('account-delete-user', {'objectId': account_user.objectId}) }}">delete</a>
+            </li>
         {% endfor %}
         </ol>
     </div>

@@ -11,9 +11,16 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
+
+    <h2>Integrations</h2>
+    <ul>
+        {% for name, integration in user_integration %}
+            <li>{{ name }} | {% if integration is not null %}yes{% else %}no{% endif %}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block title %}
-Add user
+    Edit user
 {% endblock %}
 

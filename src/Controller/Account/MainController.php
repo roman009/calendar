@@ -22,8 +22,8 @@ class MainController extends AbstractAccountController
     {
         $account = $this->authenticate($request, $accountRepository);
 
-        $users = $account->getUsers();
+        $accountUsers = $account->getAccountUsers();
 
-        return $this->render('Account/homepage.html.twig', ['users' => $users]);
+        return $this->render('Account/homepage.html.twig', ['account_users' => $accountUsers]);
     }
 }
