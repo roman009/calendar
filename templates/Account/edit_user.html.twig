@@ -20,7 +20,8 @@
                 {% if calendar_integration.token is not null %}
                     yes |
                     <a href="{{ url('account-delete-calendar-integration', {'providerName': calendar_integration.service.code, 'objectId': account_user.objectId, 'tokenObjectId': calendar_integration.token.objectId}) }}">delete</a> |
-                    <a href="{{ url('account-view-calendar-integration', {'providerName': calendar_integration.service.code, 'objectId': account_user.objectId}) }}">view</a> |
+                    <a href="{{ url('account-view-calendar-integration', {'providerName': calendar_integration.service.code, 'objectId': account_user.objectId}) }}">view connected calendars</a> |
+                    <a href="{{ url('account-view-events-integration', {'providerName': calendar_integration.service.code, 'objectId': account_user.objectId}) }}">view events</a> |
                 {% else %}
                     no <a href="{{ url('integration-calendar-connect', {'providerName': calendar_integration.service.code, 'objectId':account_user.objectId}) }}">link</a>
                 {% endif %}

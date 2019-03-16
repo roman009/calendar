@@ -7,6 +7,7 @@ use App\Entity\Calendar\Calendar;
 use App\Entity\Calendar\Event;
 use App\Entity\Calendar\FreeBusy;
 use App\Entity\Calendar\Office365\Office365Calendar;
+use App\Entity\Calendar\Office365\Office365Event;
 use App\Entity\Calendar\Office365\Office365FreeBusy;
 use App\Entity\Calendar\Outlook\OutlookCalendar;
 use App\Repository\Calendar\Office365\Office365CalendarRepository;
@@ -143,10 +144,33 @@ class Office365Adapter extends AbstractFetchAdapter
      * @param string $calendarId
      * @param string|null $timezone
      *
+     * @throws \Microsoft\Graph\Exception\GraphException
+     *
      * @return array<Event>
      */
     public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
+        $this->client->setAccessToken($token->getAccessToken());
+
         $calendar = $this->office365CalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'objectId' => $calendarId]);
+
+        $eventList = [];
+
+        $eventListResponse = $this->client->createRequest('GET', '/me/calendars/' . $calendar->getCalendarId() . '/events')
+            ->setReturnType(\Microsoft\Graph\Model\Event::class)
+            ->execute();
+
+        /** @var \Microsoft\Graph\Model\Event $item */
+        foreach ($eventListResponse as $item) {
+            $office365Event = (new Office365Event)
+                ->setName($item->getSubject())
+                ->setStart(new \DateTime($item->getStart()->getDateTime(), new \DateTimeZone($item->getStart()->getTimeZone())))
+                ->setEnd(new \DateTime($item->getEnd()->getDateTime(), new \DateTimeZone($item->getEnd()->getTimeZone())))
+                ->setTimezone($item->getStart()->getTimeZone())
+                ->setEventId($item->getId());
+            $eventList[] = $office365Event;
+        }
+
+        return $eventList;
     }
 }

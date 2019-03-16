@@ -4,9 +4,11 @@ namespace App\Service\Calendar\Fetch\Microsoft;
 
 use App\Entity\Calendar\AuthToken;
 use App\Entity\Calendar\Calendar;
+use App\Entity\Calendar\Event;
 use App\Entity\Calendar\FreeBusy;
 use App\Entity\Calendar\Outlook\Office365FreeBusy;
 use App\Entity\Calendar\Outlook\OutlookCalendar;
+use App\Entity\Calendar\Outlook\OutlookEvent;
 use App\Repository\Calendar\Outlook\OutlookCalendarRepository;
 use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use App\Service\Calendar\Fetch\Microsoft\Model\GraphCalendar;
@@ -141,10 +143,33 @@ class OutlookAdapter extends AbstractFetchAdapter
      * @param string $calendarId
      * @param string|null $timezone
      *
+     * @throws \Microsoft\Graph\Exception\GraphException
+     *
      * @return array<Event>
      */
     public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
+        $this->client->setAccessToken($token->getAccessToken());
+
         $calendar = $this->outlookCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'objectId' => $calendarId]);
+
+        $eventList = [];
+
+        $eventListResponse = $this->client->createRequest('GET', '/me/calendars/' . $calendar->getCalendarId() . '/events')
+            ->setReturnType(\Microsoft\Graph\Model\Event::class)
+            ->execute();
+
+        /** @var \Microsoft\Graph\Model\Event $item */
+        foreach ($eventListResponse as $item) {
+            $outlook365Event = (new OutlookEvent)
+                ->setName($item->getSubject())
+                ->setStart(new \DateTime($item->getStart()->getDateTime(), new \DateTimeZone($item->getStart()->getTimeZone())))
+                ->setEnd(new \DateTime($item->getEnd()->getDateTime(), new \DateTimeZone($item->getEnd()->getTimeZone())))
+                ->setTimezone($item->getStart()->getTimeZone())
+                ->setEventId($item->getId());
+            $eventList[] = $outlook365Event;
+        }
+
+        return $eventList;
     }
 }

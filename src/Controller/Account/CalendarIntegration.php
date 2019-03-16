@@ -101,4 +101,49 @@ class CalendarIntegration extends AbstractAccountController
         dump($response);
         die();
     }
+
+    /**
+     * @Route("/user/edit/{objectId}/calendar/events/{providerName}", name="account-view-events-integration")
+     *
+     * @param Request $request
+     * @param string $providerName
+     * @param string $objectId
+     * @param AccountRepository $accountRepository
+     * @param AccountUserRepository $accountUserRepository
+     * @param Connector $connector
+     * @param Fetch $fetch
+     *
+     * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function viewEventsInCalendarIntegration(
+        Request $request,
+        string $providerName,
+        string $objectId,
+        AccountRepository $accountRepository,
+        AccountUserRepository $accountUserRepository,
+        Connector $connector,
+        Fetch $fetch
+    ): Response {
+        $account = $this->authenticate($request, $accountRepository);
+        $accountUser = $accountUserRepository->findOneBy(['account' => $account, 'objectId' => $objectId]);
+
+        if (null === $accountUser) {
+            throw new NotFoundHttpException();
+        }
+
+        $service = CalendarServiceProvider::get($providerName);
+        $token = $connector->getToken($accountUser, $service);
+
+        $startDate = new \DateTime;
+        $endDate = new \DateTime('+30 days');
+        $timezone = $request->get('timezone');
+
+        $calendars = $fetch->calendars($service, $token);
+
+        $response = $fetch->events($service, $token, $startDate, $endDate, $calendars[0]->getObjectId(), $timezone);
+        dump($response);
+        die();
+    }
 }
