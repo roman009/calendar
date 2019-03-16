@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Entity\AccountUser;
-use App\Entity\User;
 use App\Repository\AccountUserRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

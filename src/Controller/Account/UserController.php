@@ -9,13 +9,10 @@ use App\Repository\AccountRepository;
 use App\Repository\AccountUserRepository;
 use App\Repository\Calendar\Apple\AppleAuthTokenRepository;
 use App\Repository\Calendar\Exchange\ExchangeAuthTokenRepository;
-use App\Repository\Calendar\Exchange\ExchangeCalendarRepository;
 use App\Repository\Calendar\Google\GoogleAuthTokenRepository;
-use App\Repository\Calendar\Google\GoogleCalendarRepository;
 use App\Repository\Calendar\Office365\Office365AuthTokenRepository;
 use App\Repository\Calendar\Outlook\OutlookAuthTokenRepository;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,13 +27,16 @@ class UserController extends AbstractAccountController
 {
     /**
      * @Route("/user/add", name="account-add-user")
+     *
      * @param Request $request
      * @param AccountRepository $accountRepository
      * @param UserRepository $userRepository
      * @param AccountUserRepository $accountUserRepository
-     * @return Response
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return Response
      */
     public function add(Request $request, AccountRepository $accountRepository, UserRepository $userRepository, AccountUserRepository $accountUserRepository): Response
     {
@@ -65,14 +65,17 @@ class UserController extends AbstractAccountController
 
     /**
      * @Route("/user/delete/{objectId}", name="account-delete-user")
+     *
      * @param Request $request
      * @param string $objectId
      * @param AccountRepository $accountRepository
      * @param UserRepository $userRepository
      * @param AccountUserRepository $accountUserRepository
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function delete(Request $request, string $objectId, AccountRepository $accountRepository, UserRepository $userRepository, AccountUserRepository $accountUserRepository): Response
     {
@@ -95,6 +98,7 @@ class UserController extends AbstractAccountController
 
     /**
      * @Route("/user/edit/{objectId}", name="account-edit-user")
+     *
      * @param Request $request
      * @param string $objectId
      * @param AccountRepository $accountRepository
@@ -105,9 +109,11 @@ class UserController extends AbstractAccountController
      * @param ExchangeAuthTokenRepository $exchangeAuthTokenRepository
      * @param Office365AuthTokenRepository $office365AuthTokenRepository
      * @param OutlookAuthTokenRepository $outlookAuthTokenRepository
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function edit(
         Request $request,
@@ -141,7 +147,7 @@ class UserController extends AbstractAccountController
         $userIntegrations = [];
         /** @var Service $service */
         foreach (Service::all() as $service) {
-            $userIntegrations[$service->getName()] = ${$service->getCode().'AuthTokenRepository'}->findOneBy(['accountUser' => $accountUser]);
+            $userIntegrations[$service->getName()] = ${$service->getCode() . 'AuthTokenRepository'}->findOneBy(['accountUser' => $accountUser]);
         }
 
         if ($form->isSubmitted() && $form->isValid()) {

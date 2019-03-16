@@ -3,8 +3,6 @@
 namespace App\Controller\Account;
 
 use App\Entity\Account;
-use App\Entity\AccountUser;
-use App\Entity\User;
 use App\Repository\AccountRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
