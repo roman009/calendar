@@ -4,31 +4,34 @@ namespace App\Service\Calendar\Fetch\Microsoft;
 
 use App\Entity\Calendar\AuthToken;
 use App\Entity\Calendar\Calendar;
+use App\Entity\Calendar\Event;
 use App\Entity\Calendar\FreeBusy;
+use App\Entity\Calendar\Office365\Office365Calendar;
+use App\Entity\Calendar\Office365\Office365FreeBusy;
 use App\Entity\Calendar\Outlook\OutlookCalendar;
-use App\Entity\Calendar\Outlook\Office365FreeBusy;
+use App\Repository\Calendar\Office365\Office365CalendarRepository;
 use App\Repository\Calendar\Outlook\OutlookCalendarRepository;
 use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use App\Service\Calendar\Fetch\Microsoft\Model\GraphCalendar;
 use GuzzleHttp\Exception\RequestException;
 use Microsoft\Graph\Graph;
 
-class OutlookAdapter extends AbstractFetchAdapter
+class Office365Adapter extends AbstractFetchAdapter
 {
-    public const ALIAS = 'outlook';
+    public const ALIAS = 'office365';
     /**
      * @var Graph
      */
     private $client;
     /**
-     * @var OutlookCalendarRepository
+     * @var Office365CalendarRepository
      */
-    private $outlookCalendarRepository;
+    private $office365CalendarRepository;
 
-    public function __construct(Graph $client, OutlookCalendarRepository $outlookCalendarRepository)
+    public function __construct(Graph $client, Office365CalendarRepository $office365CalendarRepository)
     {
         $this->client = $client;
-        $this->outlookCalendarRepository = $outlookCalendarRepository;
+        $this->office365CalendarRepository = $office365CalendarRepository;
     }
 
     public static function alias(): string
@@ -61,11 +64,11 @@ class OutlookAdapter extends AbstractFetchAdapter
 
         /** @var \Microsoft\Graph\Model\Calendar $calendar */
         foreach ($calendarsResponse as $calendar) {
-            $outlookCalendar = $this->outlookCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'calendarId' => $calendar->getId()]);
-            if (null === $outlookCalendar) {
-                $outlookCalendar = new OutlookCalendar;
+            $office365Calendar = $this->office365CalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'calendarId' => $calendar->getId()]);
+            if (null === $office365Calendar) {
+                $office365Calendar = new Office365Calendar;
             }
-            $outlookCalendar
+            $office365Calendar
                 ->setOwnerEmailAddress($calendar->getOwner()->getAddress())
 //                ->setDescription()
                 ->setSummary($calendar->getName())
@@ -73,9 +76,9 @@ class OutlookAdapter extends AbstractFetchAdapter
                 ->setPrimary($calendar->getCanEdit())
                 ->setCalendarId($calendar->getId())
                 ->setAccountUser($token->getAccountUser());
-            $this->outlookCalendarRepository->persistAndFlush($outlookCalendar);
+            $this->office365CalendarRepository->persistAndFlush($office365Calendar);
 
-            $calendars[] = $outlookCalendar;
+            $calendars[] = $office365Calendar;
         }
 
         return $calendars;
@@ -145,6 +148,6 @@ class OutlookAdapter extends AbstractFetchAdapter
      */
     public function events(AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
-        $calendar = $this->outlookCalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'objectId' => $calendarId]);
+        $calendar = $this->office365CalendarRepository->findOneBy(['accountUser' => $token->getAccountUser(), 'objectId' => $calendarId]);
     }
 }

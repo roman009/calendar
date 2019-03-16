@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository\Calendar\Google;
+namespace App\Repository\Calendar\Exchange;
 
-use App\Entity\Calendar\Google\ExchangeFreeBusy;
-use App\Repository\BaseRepository;
+use App\Entity\Calendar\Exchange\ExchangeFreeBusy;
+use App\Repository\Calendar\AuthTokenRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method ExchangeFreeBusy[]    findAll()
  * @method ExchangeFreeBusy[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GoogleFreeBusyRepository extends BaseRepository
+class ExchangeFreeBusyRepository extends AuthTokenRepository
 {
     public function __construct(RegistryInterface $registry)
     {

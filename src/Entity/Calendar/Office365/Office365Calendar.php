@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Entity\Calendar\Outlook;
+namespace App\Entity\Calendar\Office365;
 
 use App\Entity\Calendar\Calendar;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\Calendar\Outlook\OutlookCalendarRepository")
- * @ORM\Table(indexes={@ORM\Index(columns={"account_user_id", "calendar_id"})})
+ * @ORM\Entity(repositoryClass="App\Repository\Calendar\Office365\Office365CalendarRepository")
+ * @ORM\Table(name="office365_calendar", indexes={@ORM\Index(columns={"account_user_id", "calendar_id"})})
  * @ORM\HasLifecycleCallbacks
  */
-class OutlookCalendar extends Calendar
+class Office365Calendar extends Calendar
 {
-    use OutlookProviderTrait;
+    use Office365ProviderTrait;
 
     /**
      * @var string
@@ -31,7 +31,7 @@ class OutlookCalendar extends Calendar
     /**
      * @param string $ownerEmailAddress
      *
-     * @return OutlookCalendar
+     * @return Office365Calendar
      */
     public function setOwnerEmailAddress(string $ownerEmailAddress): self
     {

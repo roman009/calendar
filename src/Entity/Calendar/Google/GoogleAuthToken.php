@@ -6,7 +6,7 @@ use App\Entity\Calendar\AuthToken;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GoogleAuthTokenRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Calendar\Google\GoogleAuthTokenRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class GoogleAuthToken extends AuthToken

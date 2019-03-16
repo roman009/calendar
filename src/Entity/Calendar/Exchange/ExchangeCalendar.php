@@ -6,7 +6,7 @@ use App\Entity\Calendar\Calendar;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ExchangeCalendarRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Calendar\Exchange\ExchangeCalendarRepository")
  * @ORM\Table(indexes={@ORM\Index(columns={"account_user_id", "calendar_id"})})
  * @ORM\HasLifecycleCallbacks
  */

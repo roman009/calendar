@@ -156,49 +156,4 @@ class UserController extends AbstractAccountController
             'account_user' => $accountUser,
         ]);
     }
-
-    /**
-     * @Route("/user/edit/{objectId}/calendar/delete/{providerName}/{calendarObjectId}", name="account-delete-calendar-integration")
-     *
-     * @param Request $request
-     * @param string $providerName
-     * @param string $objectId
-     * @param string $calendarObjectId
-     * @param AccountRepository $accountRepository
-     * @param AccountUserRepository $accountUserRepository
-     * @param CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
-     *
-     * @throws \Exception
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function deleteCalendarIntegration(
-        Request $request,
-        string $providerName,
-        string $objectId,
-        string $calendarObjectId,
-        AccountRepository $accountRepository,
-        AccountUserRepository $accountUserRepository,
-        CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
-    ): Response {
-        $account = $this->authenticate($request, $accountRepository);
-        $accountUser = $accountUserRepository->findOneBy(['account' => $account, 'objectId' => $objectId]);
-
-        if (null === $accountUser) {
-            throw new NotFoundHttpException();
-        }
-
-        $userIntegrations = $calendarServiceProviderIntegrations->get($accountUser);
-        $service = CalendarServiceProvider::get($providerName);
-
-        foreach ($userIntegrations as $integration) {
-            if ($integration['service']->getCode() === $service->getCode() && $integration['token']->getObjectId() === $calendarObjectId) {
-                $this->getDoctrine()->getManager()->remove($integration['token']);
-                $this->getDoctrine()->getManager()->flush();
-                break;
-            }
-        }
-
-        return $this->redirect($request->headers->get('referer'));
-    }
 }

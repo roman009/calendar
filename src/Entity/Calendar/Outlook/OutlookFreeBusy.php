@@ -6,7 +6,7 @@ use App\Entity\Calendar\FreeBusy;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OutlookFreeBusyRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Calendar\Outlook\OutlookFreeBusyRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class OutlookFreeBusy extends FreeBusy

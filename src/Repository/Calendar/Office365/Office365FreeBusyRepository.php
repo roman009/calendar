@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Calendar\Outlook;
+namespace App\Repository\Calendar\Office365;
 
-use App\Entity\Calendar\Outlook\Office365FreeBusy;
+use App\Entity\Calendar\Office365\Office365FreeBusy;
 use App\Repository\BaseRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Office365FreeBusy[]    findAll()
  * @method Office365FreeBusy[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class OutlookFreeBusyRepository extends BaseRepository
+class Office365FreeBusyRepository extends BaseRepository
 {
     public function __construct(RegistryInterface $registry)
     {

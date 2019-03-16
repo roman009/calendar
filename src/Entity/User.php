@@ -15,7 +15,7 @@ class User
     use BaseEntityTrait;
 
     /**
-     * @ORM\Column(type="string", nullable=false, length=255)
+     * @ORM\Column(type="string", nullable=false, unique=true, length=255)
      * @Assert\NotBlank
      */
     private $email;
