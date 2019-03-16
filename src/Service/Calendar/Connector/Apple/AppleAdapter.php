@@ -2,8 +2,8 @@
 
 namespace App\Service\Calendar\Connector\Apple;
 
-use App\Repository\AppleAuthTokenRepository;
-use App\Repository\AuthTokenRepository;
+use App\Repository\Calendar\Apple\AppleAuthTokenRepository;
+use App\Repository\Calendar\AuthTokenRepository;
 
 class AppleAdapter /* extends AbstractConnectorHandler*/
 {

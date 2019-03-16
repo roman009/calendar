@@ -3,7 +3,7 @@
 namespace App\Service\Calendar\Connector;
 
 use App\Entity\AccountUser;
-use App\Entity\AuthToken;
+use App\Entity\Calendar\AuthToken;
 use App\Entity\Service;
 
 class Connector

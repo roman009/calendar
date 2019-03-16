@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Repository\AccountUserRepository;
+use App\Service\Security\GenerateToken;
 use App\Service\SmartInvite\Create\Create;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,7 +49,7 @@ class SmartInviteGenerationTestCommand extends Command
 
         $smartInvite = $this->create->handle(
             $accoutUser,
-            'some-unique-invite-iddd2',
+            (new GenerateToken)(64),
             'https://enwvy220zidp.x.pipedream.net',
             'Valeriu the Organizer',
             'valeriu@buzilatestcompany.onmicrosoft.com',/*'valeriu.buzila@gmail.com',*/

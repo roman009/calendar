@@ -2,10 +2,10 @@
 
 namespace App\Service\Calendar\Fetch;
 
-use App\Entity\AuthToken;
-use App\Entity\Calendar;
-use App\Entity\Event;
-use App\Entity\FreeBusy;
+use App\Entity\Calendar\AuthToken;
+use App\Entity\Calendar\Calendar;
+use App\Entity\Calendar\Event;
+use App\Entity\Calendar\FreeBusy;
 use App\Entity\Service;
 
 class Fetch

@@ -121,7 +121,7 @@ trait BaseEntityTrait
     /**
      * @param string $objectId
      *
-     * @return Calendar
+     * @return self
      */
     public function setObjectId(string $objectId): self
     {

@@ -3,9 +3,9 @@
 namespace App\Service\Calendar\Connector\Microsoft;
 
 use App\Entity\AccountUser;
-use App\Entity\AuthToken;
-use App\Entity\ExchangeAuthToken;
-use App\Repository\ExchangeAuthTokenRepository;
+use App\Entity\Calendar\AuthToken;
+use App\Entity\Calendar\Exchange\ExchangeAuthToken;
+use App\Repository\Calendar\Exchange\ExchangeAuthTokenRepository;
 use App\Service\Calendar\Connector\Microsoft\Exchange\Autodiscover;
 use App\Service\Calendar\Connector\Microsoft\Exchange\Client;
 use App\Service\Calendar\Connector\UserPasswordConnectorInterface;

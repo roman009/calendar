@@ -4,7 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\AccountUser;
 use App\Entity\ApiResponse;
-use App\Entity\Calendar;
+use App\Entity\Calendar\Calendar;
 use App\Entity\Service;
 use App\Exception\Api\ApiException;
 use App\Service\Calendar\Connector\Connector;
@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CalendarController extends AbstractApiController
 {
     /**
-     * @Route("/calendar", methods={"GET"}, name="api-calendar-list")
+     * @Route("/calendars", methods={"GET"}, name="api-calendar-list")
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of connected calendars",
@@ -64,7 +64,7 @@ class CalendarController extends AbstractApiController
     }
 
     /**
-     * @Route("/calendar/{objectId}/events", methods={"GET"}, name="api-calendar-events")
+     * @Route("/calendars/{objectId}/events", methods={"GET"}, name="api-calendar-events")
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of events in specific calendar",
@@ -137,7 +137,7 @@ class CalendarController extends AbstractApiController
     }
 
     /**
-     * @Route("/calendar", methods={"POST"}, name="api-calendar-create")
+     * @Route("/calendars", methods={"POST"}, name="api-calendar-create")
      * @SWG\Response(
      *     response=200,
      *     description="Create a new calendar in the selected service",

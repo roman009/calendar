@@ -2,14 +2,14 @@
 
 namespace App\Service\Calendar\Fetch\Microsoft;
 
-use App\Entity\AuthToken;
-use App\Entity\Calendar;
-use App\Entity\Event;
-use App\Entity\ExchangeAuthToken;
-use App\Entity\ExchangeCalendar;
-use App\Entity\ExchangeEvent;
-use App\Entity\FreeBusy;
-use App\Repository\ExchangeCalendarRepository;
+use App\Entity\Calendar\AuthToken;
+use App\Entity\Calendar\Calendar;
+use App\Entity\Calendar\Event;
+use App\Entity\Calendar\Exchange\ExchangeAuthToken;
+use App\Entity\Calendar\Exchange\ExchangeCalendar;
+use App\Entity\Calendar\Exchange\ExchangeEvent;
+use App\Entity\Calendar\FreeBusy;
+use App\Repository\Calendar\Exchange\ExchangeCalendarRepository;
 use App\Service\Calendar\Connector\Microsoft\Exchange\Client;
 use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use jamesiarmes\PhpEws\ArrayType\ArrayOfMailboxData;

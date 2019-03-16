@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ResourceController extends AbstractApiController
 {
     /**
-     * @Route("/resource", methods={"GET"}, name="api-resource-list")
+     * @Route("/resources", methods={"GET"}, name="api-resource-list")
      *
      * @return JsonResponse
      */

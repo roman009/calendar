@@ -2,8 +2,8 @@
 
 namespace App\Service\Calendar\Create;
 
-use App\Entity\AuthToken;
-use App\Entity\Calendar;
+use App\Entity\Calendar\AuthToken;
+use App\Entity\Calendar\Calendar;
 use App\Entity\Service;
 
 class Create

@@ -3,9 +3,9 @@
 namespace App\Service\Calendar\Connector\Microsoft;
 
 use App\Entity\AccountUser;
-use App\Entity\AuthToken;
-use App\Entity\Office365AuthToken;
-use App\Repository\Office365AuthTokenRepository;
+use App\Entity\Calendar\AuthToken;
+use App\Entity\Calendar\Office365\Office365AuthToken;
+use App\Repository\Calendar\Office365\Office365AuthTokenRepository;
 use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 

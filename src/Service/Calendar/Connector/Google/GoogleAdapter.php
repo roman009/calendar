@@ -3,9 +3,9 @@
 namespace App\Service\Calendar\Connector\Google;
 
 use App\Entity\AccountUser;
-use App\Entity\AuthToken;
-use App\Entity\GoogleAuthToken;
-use App\Repository\GoogleAuthTokenRepository;
+use App\Entity\Calendar\AuthToken;
+use App\Entity\Calendar\Google\GoogleAuthToken;
+use App\Repository\Calendar\Google\GoogleAuthTokenRepository;
 use App\Service\Calendar\Connector\AbstractConnectorAdapter;
 use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use League\OAuth2\Client\Provider\AbstractProvider;

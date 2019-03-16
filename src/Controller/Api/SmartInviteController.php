@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SmartInviteController extends AbstractApiController
 {
     /**
-     * @Route("/smart-invite", methods={"GET"}, name="api-smartinvite-list")
+     * @Route("/smart-invites", methods={"GET"}, name="api-smartinvite-list")
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of smart invites",
@@ -42,7 +42,7 @@ class SmartInviteController extends AbstractApiController
     }
 
     /**
-     * @Route("/smart-invite", methods={"POST"}, name="api-smartinvite-create")
+     * @Route("/smart-invites", methods={"POST"}, name="api-smartinvite-create")
      * @SWG\Response(
      *     response=200,
      *     description="Create a new smart invite",
@@ -66,7 +66,7 @@ class SmartInviteController extends AbstractApiController
     }
 
     /**
-     * @Route("/smart-invite/{objectId}", methods={"DELETE"}, name="api-smartinvite-delete")
+     * @Route("/smart-invites/{objectId}", methods={"DELETE"}, name="api-smartinvite-delete")
      * @SWG\Response(
      *     response=200,
      *     description="Delete smart invite"

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class NotificationController extends AbstractApiController
 {
     /**
-     * @Route("/channel", methods={"GET"}, name="api-channel-list")
+     * @Route("/channels", methods={"GET"}, name="api-channel-list")
      * @SWG\Response(
      *     response=200,
      *     description="Returns the list of notification channels",
@@ -40,7 +40,7 @@ class NotificationController extends AbstractApiController
     }
 
     /**
-     * @Route("/channel", methods={"POST"}, name="api-channel-create")
+     * @Route("/channels", methods={"POST"}, name="api-channel-create")
      * @SWG\Response(
      *     response=200,
      *     description="Create new notification channel",
@@ -57,7 +57,7 @@ class NotificationController extends AbstractApiController
     }
 
     /**
-     * @Route("/channel/{objectId}", methods={"DELETE"}, name="api-channel-delete")
+     * @Route("/channels/{objectId}", methods={"DELETE"}, name="api-channel-delete")
      * @SWG\Response(
      *     response=200,
      *     description="Delete notification channel"
