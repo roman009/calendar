@@ -4,11 +4,14 @@ namespace App\Infrastructure\Microsoft\Exchange;
 
 class Autodiscover extends \jamesiarmes\PhpEws\Autodiscover
 {
+    protected static $server;
+
     /**
      * @inheritdoc
      */
-    public static function getEWS($email, $password, $username = null)
+    public static function getEWS($email, $password, $username = null, string $server = null)
     {
+        self::$server = $server;
         $auto = new Autodiscover($email, $password, $username);
         return $auto->newEWS();
     }
@@ -64,5 +67,55 @@ class Autodiscover extends \jamesiarmes\PhpEws\Autodiscover
         }
 
         return false;
+    }
+
+    /**
+     * Execute the full discovery chain of events in the correct sequence
+     * until a valid response is received, or all methods have failed.
+     *
+     * @return integer
+     *   One of the AUTODISCOVERED_VIA_* constants.
+     *
+     * @throws \RuntimeException
+     *   When all autodiscovery methods fail.
+     */
+    public function discover()
+    {
+        $result = $this->tryTLD();
+
+        if ($result === false) {
+            $result = $this->trySubdomain();
+        }
+
+        if ($result === false) {
+            $result = $this->trySubdomainUnauthenticatedGet();
+        }
+
+        if ($result === false) {
+            $result = $this->trySRVRecord();
+        }
+
+        if (null !== self::$server) {
+            $this->tld = self::$server;
+
+            if ($result === false) {
+                $result = $this->trySubdomain();
+            }
+
+            if ($result === false) {
+                $result = $this->trySubdomainUnauthenticatedGet();
+            }
+
+            if ($result === false) {
+                $result = $this->trySRVRecord();
+            }
+            dump($result);
+        }
+
+        if ($result === false) {
+            throw new \RuntimeException('Autodiscovery failed.');
+        }
+
+        return $result;
     }
 }

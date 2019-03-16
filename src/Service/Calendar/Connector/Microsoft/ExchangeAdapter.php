@@ -33,11 +33,13 @@ class ExchangeAdapter extends MicrosoftAdapter implements UserPasswordConnectorI
         return $token;
     }
 
-    public function validate(string $username, string $password): bool
+    public function validate(string $username, string $password, string $server = null): bool
     {
         try {
-            Autodiscover::getEWS($username, $password);
+//            Autodiscover::getEWS($username, $password, $server);
+            Autodiscover::getEWS($username, $password, null, 'mail.xing.com');
         } catch (\Exception $e) {
+            dump($e); die();
             return false;
         }
 
