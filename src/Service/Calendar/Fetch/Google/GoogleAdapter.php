@@ -6,9 +6,9 @@ use App\Entity\Calendar\AuthToken;
 use App\Entity\Calendar\Calendar;
 use App\Entity\Calendar\Event;
 use App\Entity\Calendar\FreeBusy;
-use App\Entity\Calendar\Google\ExchangeFreeBusy;
 use App\Entity\Calendar\Google\GoogleCalendar;
 use App\Entity\Calendar\Google\GoogleEvent;
+use App\Entity\Calendar\Google\GoogleFreeBusy;
 use App\Repository\Calendar\Google\GoogleCalendarRepository;
 use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use Google_Service_Calendar;
@@ -94,7 +94,7 @@ class GoogleAdapter extends AbstractFetchAdapter
      *
      * @throws \Exception
      *
-     * @return array<ExchangeFreeBusy>
+     * @return array<FreeBusy>
      */
     public function freeBusy(AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {
@@ -125,7 +125,7 @@ class GoogleAdapter extends AbstractFetchAdapter
         foreach ($freeBusyResponse->getCalendars() as $id => $freeBusyCalendar) {
             /** @var Google_Service_Calendar_TimePeriod $busyTimePeriod */
             foreach ($freeBusyCalendar->getBusy() as $busyTimePeriod) {
-                $freeBusy = (new ExchangeFreeBusy)
+                $freeBusy = (new GoogleFreeBusy)
                     ->setCalendar($id)
                     ->setStart(new \DateTime($busyTimePeriod->getStart()))
                     ->setEnd(new \DateTime($busyTimePeriod->getEnd()))

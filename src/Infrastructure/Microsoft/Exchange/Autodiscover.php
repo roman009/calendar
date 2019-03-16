@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Calendar\Connector\Microsoft\Exchange;
+namespace App\Infrastructure\Microsoft\Exchange;
 
 class Autodiscover extends \jamesiarmes\PhpEws\Autodiscover
 {
