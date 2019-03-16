@@ -30,7 +30,7 @@ class CalendarController extends AbstractApiController
      *     description="Returns the list of connected calendars",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=App\Entity\Calendar::class, groups={"default_api_response_group"}))
+     *         @SWG\Items(ref=@Model(type=App\Entity\Calendar\Calendar::class, groups={"default_api_response_group"}))
      *     )
      * )
      * @SWG\Parameter(
@@ -70,7 +70,7 @@ class CalendarController extends AbstractApiController
      *     description="Returns the list of events in specific calendar",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
+     *         @SWG\Items(ref=@Model(type=App\Entity\Calendar\Event::class, groups={"default_api_response_group"}))
      *     )
      * )
      * @SWG\Parameter(
@@ -141,7 +141,7 @@ class CalendarController extends AbstractApiController
      * @SWG\Response(
      *     response=200,
      *     description="Create a new calendar in the selected service",
-     *     @SWG\Schema(ref=@Model(type=App\Entity\Calendar::class, groups={"default_api_response_group"}))
+     *     @SWG\Schema(ref=@Model(type=App\Entity\Calendar\Calendar::class, groups={"default_api_response_group"}))
      * )
      * @SWG\Parameter(
      *     name="service",
@@ -153,7 +153,7 @@ class CalendarController extends AbstractApiController
      *     name="name",
      *     in="body",
      *     type="string",
-     *     schema=@SWG\Schema(ref=@Model(type=App\Entity\Calendar::class, groups={"default_api_write_group"})),
+     *     schema=@SWG\Schema(ref=@Model(type=App\Entity\Calendar\Calendar::class, groups={"default_api_write_group"})),
      *     description="Calendar name"
      * )
      * @SWG\Tag(name="calendar")

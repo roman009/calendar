@@ -32,7 +32,7 @@ class EventController extends AbstractApiController
      *     description="Returns the free/busy information from the calendars",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=App\Entity\FreeBusy::class, groups={"default_api_response_group"}))
+     *         @SWG\Items(ref=@Model(type=App\Entity\Calendar\FreeBusy::class, groups={"default_api_response_group"}))
      *     )
      * )
      * @SWG\Parameter(
@@ -101,7 +101,7 @@ class EventController extends AbstractApiController
      *     description="Returns the list of events",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
+     *         @SWG\Items(ref=@Model(type=App\Entity\Calendar\Event::class, groups={"default_api_response_group"}))
      *     )
      * )
      * @SWG\Tag(name="event")
@@ -119,7 +119,7 @@ class EventController extends AbstractApiController
      * @SWG\Response(
      *     response=200,
      *     description="Create a new event in the selected service",
-     *     @SWG\Schema(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
+     *     @SWG\Schema(ref=@Model(type=App\Entity\Calendar\Event::class, groups={"default_api_response_group"}))
      * )
      * @SWG\Tag(name="event")
      * @Security(name="Bearer")
@@ -136,7 +136,7 @@ class EventController extends AbstractApiController
      * @SWG\Response(
      *     response=200,
      *     description="Update an event in the selected service",
-     *     @SWG\Schema(ref=@Model(type=App\Entity\Event::class, groups={"default_api_response_group"}))
+     *     @SWG\Schema(ref=@Model(type=App\Entity\Calendar\Event::class, groups={"default_api_response_group"}))
      * )
      * @SWG\Tag(name="event")
      * @Security(name="Bearer")

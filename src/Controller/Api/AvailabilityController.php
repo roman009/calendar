@@ -26,7 +26,7 @@ class AvailabilityController extends AbstractApiController
      *     description="Returns the list of connected calendars",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=App\Entity\Calendar::class, groups={"default_api_response_group"}))
+     *         @SWG\Items(ref=@Model(type=App\Entity\Calendar\Calendar::class, groups={"default_api_response_group"}))
      *     )
      * )
      * @SWG\Tag(name="availability")
