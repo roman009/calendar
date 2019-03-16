@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller\Api;
+
 use App\Entity\ApiResponse;
 use App\Entity\Calendar\CalendarServiceProvider;
 use App\Exception\Api\ApiException;
@@ -92,5 +93,4 @@ class FreeBusyController extends AbstractApiController
         $defaultApiContext = ['groups' => 'default_api_response_group'];
         return $this->json((new ApiResponse)->setData($response), Response::HTTP_OK, [], $defaultApiContext);
     }
-
 }

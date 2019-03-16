@@ -10,7 +10,6 @@ use App\Entity\Calendar\Office365\Office365Calendar;
 use App\Entity\Calendar\Office365\Office365FreeBusy;
 use App\Entity\Calendar\Outlook\OutlookCalendar;
 use App\Repository\Calendar\Office365\Office365CalendarRepository;
-use App\Repository\Calendar\Outlook\OutlookCalendarRepository;
 use App\Service\Calendar\Fetch\AbstractFetchAdapter;
 use App\Service\Calendar\Fetch\Microsoft\Model\GraphCalendar;
 use GuzzleHttp\Exception\RequestException;

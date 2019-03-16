@@ -3,7 +3,6 @@
 namespace App\Controller\Account;
 
 use App\Entity\AccountUser;
-use App\Entity\Calendar\CalendarServiceProvider;
 use App\Entity\User;
 use App\Repository\AccountRepository;
 use App\Repository\AccountUserRepository;

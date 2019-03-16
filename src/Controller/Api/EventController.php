@@ -2,11 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\ApiResponse;
-use App\Entity\Calendar\CalendarServiceProvider;
 use App\Exception\Api\ApiException;
-use App\Service\Calendar\Connector\Connector;
-use App\Service\Calendar\Fetch\Fetch;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -40,8 +36,10 @@ class EventController extends AbstractApiController
      * @Areas({"internal","default"})
      *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ApiException
+     *
+     * @return JsonResponse
      */
     public function list(Request $request): JsonResponse
     {
@@ -60,8 +58,10 @@ class EventController extends AbstractApiController
      * @Areas({"internal","default"})
      *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ApiException
+     *
+     * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
     {
@@ -80,8 +80,10 @@ class EventController extends AbstractApiController
      * @Areas({"internal","default"})
      *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ApiException
+     *
+     * @return JsonResponse
      */
     public function update(Request $request): JsonResponse
     {
@@ -99,8 +101,10 @@ class EventController extends AbstractApiController
      * @Areas({"internal","default"})
      *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ApiException
+     *
+     * @return JsonResponse
      */
     public function delete(Request $request): JsonResponse
     {

@@ -91,6 +91,7 @@ class Connector
      * @param AbstractConnectorAdapter $handler
      * @param string $username
      * @param string $password
+     *
      * @return RegisterResponse
      */
     private function registerUserPassword(AccountUser $accountUser, AbstractConnectorAdapter $handler, string $username = null, string $password = null): RegisterResponse

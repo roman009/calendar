@@ -2,18 +2,13 @@
 
 namespace App\Controller\Account;
 
-
-use App\Entity\AccountUser;
 use App\Entity\Calendar\CalendarServiceProvider;
 use App\Entity\User;
 use App\Repository\AccountRepository;
 use App\Repository\AccountUserRepository;
-use App\Repository\UserRepository;
 use App\Service\Account\CalendarServiceProviderIntegrations;
 use App\Service\Calendar\Connector\Connector;
 use App\Service\Calendar\Fetch\Fetch;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -24,7 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CalendarIntegration extends AbstractAccountController
 {
-
     /**
      * @Route("/user/edit/{objectId}/calendar/delete/{providerName}/{tokenObjectId}", name="account-delete-calendar-integration")
      *
@@ -80,8 +74,10 @@ class CalendarIntegration extends AbstractAccountController
      * @param AccountUserRepository $accountUserRepository
      * @param Connector $connector
      * @param Fetch $fetch
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function viewCalendarsInCalendarIntegration(
         Request $request,
