@@ -34,8 +34,12 @@ class UserController extends AbstractAccountController
      *
      * @return Response
      */
-    public function add(Request $request, AccountRepository $accountRepository, UserRepository $userRepository, AccountUserRepository $accountUserRepository): Response
-    {
+    public function add(
+        Request $request,
+        AccountRepository $accountRepository,
+        UserRepository $userRepository,
+        AccountUserRepository $accountUserRepository
+    ): Response {
         $user = new User;
 
         $form = $this->createFormBuilder($user)
@@ -73,8 +77,13 @@ class UserController extends AbstractAccountController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete(Request $request, string $objectId, AccountRepository $accountRepository, UserRepository $userRepository, AccountUserRepository $accountUserRepository): Response
-    {
+    public function delete(
+        Request $request,
+        string $objectId,
+        AccountRepository $accountRepository,
+        UserRepository $userRepository,
+        AccountUserRepository $accountUserRepository
+    ): Response {
         $account = $this->authenticate($request, $accountRepository);
         $accountUser = $accountUserRepository->findOneBy(['account' => $account, 'objectId' => $objectId]);
 
@@ -158,13 +167,21 @@ class UserController extends AbstractAccountController
      * @param AccountRepository $accountRepository
      * @param UserRepository $userRepository
      * @param AccountUserRepository $accountUserRepository
-     *
      * @param CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteCalendarIntegration(Request $request, string $providerName, string $objectId, string $calendarObjectId, AccountRepository $accountRepository, UserRepository $userRepository, AccountUserRepository $accountUserRepository, CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations): Response
-    {
+    public function deleteCalendarIntegration(
+        Request $request,
+        string $providerName,
+        string $objectId,
+        string $calendarObjectId,
+        AccountRepository $accountRepository,
+        AccountUserRepository $accountUserRepository,
+        CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
+    ): Response {
         $account = $this->authenticate($request, $accountRepository);
         $accountUser = $accountUserRepository->findOneBy(['account' => $account, 'objectId' => $objectId]);
 

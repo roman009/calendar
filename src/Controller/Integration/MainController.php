@@ -3,7 +3,6 @@
 namespace App\Controller\Integration;
 
 use App\Entity\Calendar\CalendarServiceProvider;
-use App\Repository\AccountRepository;
 use App\Repository\AccountUserRepository;
 use App\Service\Calendar\Connector\Connector;
 use App\Service\Calendar\Connector\Response\RegisterOAuthAuthUrlResponse;
@@ -13,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,16 +24,24 @@ class MainController extends AbstractController
 {
     /**
      * @Route("/calendar/connect/{providerName}/{objectId}", name="integration-calendar-connect")
+     *
      * @param Request $request
      * @param string $providerName
      * @param string $objectId
      * @param AccountUserRepository $accountUserRepository
      * @param Connector $connector
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function connectCalendar(Request $request, string $providerName, string $objectId, AccountUserRepository $accountUserRepository, Connector $connector): Response
-    {
+    public function connectCalendar(
+        Request $request,
+        string $providerName,
+        string $objectId,
+        AccountUserRepository $accountUserRepository,
+        Connector $connector
+    ): Response {
         $service = CalendarServiceProvider::get($providerName);
 
         $accountUser = $accountUserRepository->findOneBy(['objectId' => $objectId]);
@@ -66,15 +72,22 @@ class MainController extends AbstractController
 
     /**
      * @Route("/calendar/callback/oauth/{providerName}", name="integration-calendar-connect-oauth-callback-handler")
+     *
      * @param Request $request
      * @param string $providerName
      * @param AccountUserRepository $accountUserRepository
      * @param Connector $connector
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     *
      * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function callbackOauthConnectCalendarHandler(Request $request, string $providerName, AccountUserRepository $accountUserRepository, Connector $connector): Response
-    {
+    public function callbackOauthConnectCalendarHandler(
+        Request $request,
+        string $providerName,
+        AccountUserRepository $accountUserRepository,
+        Connector $connector
+    ): Response {
         $service = CalendarServiceProvider::get($providerName);
 
         $session = $request->getSession();
@@ -107,16 +120,24 @@ class MainController extends AbstractController
 
     /**
      * @Route("/calendar/authenticate/{providerName}/{objectId}", name="integration-calendar-authenticate")
+     *
      * @param Request $request
      * @param string $providerName
      * @param string $objectId
      * @param AccountUserRepository $accountUserRepository
      * @param Connector $connector
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
+     *
      * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|Response
      */
-    public function usernamePasswordAuthentication(Request $request, string $providerName, string $objectId, AccountUserRepository $accountUserRepository, Connector $connector): Response
-    {
+    public function usernamePasswordAuthentication(
+        Request $request,
+        string $providerName,
+        string $objectId,
+        AccountUserRepository $accountUserRepository,
+        Connector $connector
+    ): Response {
         $service = CalendarServiceProvider::get($providerName);
 
         $accountUser = $accountUserRepository->findOneBy(['objectId' => $objectId]);
