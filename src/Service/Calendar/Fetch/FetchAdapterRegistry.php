@@ -2,7 +2,7 @@
 
 namespace App\Service\Calendar\Fetch;
 
-use App\Entity\Service;
+use App\Entity\Calendar\CalendarServiceProvider;
 
 class FetchAdapterRegistry
 {
@@ -18,7 +18,7 @@ class FetchAdapterRegistry
         $this->fetchAdapter[$alias] = $adapter;
     }
 
-    public function getFetchAdapter(Service $service): AbstractFetchAdapter
+    public function getFetchAdapter(CalendarServiceProvider $service): AbstractFetchAdapter
     {
         if (array_key_exists($service->getCode(), $this->fetchAdapter)) {
             return $this->fetchAdapter[$service->getCode()];

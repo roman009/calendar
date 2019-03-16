@@ -2,7 +2,7 @@
 
 namespace App\Service\Calendar\Create;
 
-use App\Entity\Service;
+use App\Entity\Calendar\CalendarServiceProvider;
 
 class CreateAdapterRegistry
 {
@@ -18,7 +18,7 @@ class CreateAdapterRegistry
         $this->createAdapters[$alias] = $adapter;
     }
 
-    public function getCreateAdapter(Service $service): AbstractCreateAdapter
+    public function getCreateAdapter(CalendarServiceProvider $service): AbstractCreateAdapter
     {
         if (array_key_exists($service->getCode(), $this->createAdapters)) {
             return $this->createAdapters[$service->getCode()];

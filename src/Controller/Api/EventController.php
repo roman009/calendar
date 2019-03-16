@@ -3,7 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\ApiResponse;
-use App\Entity\Service;
+use App\Entity\Calendar\CalendarServiceProvider;
 use App\Exception\Api\ApiException;
 use App\Service\Calendar\Connector\Connector;
 use App\Service\Calendar\Fetch\Fetch;
@@ -75,7 +75,7 @@ class EventController extends AbstractApiController
     {
         $user = $this->authenticate($request);
 
-        $service = Service::get($request->get('service'));
+        $service = CalendarServiceProvider::get($request->get('service'));
         $startDate = new \DateTime($request->get('start_date'));
         $endDate = new \DateTime($request->get('end_date'));
 

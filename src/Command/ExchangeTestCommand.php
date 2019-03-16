@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\Service;
+use App\Entity\Calendar\CalendarServiceProvider;
 use App\Repository\AccountUserRepository;
 use App\Repository\UserRepository;
 use App\Service\Calendar\Connector\Connector;
@@ -50,7 +50,7 @@ class ExchangeTestCommand extends Command
         $user = $this->userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);
         $accountUser = $this->accountUserRepository->findOneBy(['user' => $user]);
 
-        $service = Service::get('exchange');
+        $service = CalendarServiceProvider::get('exchange');
         dump($service);
 
         if (!$this->connector->isRegistered($accountUser, $service)) {

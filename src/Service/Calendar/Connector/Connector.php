@@ -4,7 +4,7 @@ namespace App\Service\Calendar\Connector;
 
 use App\Entity\AccountUser;
 use App\Entity\Calendar\AuthToken;
-use App\Entity\Service;
+use App\Entity\Calendar\CalendarServiceProvider;
 
 class Connector
 {
@@ -18,14 +18,14 @@ class Connector
         $this->connectorRegistry = $connectorRegistry;
     }
 
-    public function isRegistered(AccountUser $accountUser, Service $service): bool
+    public function isRegistered(AccountUser $accountUser, CalendarServiceProvider $service): bool
     {
         $handler = $this->connectorRegistry->getConnectorAdapter($service);
 
         return $handler->isRegistered($accountUser);
     }
 
-    public function register(AccountUser $accountUser, Service $service, string $username = null, string $password = null)
+    public function register(AccountUser $accountUser, CalendarServiceProvider $service, string $username = null, string $password = null)
     {
         $handler = $this->connectorRegistry->getConnectorAdapter($service);
 
@@ -36,7 +36,7 @@ class Connector
         }
     }
 
-    public function getToken(AccountUser $accountUser, Service $service): ?AuthToken
+    public function getToken(AccountUser $accountUser, CalendarServiceProvider $service): ?AuthToken
     {
         $handler = $this->connectorRegistry->getConnectorAdapter($service);
 

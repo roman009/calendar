@@ -3,16 +3,11 @@
 namespace App\Controller\Account;
 
 use App\Entity\AccountUser;
-use App\Entity\Service;
 use App\Entity\User;
 use App\Repository\AccountRepository;
 use App\Repository\AccountUserRepository;
-use App\Repository\Calendar\Apple\AppleAuthTokenRepository;
-use App\Repository\Calendar\Exchange\ExchangeAuthTokenRepository;
-use App\Repository\Calendar\Google\GoogleAuthTokenRepository;
-use App\Repository\Calendar\Office365\Office365AuthTokenRepository;
-use App\Repository\Calendar\Outlook\OutlookAuthTokenRepository;
 use App\Repository\UserRepository;
+use App\Service\Account\CalendarServiceProviderIntegrations;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,11 +99,7 @@ class UserController extends AbstractAccountController
      * @param AccountRepository $accountRepository
      * @param UserRepository $userRepository
      * @param AccountUserRepository $accountUserRepository
-     * @param AppleAuthTokenRepository $appleAuthTokenRepository
-     * @param GoogleAuthTokenRepository $googleAuthTokenRepository
-     * @param ExchangeAuthTokenRepository $exchangeAuthTokenRepository
-     * @param Office365AuthTokenRepository $office365AuthTokenRepository
-     * @param OutlookAuthTokenRepository $outlookAuthTokenRepository
+     * @param CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -121,11 +112,7 @@ class UserController extends AbstractAccountController
         AccountRepository $accountRepository,
         UserRepository $userRepository,
         AccountUserRepository $accountUserRepository,
-        AppleAuthTokenRepository $appleAuthTokenRepository,
-        GoogleAuthTokenRepository $googleAuthTokenRepository,
-        ExchangeAuthTokenRepository $exchangeAuthTokenRepository,
-        Office365AuthTokenRepository $office365AuthTokenRepository,
-        OutlookAuthTokenRepository $outlookAuthTokenRepository
+        CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
     ): Response {
         $account = $this->authenticate($request, $accountRepository);
 
@@ -144,11 +131,7 @@ class UserController extends AbstractAccountController
 
         $form->handleRequest($request);
 
-        $userIntegrations = [];
-        /** @var Service $service */
-        foreach (Service::all() as $service) {
-            $userIntegrations[$service->getName()] = ${$service->getCode() . 'AuthTokenRepository'}->findOneBy(['accountUser' => $accountUser]);
-        }
+        $userIntegrations = $calendarServiceProviderIntegrations->get($accountUser);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();

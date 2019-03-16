@@ -5,7 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\AccountUser;
 use App\Entity\ApiResponse;
 use App\Entity\Calendar\Calendar;
-use App\Entity\Service;
+use App\Entity\Calendar\CalendarServiceProvider;
 use App\Exception\Api\ApiException;
 use App\Service\Calendar\Connector\Connector;
 use App\Service\Calendar\Fetch\Fetch;
@@ -114,7 +114,7 @@ class CalendarController extends AbstractApiController
         $accountUser = $this->authenticate($request);
 
         try {
-            $service = Service::get($request->get('service'));
+            $service = CalendarServiceProvider::get($request->get('service'));
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage());
         }
@@ -186,7 +186,7 @@ class CalendarController extends AbstractApiController
     private function listOneService(Connector $connector, Fetch $fetch, $serviceName, AccountUser $accountUser): JsonResponse
     {
         try {
-            $service = Service::get($serviceName);
+            $service = CalendarServiceProvider::get($serviceName);
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage());
         }
@@ -216,8 +216,8 @@ class CalendarController extends AbstractApiController
     {
         $response = [];
 
-        /** @var Service $service */
-        foreach (Service::all() as $service) {
+        /** @var CalendarServiceProvider $service */
+        foreach (CalendarServiceProvider::all() as $service) {
             $token = $connector->getToken($accountUser, $service);
             if (null === $token) {
                 continue;

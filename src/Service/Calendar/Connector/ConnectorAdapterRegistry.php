@@ -2,7 +2,7 @@
 
 namespace App\Service\Calendar\Connector;
 
-use App\Entity\Service;
+use App\Entity\Calendar\CalendarServiceProvider;
 
 class ConnectorAdapterRegistry
 {
@@ -18,7 +18,7 @@ class ConnectorAdapterRegistry
         $this->connectorAdapters[$alias] = $adapter;
     }
 
-    public function getConnectorAdapter(Service $service): AbstractConnectorAdapter
+    public function getConnectorAdapter(CalendarServiceProvider $service): AbstractConnectorAdapter
     {
         if (array_key_exists($service->getCode(), $this->connectorAdapters)) {
             return $this->connectorAdapters[$service->getCode()];

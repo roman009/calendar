@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Calendar;
 
-class Service
+class CalendarServiceProvider
 {
     /**
      * @var string
@@ -56,17 +56,17 @@ class Service
     }
 
     /**
-     * @return array<Service>
+     * @return array<CalendarServiceProvider>
      */
     public static function all(): array
     {
         $services = [];
 
-        $services['google'] = (new Service('google'))->setName('Google');
-        $services['outlook'] = (new Service('outlook'))->setName('Outlook');
-        $services['office365'] = (new Service('office365'))->setName('Office365');
-        $services['exchange'] = (new Service('exchange'))->setName('Exchange');
-        $services['apple'] = (new Service('apple'))->setName('Apple');
+        $services['google'] = (new CalendarServiceProvider('google'))->setName('Google');
+        $services['outlook'] = (new CalendarServiceProvider('outlook'))->setName('Outlook');
+        $services['office365'] = (new CalendarServiceProvider('office365'))->setName('Office365');
+        $services['exchange'] = (new CalendarServiceProvider('exchange'))->setName('Exchange');
+        $services['apple'] = (new CalendarServiceProvider('apple'))->setName('Apple');
         ksort($services);
 
         return $services;
@@ -77,9 +77,9 @@ class Service
      *
      * @throws \Exception
      *
-     * @return Service
+     * @return CalendarServiceProvider
      */
-    public static function get(string $code): Service
+    public static function get(string $code): CalendarServiceProvider
     {
         $all = self::all();
         if (array_key_exists($code, $all)) {

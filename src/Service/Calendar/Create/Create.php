@@ -4,7 +4,7 @@ namespace App\Service\Calendar\Create;
 
 use App\Entity\Calendar\AuthToken;
 use App\Entity\Calendar\Calendar;
-use App\Entity\Service;
+use App\Entity\Calendar\CalendarServiceProvider;
 
 class Create
 {
@@ -27,7 +27,7 @@ class Create
      *
      * @return Calendar
      */
-    public function createCalendar(Service $service, AuthToken $token, string $calendarName): Calendar
+    public function createCalendar(CalendarServiceProvider $service, AuthToken $token, string $calendarName): Calendar
     {
         $handler = $this->createRegistry->getCreateAdapter($service);
 

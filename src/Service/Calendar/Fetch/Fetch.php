@@ -4,9 +4,9 @@ namespace App\Service\Calendar\Fetch;
 
 use App\Entity\Calendar\AuthToken;
 use App\Entity\Calendar\Calendar;
+use App\Entity\Calendar\CalendarServiceProvider;
 use App\Entity\Calendar\Event;
 use App\Entity\Calendar\FreeBusy;
-use App\Entity\Service;
 
 class Fetch
 {
@@ -28,7 +28,7 @@ class Fetch
      *
      * @return array<Calendar>
      */
-    public function calendars(Service $service, AuthToken $token): array
+    public function calendars(CalendarServiceProvider $service, AuthToken $token): array
     {
         $handler = $this->fetchRegistry->getFetchAdapter($service);
 
@@ -47,7 +47,7 @@ class Fetch
      *
      * @return array<FreeBusy>
      */
-    public function freeBusy(Service $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
+    public function freeBusy(CalendarServiceProvider $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, array $calendars = [], string $timezone = null): array
     {
         $handler = $this->fetchRegistry->getFetchAdapter($service);
 
@@ -66,7 +66,7 @@ class Fetch
      *
      * @return array<Event>
      */
-    public function events(Service $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
+    public function events(CalendarServiceProvider $service, AuthToken $token, \DateTime $startDate, \DateTime $endDate, string $calendarId, string $timezone = null): array
     {
         $handler = $this->fetchRegistry->getFetchAdapter($service);
 
