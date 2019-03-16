@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\SmartInvite\SmartInvite;
+use App\Exception\Api\ApiException;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -39,6 +40,7 @@ class SmartInviteController extends AbstractApiController
      */
     public function list(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 
     /**
@@ -63,6 +65,7 @@ class SmartInviteController extends AbstractApiController
      */
     public function create(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 
     /**
@@ -85,5 +88,6 @@ class SmartInviteController extends AbstractApiController
      */
     public function delete(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 }

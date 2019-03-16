@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Exception\Api\ApiException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,5 +23,6 @@ class ResourceController extends AbstractApiController
      */
     public function list(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 }

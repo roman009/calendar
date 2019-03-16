@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Exception\Api\ApiException;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -37,5 +38,6 @@ class AvailabilityController extends AbstractApiController
      */
     public function availability(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 }

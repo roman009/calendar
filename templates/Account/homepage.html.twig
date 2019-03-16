@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <ul>
+        <li><a href="{{ url('account-homepage') }}">Home</a></li>
+        <li><a href="{{ url('account-add-user') }}">Add user</a></li>
+    </ul>
+    <div>
+        Users
+        <ol>
+        {% for user in users %}
+            <li>{{ user.objectId }} | {{ user.email }} | <a href="{{ url('account-delete-user', {'objectId': user.objectId}) }}">delete</a></li>
+        {% endfor %}
+        </ol>
+    </div>
+{% endblock %}
+
+{% block title %}
+My Account
+{% endblock %}
+

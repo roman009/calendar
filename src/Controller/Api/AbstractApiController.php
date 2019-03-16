@@ -4,6 +4,8 @@ namespace App\Controller\Api;
 
 use App\Entity\AccountUser;
 use App\Entity\User;
+use App\Repository\AccountUserRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,14 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 abstract class AbstractApiController extends AbstractController
 {
-    protected function authenticate(Request $request): AccountUser
+    protected function authenticate(Request $request, UserRepository $userRepository, AccountUserRepository $accountUserRepository): AccountUser
     {
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
         $user = $userRepository->findOneBy(['email' => 'valeriu.buzila@gmail.com']);
 
-        $accountUserRepository = $this->getDoctrine()->getRepository(AccountUser::class);
-        $accountUser = $accountUserRepository->findOneBy(['user' => $user]);
-
-        return $accountUser;
+        return $accountUserRepository->findOneBy(['user' => $user]);
     }
 }

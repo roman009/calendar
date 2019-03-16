@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,6 +19,8 @@ class Account
     private $name;
 
     /**
+     * @var Collection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\AccountUser", mappedBy="account")
      */
     private $accountUsers;
@@ -32,5 +35,12 @@ class Account
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getUsers()
+    {
+        return array_map(function (AccountUser $accountUser) {
+            return $accountUser->getUser();
+        }, $this->accountUsers->toArray());
     }
 }

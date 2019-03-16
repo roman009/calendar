@@ -112,6 +112,7 @@ class EventController extends AbstractApiController
      */
     public function list(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 
     /**
@@ -129,6 +130,7 @@ class EventController extends AbstractApiController
      */
     public function create(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 
     /**
@@ -146,6 +148,7 @@ class EventController extends AbstractApiController
      */
     public function update(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 
     /**
@@ -162,5 +165,6 @@ class EventController extends AbstractApiController
      */
     public function delete(Request $request): JsonResponse
     {
+        throw new ApiException('@TODO');
     }
 }

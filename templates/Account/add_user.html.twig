@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <ul>
+        <li><a href="{{ url('account-homepage') }}">Home</a></li>
+        <li><a href="{{ url('account-add-user') }}">Add user</a></li>
+    </ul>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block title %}
+Add user
+{% endblock %}
+
