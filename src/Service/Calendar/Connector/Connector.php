@@ -10,6 +10,7 @@ use App\Service\Calendar\Connector\Response\RegisterOAuthAuthUrlResponse;
 use App\Service\Calendar\Connector\Response\RegisterResponse;
 use App\Service\Calendar\Connector\Response\RegisterSuccessResponse;
 use App\Service\Calendar\Connector\Response\RegisterUserPasswordRequestResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class Connector
 {
@@ -65,9 +66,18 @@ class Connector
             return new RegisterOAuthAuthUrlResponse($authUrl);
         }
 
-//        echo $handler->getAuthUrl($accountUser) . PHP_EOL;
+        $token = $handler->fetchAccessToken($authCode);
 
-//        $authCode = trim(fgets(STDIN));
+        $handler->persist($token, $accountUser);
+
+        return new RegisterSuccessResponse;
+    }
+
+    public function fetchAccessToken(Request $request, AccountUser $accountUser, CalendarServiceProvider $service): RegisterResponse
+    {
+        $handler = $this->connectorRegistry->getConnectorAdapter($service);
+
+        $authCode = $handler->getAuthCodeFromRequest($request);
 
         $token = $handler->fetchAccessToken($authCode);
 

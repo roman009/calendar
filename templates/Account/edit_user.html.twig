@@ -18,7 +18,7 @@
             <li>
                 {{ calendar_integration.service.name }} |
                 {% if calendar_integration.token is not null %}
-                    yes
+                    yes <a href="{{ url('account-delete-calendar-integration', {'providerName': calendar_integration.service.code, 'objectId': account_user.objectId, 'calendarObjectId': calendar_integration.token.objectId}) }}">delete</a>
                 {% else %}
                     no <a href="{{ url('integration-calendar-connect', {'providerName': calendar_integration.service.code, 'objectId':account_user.objectId}) }}">link</a>
                 {% endif %}

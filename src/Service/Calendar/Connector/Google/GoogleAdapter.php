@@ -11,6 +11,7 @@ use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Google;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -78,18 +79,9 @@ class GoogleAdapter extends AbstractConnectorAdapter implements OAuthConnectorIn
         throw new \Exception('This shouldn\'t be called here');
     }
 
-    private function getAuthProviderWithUrl(AccountUser $accountUser)
+    private function getAuthProviderWithUrl(AccountUser $accountUser): AbstractProvider
     {
-        return new Google(array_merge(
-            $this->getMainProviderOptions(),
-            [
-                'redirectUri' => $this->router->generate(
-                    'integration-calendar-connect-oauth-callback-handler',
-                    ['providerName' => $this->alias(), 'objectId' => $accountUser->getObjectId()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
-            ]
-        ));
+        return new Google($this->getMainProviderOptions());
     }
 
     protected function getMainProviderOptions(): array
@@ -99,6 +91,16 @@ class GoogleAdapter extends AbstractConnectorAdapter implements OAuthConnectorIn
             'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
             'accessType' => 'offline',
             'scopes' => ['https://www.googleapis.com/auth/calendar'],
+            'redirectUri' => $this->router->generate(
+                'integration-calendar-connect-oauth-callback-handler',
+                ['providerName' => $this->alias()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
         ];
+    }
+
+    public function getAuthCodeFromRequest(Request $request): string
+    {
+        return $request->get('code');
     }
 }

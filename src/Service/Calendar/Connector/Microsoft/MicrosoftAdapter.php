@@ -6,6 +6,7 @@ use App\Entity\AccountUser;
 use App\Service\Calendar\Connector\AbstractConnectorAdapter;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use Stevenmaguire\OAuth2\Client\Provider\Microsoft;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -45,20 +46,21 @@ abstract class MicrosoftAdapter extends AbstractConnectorAdapter
             'urlAuthorize' => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
             'urlAccessToken' => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
             'urlResourceOwnerDetails' => 'https://outlook.office.com/api/v2.0/me',
+            'redirectUri' => $this->router->generate(
+                'integration-calendar-connect-oauth-callback-handler',
+                ['providerName' => $this->alias()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
         ];
     }
 
-    private function getAuthProviderWithUrl(AccountUser $accountUser)
+    private function getAuthProviderWithUrl(AccountUser $accountUser): AbstractProvider
     {
-        return new Microsoft(array_merge(
-            $this->getMainProviderOptions(),
-            [
-                'redirectUri' => $this->router->generate(
-                    'integration-calendar-connect-oauth-callback-handler',
-                    ['providerName' => $this->alias(), 'objectId' => $accountUser->getObjectId()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                )
-            ]
-        ));
+        return new Microsoft($this->getMainProviderOptions());
+    }
+
+    public function getAuthCodeFromRequest(Request $request): string
+    {
+        return $request->get('code');
     }
 }

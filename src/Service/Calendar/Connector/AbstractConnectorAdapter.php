@@ -9,6 +9,7 @@ use App\Service\Calendar\AbstractHandler;
 use League\OAuth2\Client\Grant\RefreshToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
 abstract class AbstractConnectorAdapter extends AbstractHandler
@@ -80,4 +81,6 @@ abstract class AbstractConnectorAdapter extends AbstractHandler
     abstract public function validate(string $username, string $password): bool;
 
     abstract public function saveUsernamePasswordToken(AccountUser $accountUser, string $username, string $password);
+
+    abstract public function getAuthCodeFromRequest(Request $request): string;
 }

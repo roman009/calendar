@@ -3,6 +3,7 @@
 namespace App\Controller\Account;
 
 use App\Entity\AccountUser;
+use App\Entity\Calendar\CalendarServiceProvider;
 use App\Entity\User;
 use App\Repository\AccountRepository;
 use App\Repository\AccountUserRepository;
@@ -145,5 +146,43 @@ class UserController extends AbstractAccountController
             'user_integration' => $userIntegrations,
             'account_user' => $accountUser,
         ]);
+    }
+
+    /**
+     * @Route("/user/edit/{objectId}/calendar/delete/{providerName}/{calendarObjectId}", name="account-delete-calendar-integration")
+     *
+     * @param Request $request
+     * @param string $providerName
+     * @param string $objectId
+     * @param string $calendarObjectId
+     * @param AccountRepository $accountRepository
+     * @param UserRepository $userRepository
+     * @param AccountUserRepository $accountUserRepository
+     *
+     * @param CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Exception
+     */
+    public function deleteCalendarIntegration(Request $request, string $providerName, string $objectId, string $calendarObjectId, AccountRepository $accountRepository, UserRepository $userRepository, AccountUserRepository $accountUserRepository, CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations): Response
+    {
+        $account = $this->authenticate($request, $accountRepository);
+        $accountUser = $accountUserRepository->findOneBy(['account' => $account, 'objectId' => $objectId]);
+
+        if (null === $accountUser) {
+            throw new NotFoundHttpException();
+        }
+
+        $userIntegrations = $calendarServiceProviderIntegrations->get($accountUser);
+        $service = CalendarServiceProvider::get($providerName);
+
+        foreach ($userIntegrations as $integration) {
+            if ($integration['service']->getCode() === $service->getCode() && $integration['token']->getObjectId() === $calendarObjectId) {
+                $this->getDoctrine()->getManager()->remove($integration['token']);
+                $this->getDoctrine()->getManager()->flush();
+                break;
+            }
+        }
+
+        return $this->redirect($request->headers->get('referer'));
     }
 }

@@ -8,6 +8,7 @@ use App\Entity\Calendar\Office365\Office365AuthToken;
 use App\Repository\Calendar\Office365\Office365AuthTokenRepository;
 use App\Service\Calendar\Connector\OAuthConnectorInterface;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
 class Office365Adapter extends MicrosoftAdapter implements OAuthConnectorInterface
