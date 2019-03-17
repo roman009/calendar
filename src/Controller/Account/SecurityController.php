@@ -7,7 +7,6 @@ use App\Entity\AccountAdmin;
 use App\Repository\AccountAdminRepository;
 use App\Repository\AccountRepository;
 use App\Security\AccountAdminAuthenticator;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;

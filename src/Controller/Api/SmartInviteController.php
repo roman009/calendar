@@ -37,8 +37,10 @@ class SmartInviteController extends AbstractApiController
      * @Areas({"internal","default"})
      *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ApiException
+     *
+     * @return JsonResponse
      */
     public function list(Request $request): JsonResponse
     {
@@ -64,8 +66,10 @@ class SmartInviteController extends AbstractApiController
      * @Areas({"internal","default"})
      *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ApiException
+     *
+     * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
     {
@@ -89,8 +93,10 @@ class SmartInviteController extends AbstractApiController
      * @Areas({"internal","default"})
      *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ApiException
+     *
+     * @return JsonResponse
      */
     public function delete(Request $request): JsonResponse
     {

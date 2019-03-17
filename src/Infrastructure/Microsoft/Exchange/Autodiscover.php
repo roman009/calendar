@@ -73,11 +73,11 @@ class Autodiscover extends \jamesiarmes\PhpEws\Autodiscover
      * Execute the full discovery chain of events in the correct sequence
      * until a valid response is received, or all methods have failed.
      *
-     * @return integer
-     *   One of the AUTODISCOVERED_VIA_* constants.
-     *
      * @throws \RuntimeException
      *   When all autodiscovery methods fail.
+     *
+     * @return integer
+     *   One of the AUTODISCOVERED_VIA_* constants.
      */
     public function discover()
     {

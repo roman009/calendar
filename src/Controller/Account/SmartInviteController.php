@@ -2,22 +2,16 @@
 
 namespace App\Controller\Account;
 
-use App\Entity\Calendar\CalendarServiceProvider;
-use App\Entity\SmartInvite\SmartInvite;
-use App\Entity\User;
 use App\Repository\AccountRepository;
 use App\Repository\AccountUserRepository;
 use App\Repository\SmartInvite\SmartInviteRepository;
 use App\Service\Account\CalendarServiceProviderIntegrations;
-use App\Service\Calendar\Connector\Connector;
-use App\Service\Calendar\Fetch\Fetch;
 use App\Service\Security\GenerateToken;
 use App\Service\SmartInvite\Create\Create;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -34,8 +28,10 @@ class SmartInviteController extends AbstractAccountController
      * @param AccountUserRepository $accountUserRepository
      * @param Create $create
      * @param \Swift_Mailer $mailer
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     *
      * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function create(
         Request $request,
@@ -45,7 +41,6 @@ class SmartInviteController extends AbstractAccountController
         Create $create,
         \Swift_Mailer $mailer
     ) {
-
         $account = $this->authenticate($request, $accountRepository);
         $accountUser = $accountUserRepository->findOneBy(['account' => $account, 'objectId' => $objectId]);
 

@@ -9,7 +9,6 @@ use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
 
 class AccountAdminLogoutListener implements LogoutHandlerInterface
 {
-
     /**
      * @inheritdoc
      */
