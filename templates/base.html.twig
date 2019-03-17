@@ -6,6 +6,9 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        <a href="{{ path('account-login') }}">Login</a>
+        <a href="{{ path('account-register') }}">Register</a>
+
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

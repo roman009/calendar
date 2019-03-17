@@ -6,7 +6,11 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-
+        <ul>
+            <li><a href="{{ url('account-logout') }}">Logout</a></li>
+            <li><a href="{{ url('account-homepage') }}">Home</a></li>
+            <li><a href="{{ url('account-add-user') }}">Add user</a></li>
+        </ul>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
 

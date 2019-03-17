@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,6 +25,16 @@ class Account
      * @ORM\OneToMany(targetEntity="App\Entity\AccountUser", mappedBy="account")
      */
     private $accountUsers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AccountAdmin", mappedBy="account")
+     */
+    private $accountAdmins;
+
+    public function __construct()
+    {
+        $this->accountAdmins = new ArrayCollection();
+    }
 
     public function getName(): ?string
     {
@@ -50,5 +61,33 @@ class Account
     public function getAccountUsers(): Collection
     {
         return $this->accountUsers;
+    }
+
+    /**
+     * @return Collection|AccountAdmin[]
+     */
+    public function getAccountAdmins(): Collection
+    {
+        return $this->accountAdmins;
+    }
+
+    public function addAccountAdmin(AccountAdmin $accountAdmin): self
+    {
+        if (!$this->accountAdmins->contains($accountAdmin)) {
+            $this->accountAdmins[] = $accountAdmin;
+            $accountAdmin->addAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccountAdmin(AccountAdmin $accountAdmin): self
+    {
+        if ($this->accountAdmins->contains($accountAdmin)) {
+            $this->accountAdmins->removeElement($accountAdmin);
+            $accountAdmin->removeAccount($this);
+        }
+
+        return $this;
     }
 }

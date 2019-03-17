@@ -109,7 +109,6 @@ class Autodiscover extends \jamesiarmes\PhpEws\Autodiscover
             if ($result === false) {
                 $result = $this->trySRVRecord();
             }
-            dump($result);
         }
 
         if ($result === false) {

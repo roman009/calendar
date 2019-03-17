@@ -1,13 +1,24 @@
 security:
+    encoders:
+        App\Entity\AccountAdmin:
+            algorithm: argon2i
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        # used to reload user from session & other features (e.g. switch_user)
+        account_admin_provider:
+            entity:
+                class: App\Entity\AccountAdmin
+                property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            pattern: ^/
+            host: ^'%domain%'
 
             # activate different ways to authenticate
 
@@ -17,8 +28,32 @@ security:
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
 
+        secured_account_area:
+            anonymous: true
+            pattern: ^/
+            host: ^account\.%domain%
+            provider: account_admin_provider
+            form_login:
+                login_path: account-login
+            logout:
+                path: account-logout
+                target: account-login
+                handlers:
+                    - App\Listener\AccountAdminLogoutListener
+            guard:
+                authenticators:
+                    - App\Security\AccountAdminAuthenticator
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY,  requires_channel: https }
+        - { path: ^/register$, roles: IS_AUTHENTICATED_ANONYMOUSLY,  requires_channel: https }
+        - { host: ^account\.%domain%, roles: ROLE_ACCOUNT_ADMIN,  requires_channel: https }
