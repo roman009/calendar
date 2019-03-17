@@ -79,6 +79,8 @@ class SmartInvite
     public function __construct()
     {
         $this->attachments = new ArrayCollection;
+        $this->smartInviteId = '';
+        $this->callbackUrl = '';
     }
 
     /**

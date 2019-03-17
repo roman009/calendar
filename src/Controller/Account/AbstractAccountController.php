@@ -3,6 +3,7 @@
 namespace App\Controller\Account;
 
 use App\Entity\Account;
+use App\Entity\AccountAdmin;
 use App\Repository\AccountRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,9 @@ abstract class AbstractAccountController extends AbstractController
 {
     protected function authenticate(Request $request, AccountRepository $accountRepository): Account
     {
-        return $accountRepository->find(1);
+        /** @var AccountAdmin $accountAdmin */
+        $accountAdmin = $this->getUser();
+
+        return $accountAdmin->getAccount()->first();
     }
 }

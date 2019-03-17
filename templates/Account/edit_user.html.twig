@@ -7,6 +7,13 @@
     {{ form_widget(form) }}
     {{ form_end(form) }}
 
+    <hr>
+
+    <h2>Smart invites</h2>
+        <a href="{{ url('account-create-smart-invite', {'objectId': account_user.objectId}) }}">Create smart invite</a> |
+        <a href="{{ url('account-view-smart-invite', {'objectId': account_user.objectId}) }}">View smart invites</a> |
+    <hr>
+
     <h2>Calendar Integrations</h2>
     <ul>
         {% for calendar_integration in user_integration %}
@@ -23,6 +30,7 @@
             </li>
         {% endfor %}
     </ul>
+    <hr>
 {% endblock %}
 
 {% block title %}

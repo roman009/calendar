@@ -1,0 +1,22 @@
+{% extends 'Account/base.html.twig' %}
+
+{% block body %}
+    {% for smart_invite in smart_invites %}
+        <h2>Details</h2>
+        {{ dump(smart_invite) }}
+        <h4>Replies</h4>
+        {% for reply in smart_invite.replies %}
+            {{ dump(reply) }}
+        {% endfor %}
+        <h4>Attachments</h4>
+        {% for attachment in smart_invite.attachments %}
+            {{ dump(attachment) }}
+        {% endfor %}
+        <hr>
+    {% endfor %}
+{% endblock %}
+
+{% block title %}
+    view smart invites
+{% endblock %}
+
