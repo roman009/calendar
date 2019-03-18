@@ -48,3 +48,13 @@
     - https://github.com/lavary/crunz
     - * * * * * cd /project && vendor/bin/crunz schedule:run     
     - * * * * * cd /home/valeriu/Projects/calendar-api && vendor/bin/crunz schedule:run
+    
+    
+
+# docker setup
+
+- change `.env.local`
+- `docker-compose up --build`
+- `docker exec -it <container_id_of_fpm> /bin/sh`
+- `cd /var/www && ./bin/console doctrine:migrations:migrate -n`
+- `add cron`

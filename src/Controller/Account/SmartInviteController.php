@@ -104,14 +104,11 @@ class SmartInviteController extends AbstractAccountController
      * @Route("/smart-invite/view/{objectId}", name="account-view-smart-invite")
      *
      * @param Request $request
-     * @param string $providerName
      * @param string $objectId
-     * @param string $tokenObjectId
      * @param AccountRepository $accountRepository
      * @param AccountUserRepository $accountUserRepository
-     * @param CalendarServiceProviderIntegrations $calendarServiceProviderIntegrations
-     *
-     * @throws \Exception
+     * @param SmartInviteRepository $smartInviteRepository
+     * @return Response
      */
     public function view(
         Request $request,

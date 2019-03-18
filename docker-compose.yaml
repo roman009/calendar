@@ -7,7 +7,11 @@ services:
         restart: always
         networks: 
             - calendar-net
+        expose:
+          - "9000"
         depends_on:
+            - db
+        links:
             - db
         volumes:
             - .:/var/www/
@@ -19,14 +23,18 @@ services:
             - calendar-net
             - default
         ports:
-            - "80"
-        environment:
-          - NGINX_HOST=calendar.lan
-          - NGINX_PORT=80
+#            - "80"
+            - "443"
         depends_on:
             - db
             - php-fpm
-
+        volumes:
+            - .:/var/www/
+            - ./env/nginx/conf.d/:/etc/nginx/conf.d/
+            - ./env/nginx/snippets/:/etc/nginx/snippets/
+            - ./env/nginx/ssl/:/etc/nginx/ssl/
+        links:
+            - php-fpm
 
     db:
         image: mariadb
@@ -34,16 +42,23 @@ services:
         restart: always
         volumes:
             - ./data/db:/var/lib/mysql
-            - ./env/nginx/nginx.conf:/etc/nginx/nginx.conf
-            - ./env/nginx/sites/:/etc/nginx/sites-available
-            - ./env/nginx/conf.d/:/etc/nginx/conf.d
         networks: 
             - calendar-net
         environment:
             MYSQL_ROOT_PASSWORD: db_root_password 
-            MYSQL_PASSWORD: db_password
+            MYSQL_PASSWORD: calendar_pass
             MYSQL_DATABASE: calendar
             MYSQL_USER: calendar
+
+#    migration:
+#        image: nginx:latest
+#        command: ["cd /var/www", "&&", "./bin/console", "make:migration", "-n"]
+#        links:
+#            - db
+#            - nginx
+#        depends_on:
+#            - db
+#            - nginx
 
 networks:
     calendar-net:
